@@ -56,7 +56,7 @@ class KeluargaSeeder extends Seeder
             [
                 'nomor_kk' => 3510000000000004,
                 'nik_kepala_keluarga' => 3500000000000004,
-                'alamat_kk' => 5,
+                'alamat_kk' => 1,
                 'kelas_ekonomi' => null,
                 'kepemilikan_id' => null,
                 'created_at' => Carbon::now(),
@@ -65,7 +65,7 @@ class KeluargaSeeder extends Seeder
             [
                 'nomor_kk' => 3510000000000005,
                 'nik_kepala_keluarga' => 3500000000000005,
-                'alamat_kk' => 6,
+                'alamat_kk' => 2,
                 'kelas_ekonomi' => null,
                 'kepemilikan_id' => null,
                 'created_at' => Carbon::now(),

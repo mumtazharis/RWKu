@@ -48,9 +48,6 @@ public function list(Request $request)
         ->addColumn('aksi', function ($warga) { // Add action column
             $btn = '<a href="' . url('/warga/' . $warga->nik) . '" class="btn btn-info btn-sm">Detail</a> ';
             $btn .= '<a href="' . url('/warga/' . $warga->nik . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-            $btn .= '<form class="d-inline-block" method="POST" action="' . url('/warga/' . $warga->nik) . '">' .
-                csrf_field() . method_field('DELETE') .
-                '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
             return $btn;
         })
         ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
