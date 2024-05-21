@@ -43,20 +43,7 @@ class RTSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            [
-                'kode_rt' => 'RT-5',
-                'nik_ketua_rt' => null,
-                'rw_id' => 5,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'kode_rt' => 'RT-6',
-                'nik_ketua_rt' => null,
-                'rw_id' => 5,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
+
         ];
 
         DB::table('rt')->insert($data);
