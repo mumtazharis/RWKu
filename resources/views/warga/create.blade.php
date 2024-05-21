@@ -33,7 +33,7 @@
                     <label class="col-2 control-label col-form-label">Nomor KK</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="nomor_kk" name="nomor_kk"
-                            value="{{ old('nomor_kk') }}" required>
+                            value="{{ old('nomor_kk') }}">
                         @error('nomor_kk')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -42,7 +42,7 @@
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Jenis Kelamin</label>
                     <div class="col-10">
-                        <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                        <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
                             <option value="">Pilih Jenis Kelamin</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
@@ -67,10 +67,10 @@
                     <div class="col-10">
                         <select class="form-control" id="rt" name="rt">
                             <option value="">Pilih RT</option>
-                            <option value="RT1">RT 1</option>
-                            <option value="RT2">RT 2</option>
-                            <option value="RT3">RT 3</option>
-                            <option value="RT4">RT 4</option>
+                            <option value="1">RT 1</option>
+                            <option value="2">RT 2</option>
+                            <option value="3">RT 3</option>
+                            <option value="4">RT 4</option>
                         </select>
                         @error('rt')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -78,11 +78,11 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Rw</label>
+                    <label class="col-2 control-label col-form-label">RW</label>
                     <div class="col-10">
                         <select class="form-control" id="rw" name="rw">
                             <option value="">Pilih RW</option>
-                            <option value="RW5">RW 5</option>
+                            <option value="5">RW 5</option>
                         </select>
                         @error('rt')
                             <small class="form-text text-danger">{{ $message }}</small>

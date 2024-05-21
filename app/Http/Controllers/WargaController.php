@@ -76,13 +76,13 @@ public function create()
 {
     $request->validate([
         'nik' => 'required|string|min:3|unique:warga,nik',
-        'nomor_kk' => 'required|string|max:100',
+        'nomor_kk' => 'nullable|string|max:100',
         'nama' => 'required|string|max:255',
-        'tempat_lahir' => 'required|string|max:255',
-        'tanggal_lahir' => 'required|date',
-        'jenis_kelamin' => 'required|string',
+        'tempat_lahir' => 'nullable|string|max:255',
+        'tanggal_lahir' => 'nullable|date',
+        'jenis_kelamin' => 'nullable|string|in:Laki-laki,Perempuan',
         'golongan_darah' => 'nullable|string|max:2',
-        'alamat' => 'required|string|max:255',
+        'alamat' => 'nullable|string|max:255',
         'rt' => 'nullable|string|max:3',
         'rw' => 'nullable|string|max:3',
         'kelurahan_desa' => 'nullable|string|max:255',
