@@ -14,7 +14,7 @@
                 </div>
                 <a href="{{ url('warga') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/warga/' . $warga->data_warga_id) }}" class="form-horizontal">
+                <form method="POST" action="{{ url('/warga/' . $warga->nik) }}" class="form-horizontal">
                     @csrf
                     {!! method_field('PUT') !!}
                     <div class="form-group row">

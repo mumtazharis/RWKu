@@ -40,26 +40,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Tempat Lahir</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir"
-                            value="{{ old('tempat_lahir') }}" required>
-                        @error('tempat_lahir')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Tanggal Lahir</label>
-                    <div class="col-10">
-                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                            value="{{ old('tanggal_lahir') }}" required>
-                        @error('tanggal_lahir')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Jenis Kelamin</label>
                     <div class="col-10">
                         <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
@@ -68,21 +48,6 @@
                             <option value="Perempuan">Perempuan</option>
                         </select>
                         @error('jenis_kelamin')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Golongan Darah</label>
-                    <div class="col-10">
-                        <select class="form-control" id="golongan_darah" name="golongan_darah">
-                            <option value="">Pilih Golongan Darah</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="AB">AB</option>
-                            <option value="0">0</option>
-                        </select>
-                        @error('golongan_darah')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -160,26 +125,6 @@
                         <input type="text" class="form-control" id="provinsi" name="provinsi"
                             value="{{ old('provinsi') }}" required>
                         @error('provinsi')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Agama</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="agama" name="agama"
-                            value="{{ old('agama') }}" required>
-                        @error('agama')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Pekerjaan</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="pekerjaan" name="pekerjaan"
-                            value="{{ old('pekerjaan') }}" required>
-                        @error('pekerjaan')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>

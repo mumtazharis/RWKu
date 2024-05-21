@@ -75,12 +75,12 @@ public function create()
     public function store(Request $request)
 {
     $request->validate([
-        'nik' => 'required|string|min:3|unique:data_warga,nik',
+        'nik' => 'required|string|min:3|unique:warga,nik',
         'nomor_kk' => 'required|string|max:100',
         'nama' => 'required|string|max:255',
         'tempat_lahir' => 'required|string|max:255',
         'tanggal_lahir' => 'required|date',
-        'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
+        'jenis_kelamin' => 'required|string',
         'golongan_darah' => 'nullable|string|max:2',
         'alamat' => 'required|string|max:255',
         'rt' => 'nullable|string|max:3',
@@ -166,7 +166,7 @@ public function edit($id)
 public function update(Request $request, $id)
     {
         $request->validate([
-            'nik' => 'required|string|min:3|unique:nik',
+            'nik' => 'required|string|min:3|unique:warga,nik',
             'nomor_kk' => 'required|string|max:100',
             'nama' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:255',
