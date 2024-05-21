@@ -20,13 +20,14 @@ return new class extends Migration
             $table->foreign('nik_ketua_rt')->references('nik')->on('warga');
         });
 
-        Schema::table('warga', function (Blueprint $table) {
-            $table->foreign('tempat_tinggal')->references('rt_id')->on('rt');
-            $table->foreign('nik')->references('nik')->on('data_warga');
+        Schema::table('keluarga', function (Blueprint $table) {
+            $table->foreign('nik_kepala_keluarga')->references('nik')->on('warga');
+            $table->foreign('alamat_kk')->references('rt_id')->on('rt');
+            $table->foreign('kepemilikan_id')->references('kepemilikan_id')->on('kepemilikan');
         });
 
-        Schema::table('kepemilikan', function (Blueprint $table) {
-            $table->foreign('nik')->references('nik')->on('warga');
+        Schema::table('warga', function (Blueprint $table) {
+            $table->foreign('nomor_kk')->references('nomor_kk')->on('keluarga');
         });
 
         Schema::table('user', function (Blueprint $table) {
@@ -40,7 +41,7 @@ return new class extends Migration
 
         Schema::table('iuran', function (Blueprint $table) {
             $table->foreign('kegiatan_id')->references('kegiatan_id')->on('kegiatan');
-            $table->foreign('nik')->references('nik')->on('warga');
+            $table->foreign('nomor_kk')->references('nomor_kk')->on('keluarga');
         });
 
         Schema::table('dokumentasi', function (Blueprint $table) {
