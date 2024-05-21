@@ -17,6 +17,7 @@ class RWSeeder extends Seeder
         $data = [
            
             [
+                'rw_id' => 5,
                 'kode_rw' => 'RW-5',
                 'nik_ketua_rw' => 3500000000000000,
                 'created_at' => Carbon::now(),
