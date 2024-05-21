@@ -16,8 +16,8 @@ class RTModel extends Model
 
     protected $fillable = ['kode_rt', 'nik_ketua_rt', 'rw_id'];
 
-    public function tempatTinggal(): HasMany{
-        return $this->hasMany(WargaModel::class, 'tempat_tinggal');
+    public function alamat_kk(): HasMany{
+        return $this->hasMany(KeluargaModel::class, 'nomor_kk');
     }
 
     public function ketuaRT(): BelongsTo{

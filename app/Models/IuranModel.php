@@ -19,7 +19,7 @@ class IuranModel extends Model
         return $this->belongsTo(KegiatanModel::class, 'kegiatan_id');
     }
 
-    public function warga(): BelongsTo{
-        return $this->belongsTo(WargaModel::class, 'nik');
+    public function keluarga(): BelongsTo{
+        return $this->belongsTo(KeluargaModel::class, 'nomor_kk');
     }
 }

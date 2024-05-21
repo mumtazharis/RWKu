@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kepemilikan', function (Blueprint $table) {
-            $table->id('kepemilikan_id')->primary();
-            $table->bigInteger('nik')->unique();
+            $table->id('kepemilikan_id');
             $table->bigInteger('penghasilan');
             $table->smallInteger('keluarga_ditanggung');
             $table->integer('pajak_motor');

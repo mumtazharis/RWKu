@@ -14,14 +14,15 @@ class WargaModel extends Model
     protected $table = 'warga';
     protected $primaryKey = 'nik';
 
-    protected $fillable = ['nik', 'tempat_tinggal', 'kelas_ekonomi', 'status_kependudukan'];
+   
+    protected $fillable = ['nik', 'nomor_kk', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'alamat', 'rt', 'rw', 'kelurahan_desa', 'kecamatan', 'kabupaten_kota', 'provinsi', 'agama', 'pekerjaan', 'status_kependudukan'];
 
-    public function dataWarga(): BelongsTo{
-        return $this->BelongsTo(DataWargaModel::class, 'nik');
+    public function keluarga(): HasOne{
+        return $this->HasOne(KeluargaModel::class, 'nik_kepala_keluarga');
     }
 
-    public function tempatTinggal(): BelongsTo{
-        return $this->BelongsTo(RTModel::class, 'rt_id');
+    public function anggotaKeluarga(): BelongsTo{
+        return $this->belongsTo(KeluargaModel::class, 'nomor_kk');
     }
 
     public function ketuaRT(): HasOne{
@@ -40,15 +41,9 @@ class WargaModel extends Model
         return $this->hasMany(KeuanganModel::class, 'penginput');
     }
 
-    public function kepemilikan(): HasOne{
-        return $this->hasOne(KepemilikanModel::class, 'nik');
-    }
-
     public function peserta(): HasMany{
         return $this->hasMany(PesertaModel::class, 'nik');
     }
 
-    public function iuran(): HasMany{
-        return $this->hasMany(IuranModel::class, 'nik');
-    }
+   
 }

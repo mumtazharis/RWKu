@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('persetujuan', function (Blueprint $table) {
-            $table->id('persetujuan_id')->primary();
+            $table->id('persetujuan_id');
             $table->unsignedBigInteger('user_id');
-            $table->enum('jenis', ['data warga', 'data kepemilikan', 'iuran', 'kegiatan']);
+            $table->enum('jenis', ['data kepemilikan', 'iuran', 'kegiatan']);
             $table->text('query');
             $table->text('keterangan');
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak']);
