@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataWargaModel;
+use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,7 +26,7 @@ class WargaController extends Controller
         $activeMenu = 'warga';
 
         // Fetch warga data
-        $warga = DataWargaModel::all();
+        $warga = WargaModel::all();
 
         // Return the view with data
         return view('warga.index', [
@@ -40,15 +40,15 @@ class WargaController extends Controller
 public function list(Request $request)
 {
     // Select specific columns from the DataWargaModel
-    $dataWarga = DataWargaModel::select('data_warga_id', 'nik', 'nomor_kk', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'alamat', 'rt', 'rw', 'kelurahan_desa', 'kecamatan', 'kabupaten_kota', 'provinsi', 'agama', 'pekerjaan');
+    $dataWarga = WargaModel::select('nik', 'nomor_kk', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'alamat', 'rt', 'rw', 'kelurahan_desa', 'kecamatan', 'kabupaten_kota', 'provinsi', 'agama', 'pekerjaan');
 
     // Return data in DataTables format
     return DataTables::of($dataWarga)
         ->addIndexColumn() // Add index column (DT_RowIndex)
         ->addColumn('aksi', function ($warga) { // Add action column
-            $btn = '<a href="' . url('/warga/' . $warga->data_warga_id) . '" class="btn btn-info btn-sm">Detail</a> ';
-            $btn .= '<a href="' . url('/warga/' . $warga->data_warga_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-            $btn .= '<form class="d-inline-block" method="POST" action="' . url('/warga/' . $warga->data_warga_id) . '">' .
+            $btn = '<a href="' . url('/warga/' . $warga->nik) . '" class="btn btn-info btn-sm">Detail</a> ';
+            $btn .= '<a href="' . url('/warga/' . $warga->nik . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+            $btn .= '<form class="d-inline-block" method="POST" action="' . url('/warga/' . $warga->nik) . '">' .
                 csrf_field() . method_field('DELETE') .
                 '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
             return $btn;
@@ -93,7 +93,7 @@ public function create()
         'pekerjaan' => 'nullable|string|max:100',
     ]);
 
-    DataWargaModel::create([
+    WargaModel::create([
         'nik' => $request->nik,
         'nomor_kk' => $request->nomor_kk,
         'nama' => $request->nama,
@@ -118,7 +118,7 @@ public function create()
 public function show($id)
 {
     // Temukan data warga berdasarkan ID
-    $warga = DataWargaModel::find($id);
+    $warga = WargaModel::find($id);
 
     // Jika data warga ditemukan, lanjutkan untuk menampilkan halaman detail
     $breadcrumb = (object) [
@@ -142,7 +142,7 @@ public function show($id)
 public function edit($id)
 {
     // Temukan data warga berdasarkan ID
-    $warga = DataWargaModel::find($id);
+    $warga = WargaModel::find($id);
 
     // Jika data warga ditemukan, lanjutkan untuk menampilkan halaman detail
     $breadcrumb = (object) [
@@ -166,7 +166,7 @@ public function edit($id)
 public function update(Request $request, $id)
     {
         $request->validate([
-            'nik' => 'required|string|min:3|unique:data_warga,nik',
+            'nik' => 'required|string|min:3|unique:nik',
             'nomor_kk' => 'required|string|max:100',
             'nama' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:255',
@@ -184,7 +184,7 @@ public function update(Request $request, $id)
             'pekerjaan' => 'nullable|string|max:100',
         ]);
 
-        DataWargaModel::find($id)->update([
+        WargaModel::find($id)->update([
             'nik' => $request->nik,
             'nomor_kk' => $request->nomor_kk,
             'nama' => $request->nama,

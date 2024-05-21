@@ -20,10 +20,10 @@
                 <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Filter:</label>
                     <div class="col-3">
-                        <select name="data_warga_id" id="data_warga_id" class="form-control" required>
+                        <select name="nik" id="nik" class="form-control" required>
                             <option value="">- Semua -</option>
                             @foreach ($warga as $item)
-                                <option value="{{ $item->data_warga_id }}">{{ $item->rt }}</option>
+                                <option value="{{ $item->nik }}">{{ $item->rt }}</option>
                             @endforeach
                         </select>
                         <small class="form-text text-muted">RT</small>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-bordered table-striped table-hover table-sm" id="table_data_warga">
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_warga">
             <thead>
                 <tr>
         <th>No</th>
@@ -55,14 +55,14 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        var dataWarga = $('#table_data_warga').DataTable({
+        var dataWarga = $('#table_warga').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: "{{ url('warga/list') }}", // Change url to route()
                 type: "POST",
                 data: function (d) {
-                    d.data_warga_id = $('#data_warga_id').val();
+                    d.nik = $('#nik').val();
                     d._token = '{{ csrf_token() }}'; // Add CSRF token
                 }
             },
@@ -79,7 +79,7 @@
             order: [[1, 'asc']]
         });
 
-        $('#data_warga_id').on('change', function() {
+        $('#nik').on('change', function() {
             dataWarga.ajax.reload(null, false);
         });
     });
