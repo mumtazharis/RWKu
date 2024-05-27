@@ -24,6 +24,7 @@ class WargaController extends Controller
 
         // Set the active menu
         $activeMenu = 'warga';
+        $activeSubMenu = 'warga_list';
 
         // Fetch warga data
         $warga = WargaModel::all();
@@ -33,6 +34,7 @@ class WargaController extends Controller
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
+            'activeSubMenu' => $activeSubMenu,
             'warga' => $warga
         ]);
     }
