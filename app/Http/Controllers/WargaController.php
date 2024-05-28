@@ -67,14 +67,15 @@ public function create()
         ];
 
         $activeMenu = 'warga'; //set menu yang aktif
+        $activeSubMenu = 'warga_list';
 
-        return view('warga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('warga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
     }
     // Menyimpan data warga baru
     public function store(Request $request)
 {
     $request->validate([
-        'nik' => 'required|string|min:3|unique:warga,nik',
+        'nik' => 'required|string|min:3|',
         'nomor_kk' => 'nullable|string|max:100',
         'nama' => 'required|string|max:255',
         'tempat_lahir' => 'nullable|string|max:255',
@@ -130,11 +131,13 @@ public function show($id)
     ];
 
     $activeMenu = 'warga'; // Set menu yang aktif
+    $activeSubMenu = 'warga_list';
 
     return view('warga.show', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'warga' => $warga,
+        'activeSubMenu' => $activeSubMenu,
         'activeMenu' => $activeMenu
     ]);
 }
@@ -154,18 +157,20 @@ public function edit($id)
     ];
 
     $activeMenu = 'warga'; // Set menu yang aktif
+    $activeSubMenu = 'warga_list';
 
     return view('warga.edit', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'warga' => $warga,
+        'activeSubMenu' => $activeSubMenu,
         'activeMenu' => $activeMenu
     ]);
 }
 public function update(Request $request, $id)
     {
         $request->validate([
-            'nik' => 'required|string|min:3|unique:warga,nik',
+            'nik' => 'required|string|min:3|',
             'nomor_kk' => 'required|string|max:100',
             'nama' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:255',

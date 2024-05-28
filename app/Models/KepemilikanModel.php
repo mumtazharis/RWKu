@@ -14,9 +14,10 @@ class KepemilikanModel extends Model
     protected $table = 'kepemilikan';
     protected $primaryKey = 'kepemilikan_id';
 
-    protected $fillable = ['nik', 'penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang'];
+    protected $fillable = ['penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang'];
 
     public function keluarga(): HasOne{
         return $this->hasOne(KeluargaModel::class, 'kepemilikan_id');
+        
     }
 }

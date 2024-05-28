@@ -30,19 +30,19 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url('/warga') }}" class="nav-link {{ ($activeSubMenu == 'warga_list')? 'active' : '' }}">
+                        <a href="{{ url('/warga') }}" class="nav-link {{ ($activeMenu == 'warga')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Daftar Warga</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/keluarga') }}" class="nav-link {{ ($activeSubMenu == 'keluarga_list')? 'active' : '' }}">
+                        <a href="{{ url('/keluarga') }}" class="nav-link {{ ($activeMenu == 'keluarga')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Daftar Keluarga</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/kepemilikan') }}" class="nav-link {{ ($activeSubMenu == 'kepemilikan_list')? 'active' : '' }}">
+                        <a href="{{ url('/kepemilikan') }}" class="nav-link {{ ($activeMenu == 'kepemilikan')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Data Kepemilikan</p>
                         </a>
@@ -59,19 +59,19 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url('/kegiatan') }}" class="nav-link {{ ($activeSubMenu == 'kegiatan_list')? 'active' : '' }}">
+                        <a href="{{ url('/kegiatan') }}" class="nav-link {{ ($activeMenu == 'kegiatan')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Daftar kegiatan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/dokumentasi') }}" class="nav-link {{ ($activeSubMenu == 'dokumentasi_list')? 'active' : '' }}">
+                        <a href="{{ url('/dokumentasi') }}" class="nav-link {{ ($activeMenu == 'dokumentasi')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Dokumentasi Kegiatan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/peserta') }}" class="nav-link {{ ($activeSubMenu == 'peserta_list')? 'active' : '' }}">
+                        <a href="{{ url('/peserta') }}" class="nav-link {{ ($activeMenu == 'peserta')? 'active' : '' }}">
                             <i class="far nav-icon"></i>
                             <p>Daftar Pesrta Kegiatan</p>
                         </a>
@@ -88,6 +88,12 @@
                 <a href="{{ url('/permintaan') }}" class="nav-link {{ ($activeMenu == 'permintaan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Permintaan</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/datakeluarga') }}" class="nav-link {{ ($activeMenu == 'datakeluarga')? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Keluarga</p>
                 </a>
             </li>
             <li class="nav-item">
