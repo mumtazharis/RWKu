@@ -20,4 +20,9 @@ class KepemilikanModel extends Model
         return $this->belongsTo(KeluargaModel::class, 'nomor_kk');
         
     }
+
+    public function spk(): HasOne{
+        return $this->hasOne(SPKModel::class, 'kepemilikan_id');
+        
+    }
 }
