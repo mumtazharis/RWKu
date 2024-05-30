@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             KeluargaSeeder::class,
             KepemilikanSeeder::class,
             LevelSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
