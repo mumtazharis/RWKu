@@ -24,6 +24,7 @@ class KepemilikanSeeder extends Seeder
 
             $data[] = [
                 'penghasilan' => 500000 + rand(500000, 10000000),
+                'nomor_kk' => 3510000000000000 + $i,
                 'keluarga_ditanggung' => rand(1, 5),
                 'pajak_motor' => rand(200000, 500000),
                 'pajak_mobil' => $hasCar ? rand(500000, 1000000) : 0,

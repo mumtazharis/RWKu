@@ -35,7 +35,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>ID</th>
+                    <th>Nomor KK</th>
                     <th>Penghasilan</th>
                     <th>Keluarga Ditanggung</th>
                     <th>Aksi</th>
@@ -65,13 +65,37 @@
                 }
             },
             columns: [
-                { data: 'DT_RowIndex', className: 'text-center', orderable: false, searchable: false },
-                { data: 'kepemilikan_id', orderable: true, searchable: true },
-                { data: 'penghasilan', orderable: true, searchable: true },
-                { data: 'keluarga_ditanggung', orderable: true, searchable: true },
-                { data: 'aksi', orderable: false, searchable: false }
-            ],
-            order: [[1, 'asc']]
+                {
+                    data: "DT_RowIndex",
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "keluarga.nomor_kk",
+                    className: "",
+                    orderable: true,
+                    searchable: true 
+                },
+                {
+                    data: "penghasilan",
+                    className: "",
+                    orderable: true,
+                    searchable: true 
+                },
+                {
+                    data: "keluarga_ditanggung",
+                    className: "",
+                    orderable: true,
+                    searchable: true 
+                },
+                {
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
+                    searchable: false 
+                }
+            ]
         });
 
         $('#kepemilikan_id').on('change', function() {
