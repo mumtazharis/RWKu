@@ -41,7 +41,7 @@ class KepemilikanController extends Controller
     public function list(Request $request)
 {
     // Select specific columns from the KepemilikanModel
-    $dataKepemilikan = KepemilikanModel::select('nomor_kk','penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang')
+    $dataKepemilikan = KepemilikanModel::select('kepemilikan_id','nomor_kk','penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang')
                                             ->with('keluarga');
     // // Return data in DataTables format
     // $dataKepemilikan = KeluargaModel::select('nomor_kk', 'kepemilikan_id')->with('kepemilikan');
