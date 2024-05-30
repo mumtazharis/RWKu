@@ -7,7 +7,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\KepemilikanController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\SPKController;
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register', [AuthController::class, 'register'])->name('register');
@@ -51,6 +51,7 @@ Route::group(['middleware'=>['auth']], function(){
             Route::get('/{id}', [KepemilikanController::class, 'show']);
             Route::get('/{id}/edit', [KepemilikanController::class, 'edit']);
             Route::put('/{id}', [KepemilikanController::class, 'update']);
+            
         });
 
         //Keluarga
@@ -61,6 +62,15 @@ Route::group(['middleware'=>['auth']], function(){
             Route::post('/', [KeluargaController::class, 'store']);
             Route::get('/{id}/edit', [KeluargaController::class, 'edit']);
             Route::put('/{id}', [KeluargaController::class, 'update']);
+        });
+
+        Route::group(['prefix' => 'spk'], function () {
+            Route::get('/', [SPKController::class, 'index']);
+            Route::post('/list', [SPKController::class, 'list']);
+            // Route::get('/create', [SPKController::class, 'create']);
+            // Route::post('/', [SPKController::class, 'store']);
+            // Route::get('/{id}/edit', [SPKController::class, 'edit']);
+            // Route::put('/{id}', [SPKController::class, 'update']);
         });
 
     });
