@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,7 +13,7 @@ class KepemilikanController extends Controller
     {
         // Set the breadcrumb data
         $breadcrumb = (object) [
-            'title' => 'Daftar Kepimilikan',
+            'title' => 'Daftar Kepemilikan',
             'list' => ['Home', 'Kepemilikan']
         ];
 
@@ -22,7 +23,7 @@ class KepemilikanController extends Controller
         ];
 
         // Set the active menu
-        $activeMenu = 'kepemilikan';
+        $activeMenu = 'warga';
         $activeSubMenu = 'kepemilikan_list';
 
         // Fetch kepemilikan data
@@ -40,8 +41,11 @@ class KepemilikanController extends Controller
     public function list(Request $request)
 {
     // Select specific columns from the KepemilikanModel
-    $dataKepemilikan = KepemilikanModel::select( 'kepemilikan_id','penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang');
-    // Return data in DataTables format
+    $dataKepemilikan = KepemilikanModel::select('nomor_kk','penghasilan', 'keluarga_ditanggung', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'hutang')
+                                            ->with('keluarga');
+    // // Return data in DataTables format
+    // $dataKepemilikan = KeluargaModel::select('nomor_kk', 'kepemilikan_id')->with('kepemilikan');
+
     return DataTables::of($dataKepemilikan)
         ->addIndexColumn() // Add index column (DT_RowIndex)
         ->addColumn('aksi', function ($kepemilikan) { // Add action column
@@ -162,7 +166,7 @@ public function update(Request $request, $id)
         'hutang' => 'nullable|numeric',
     ]);
 
-    KepemilikanModel::create([
+    KepemilikanModel::find($id)->update([
         'kepemilikan_id' => $request->kepemilikan_id,
         'penghasilan' => $request->penghasilan,
         'keluarga_ditanggung' => $request->keluarga_ditanggung,

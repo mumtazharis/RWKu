@@ -32,7 +32,7 @@
     <form action="{{url('proses_login')}}" method="POST">
         @csrf
 
-        {{-- Email field --}}
+        {{-- Email field --}}   
         <div class="input-group mb-3">
             <input type="text" name="username" id="username" class="form-control @error('username') is-invalid @enderror" value="{{old('username')}}" placeholder="username" autofocus>
 

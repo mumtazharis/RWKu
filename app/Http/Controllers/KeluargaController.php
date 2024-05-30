@@ -22,7 +22,7 @@ class KeluargaController extends Controller
         ];
 
         // Set the active menu
-        $activeMenu = 'keluarga';
+        $activeMenu = 'warga';
         $activeSubMenu = 'keluarga_list';
 
         // Fetch keluarga data
@@ -39,7 +39,7 @@ class KeluargaController extends Controller
     }
     public function list(Request $request) {
         // Select specific columns from the KeluargaModel
-        $dataKeluarga = KeluargaModel::select('nomor_kk','nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi', 'kepemilikan_id');
+        $dataKeluarga = KeluargaModel::select('nomor_kk','nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi');
         // Return data in DataTables format
         return DataTables::of($dataKeluarga)
             ->addIndexColumn() // Add index column (DT_RowIndex)
@@ -74,7 +74,7 @@ class KeluargaController extends Controller
         'nik_kepala_keluarga' => 'required|numeric',
         'alamat_kk' => 'required|string',
         'kelas_ekonomi' => 'required|string',
-        'kepemilikan_id' => 'required|integer',
+
     ]);
 
     KeluargaModel::create([
@@ -82,12 +82,8 @@ class KeluargaController extends Controller
         'nik_kepala_keluarga' => $request->nik_kepala_keluarga,
         'alamat_kk' => $request->alamat_kk,
         'kelas_ekonomi' => $request->kelas_ekonomi,
-        'kepemilikan_id' => $request->kepemilikan_id,
+       
     ]);
-
-    if ($request->has('kepemilikan_id')) {
-        $data['kepemilikan_id'] = $request->kepemilikan_id;
-    }
 
     return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
 }
@@ -124,20 +120,20 @@ public function update(Request $request, $id)
             'nik_kepala_keluarga' => 'required|numeric',
             'alamat_kk' => 'required|string',
             'kelas_ekonomi' => 'required|string',
-            'kepemilikan_id' => 'required|integer',
+      
         ]);
     
-        KeluargaModel::create([
+        KeluargaModel::find($id)->update([
             'nomor_kk' => $request->nomor_kk,
             'nik_kepala_keluarga' => $request->nik_kepala_keluarga,
             'alamat_kk' => $request->alamat_kk,
             'kelas_ekonomi' => $request->kelas_ekonomi,
-            'kepemilikan_id' => $request->kepemilikan_id,
+
         ]);
     
-        if ($request->has('kepemilikan_id')) {
-            $data['kepemilikan_id'] = $request->kepemilikan_id;
-        }
+        // if ($request->has('kepemilikan_id')) {
+        //     $data['kepemilikan_id'] = $request->kepemilikan_id;
+        // }
         return redirect('/keluarga')->with('success', 'Data kepemilikan berhasil diubah');
     }
 

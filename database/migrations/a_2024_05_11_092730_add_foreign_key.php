@@ -23,7 +23,6 @@ return new class extends Migration
         Schema::table('keluarga', function (Blueprint $table) {
             $table->foreign('nik_kepala_keluarga')->references('nik')->on('warga');
             $table->foreign('alamat_kk')->references('rt_id')->on('rt');
-            $table->foreign('kepemilikan_id')->references('kepemilikan_id')->on('kepemilikan');
         });
 
         Schema::table('warga', function (Blueprint $table) {
@@ -37,6 +36,10 @@ return new class extends Migration
 
         Schema::table('persetujuan', function (Blueprint $table) {
             $table->foreign('user_id')->references('user_id')->on('user');
+        });
+
+        Schema::table('kepemilikan', function (Blueprint $table) {
+            $table->foreign('nomor_kk')->references('nomor_kk')->on('keluarga');
         });
 
         Schema::table('iuran', function (Blueprint $table) {

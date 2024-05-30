@@ -39,7 +39,6 @@
                     <th>NIK Kepala Keluarga</th>
                     <th>Alamat</th>
                     <th>Kelas Ekonomi</th>
-                    <th>Kepemilikan ID</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -72,7 +71,6 @@
                 { data: 'nik_kepala_keluarga', orderable: true, searchable: true },
                 { data: 'alamat_kk', orderable: true, searchable: true },
                 { data: 'kelas_ekonomi', orderable: true, searchable: true },
-                { data: 'kepemilikan_id', orderable: true, searchable: true },
                 { data: 'aksi', orderable: false, searchable: false }
             ],
             order: [[1, 'asc']]

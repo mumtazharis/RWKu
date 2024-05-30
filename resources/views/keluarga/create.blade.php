@@ -49,16 +49,6 @@
                         @enderror
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-2 control-label col-form-label">Kepemilikan ID</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="kepemilikan_id" name="kepemilikan_id"
-                            value="{{ old('kepemilikan_id') }}">
-                        @error('kepemilikan_id')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
                 <!-- Add other fields based on your requirements -->
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label"></label>
