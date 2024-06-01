@@ -11,18 +11,18 @@ class SPKController extends Controller
 {
     public function index(){
         $this->mabac();
-        // $breadcrumb = (object)[
-        //     'title' => 'Data SPK',
-        //     'list' => ['']
-        // ];
-        // $page = (object)[
-        //     'title' => 'Daftar SPK yang tedaftar dalam sistem'
-        // ];
+        $breadcrumb = (object)[
+            'title' => 'Data SPK',
+            'list' => ['']
+        ];
+        $page = (object)[
+            'title' => 'Daftar SPK yang tedaftar dalam sistem'
+        ];
 
-        // $activeMenu = 'warga';
-        // $activeSubMenu = 'kepemilikan_list';
+        $activeMenu = 'warga';
+        $activeSubMenu = 'kepemilikan_list';
 
-        // return view('kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
 
     }
 
@@ -33,6 +33,50 @@ class SPKController extends Controller
         return DataTables::of($dataSPK)
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function showMabac(){
+        $result = $this->mabac();
+
+        // Jika data kepemilikan ditemukan, lanjutkan untuk menampilkan halaman detail
+        $breadcrumb = (object) [
+            'title' => 'Detail Mabac',
+            'list' => ['Home', 'Mabac', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Mabac'
+        ];
+
+        $activeMenu = 'warga'; // Set menu yang aktif
+        $activeSubMenu = 'kepemilikan_list';
+
+        // Mengakses data yang dikembalikan
+        $dataSPK = $result['dataSPK'];
+        $bobot = $result['bobot'];
+        $min = $result['min'];
+        $max = $result['max'];
+        $matriksX = $result['matriksX'];
+        $matriksV = $result['matriksV'];
+        $matriksG = $result['matriksG'];
+        $matriksQ = $result['matriksQ'];
+        $matriksS = $result['matriksS'];
+    return view('kepemilikan.spk.mabac', [
+        'breadcrumb' => $breadcrumb,
+        'page' => $page,
+        'dataSPK' => $dataSPK,
+        'bobot' => $bobot,
+        'min' => $min,
+        'max' => $max,
+        'matriksX' => $matriksX,
+        'matriksV' => $matriksV,
+        'matriksG' => $matriksG,
+        'matriksQ' => $matriksQ,
+        'matriksS' => $matriksS,
+        'activeSubMenu' => $activeSubMenu,
+        'activeMenu' => $activeMenu
+    ]);
+       
     }
 
     public function mabac(){
@@ -149,18 +193,44 @@ class SPKController extends Controller
                         $sum += $value;
                     }
                 }
-                $matriksS[] = [$rowQ['nomor_kk'],$sum]; // Tambahkan hasil penjumlahan ke matriksS
+                $matriksS[] = [$rowQ['kepemilikan_id'], $rowQ['nomor_kk'],$sum ]; // Tambahkan hasil penjumlahan ke matriksS
             }
 
-            array_multisort(array_column($matriksS, 1), SORT_DESC, $matriksS);
+            array_multisort(array_column($matriksS, 2), SORT_DESC, $matriksS);
         
             // Menambahkan peringkat untuk setiap baris di matriksS
-            foreach ($matriksS as $index => &$row) {
-                $row['ranking'] = $index + 1;
+            foreach ($matriksS as $index => $row) {
+                $matriksS[$index][] = $index + 1; // Menambahkan ranking
             }
 
         }
-        dd(compact('dataSPK','min', 'max', 'matriksX', 'matriksV', 'matriksG', 'matriksQ', 'matriksS'));
         
+        $matriksData = [];
+
+        foreach ($matriksS as $index => $row) {
+            $matriksData[] = [
+                'kepemilikan_id' => $row[0],
+                'peringkat_mabac' => $row[3]
+            ];
+        
+        }
+        $uniqueBy = ['kepemilikan_id'];
+
+        // Kolom yang akan di-update jika record sudah ada
+        $updateColumns = ['peringkat_mabac'];
+        
+        SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
+
+        return [
+            'dataSPK' => $dataSPK,
+            'bobot' => $bobot,
+            'min' => $min,
+            'max' => $max,
+            'matriksX' => $matriksX,
+            'matriksV' => $matriksV,
+            'matriksG' => $matriksG,
+            'matriksQ' => $matriksQ,
+            'matriksS' => $matriksS
+        ];
     }
 }
