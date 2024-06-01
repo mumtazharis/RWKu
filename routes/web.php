@@ -67,6 +67,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::group(['prefix' => 'spk'], function () {
             Route::get('/', [SPKController::class, 'index']);
             Route::post('/list', [SPKController::class, 'list']);
+            Route::get('/mabac', [SPKController::class, 'showMabac']);
             // Route::get('/create', [SPKController::class, 'create']);
             // Route::post('/', [SPKController::class, 'store']);
             // Route::get('/{id}/edit', [SPKController::class, 'edit']);

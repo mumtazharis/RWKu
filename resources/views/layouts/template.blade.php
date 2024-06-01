@@ -51,11 +51,11 @@
   <!-- Site wrapper -->
   <div class="wrapper">
     <!-- Navbar -->
-    @include('layouts.header')
+    @include('layouts.header' )
     <!-- /.navbar -->
   
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar  sidebar-light-gray elevation-4">
+    <aside class="main-sidebar  sidebar-light-gray elevation-4"  style="position: fixed;">
       <!-- Brand Logo -->
       <a href="{{ url('/') }}" class="brand-link">
         <img src="{{ asset('adminlte/dist/img/adminlteLogo.png') }}" alt="adminlte Logo" class="brand-image img-circle elevation-3" style="opacity: .8">

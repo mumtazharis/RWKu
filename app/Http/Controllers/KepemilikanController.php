@@ -115,7 +115,7 @@ public function show($id)
         'title' => 'Detail Kepemilikan'
     ];
 
-    $activeMenu = 'kepemilikan'; // Set menu yang aktif
+    $activeMenu = 'warga'; // Set menu yang aktif
     $activeSubMenu = 'kepemilikan_list';
 
     return view('kepemilikan.show', [
