@@ -64,11 +64,6 @@ return new class extends Migration
             $table->foreign('kepemilikan_id')->references('kepemilikan_id')->on('kepemilikan');
         });
 
-        Schema::table('mabac', function (Blueprint $table) {
-            $table->foreign('spk_id')->references('spk_id')->on('spk');
-        });
-
-
     }
 
     /**

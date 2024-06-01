@@ -22,7 +22,4 @@ class SPKModel extends Model
         return $this->belongsTo(KepemilikanModel::class, 'kepemilikan_id');
     }
 
-    public function mabac(): HasOne{
-        return $this->hasOne(MabacModel::class, 'spk_id');
-    }
 }
