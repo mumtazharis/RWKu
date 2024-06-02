@@ -14,7 +14,7 @@ class SPKModel extends Model
     protected $table = 'spk';
     protected $primaryKey = 'spk_id';
 
-    protected $fillable = ['kepemilikan_id', 'peringkat_mabac', 'peringkat_electre'];
+    protected $fillable = ['kepemilikan_id', 'skor_mabac','peringkat_mabac','skor_topsis', 'peringkat_topsis'];
 
     
 

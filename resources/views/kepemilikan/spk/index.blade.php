@@ -8,8 +8,8 @@
                 <i class="fas fa-chart-line"></i> Mabac
             </a>
             
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('spk/electre')}}">
-                <i class="fas fa-chart-bar"></i> Electre
+            <a class="btn btn-sm btn-primary mt-1" href="{{ url('spk/topsis')}}">
+                <i class="fas fa-chart-bar"></i> Topsis
             </a>
             
         </div>
@@ -26,8 +26,10 @@
                 <tr>
                     <th>No</th>
                     <th>Nomor KK</th>
+                    <th>Skor Mabac</th>
                     <th>Peringkat Mabac</th>
-                    <th>Peringkat Electre</th>
+                    <th>Skor Topsis</th>
+                    <th>Peringkat Topsis</th>
                 </tr>
             </thead>
         </table>
@@ -64,13 +66,25 @@
                     searchable: true 
                 },
                 {
+                    data: "skor_mabac",
+                    className: "",
+                    orderable: true,
+                    searchable: true 
+                },
+                {
                     data: "peringkat_mabac",
                     className: "",
                     orderable: true,
                     searchable: true 
                 },
                 {
-                    data: "peringkat_electre",
+                    data: "skor_topsis",
+                    className: "",
+                    orderable: true,
+                    searchable: true 
+                },
+                {
+                    data: "peringkat_topsis",
                     className: "",
                     orderable: true,
                     searchable: true 

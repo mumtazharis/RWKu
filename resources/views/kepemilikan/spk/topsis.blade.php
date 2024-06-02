@@ -141,38 +141,7 @@
         </table>
     </div>
 
-    <p>5. Nilai min max tiap kriteria</p>
-    <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
-        <table class="table table-bordered table-striped table-hover tablesm">
-             <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
-                <tr>
-                    <th></th>
-                    <th>Penghasilan</th>
-                    <th>Pajak Motor</th>
-                    <th>Pajak Mobil</th>
-                    <th>Pajak Bumi Bangunan</th>
-                    <th>Tagihan Air</th>
-                    <th>Tagihan Listrik</th>
-                    <th>Keluarga Ditanggung</th>
-                    <th>Hutang</th>
-                </tr>
-            </thead>
-            <tr>
-                <td>Min</td>
-                @foreach ($min as $item)
-                <td>{{ $item }}</td>
-                @endforeach
-            </tr>
-            <tr>
-                <td>Max</td>
-                @foreach ($max as $item)
-                <td>{{ $item }}</td>
-                @endforeach
-            </tr>
-        </table>
-    </div>
-
-    <p>6. Normalisasi matriks keputusan (X) </p>
+    <p>5. Matriks normalisasi (R)</p>
     <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
         <table class="table table-bordered table-striped table-hover tablesm">
              <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
@@ -188,7 +157,7 @@
                     <th>Hutang</th>
                 </tr>
             </thead>
-            @foreach ($matriksX as $index=>$item)
+            @foreach ($matriksR as $index=>$item)
             <tr>
                 <td>{{ $item['nomor_kk'] }}</td>
                 <td>{{ $item['penghasilan'] }}</td>
@@ -201,11 +170,10 @@
                 <td>{{ $item['hutang'] }}</td>
             </tr>
             @endforeach
-            </tr>
         </table>
     </div>
 
-    <p>6. Matriks tertimbang (V) </p>
+    <p>6. Matriks tertimbang (Y)</p>
     <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
         <table class="table table-bordered table-striped table-hover tablesm">
              <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
@@ -221,7 +189,7 @@
                     <th>Hutang</th>
                 </tr>
             </thead>
-            @foreach ($matriksV as $index=>$item)
+            @foreach ($matriksY as $index=>$item)
             <tr>
                 <td>{{ $item['nomor_kk'] }}</td>
                 <td>{{ $item['penghasilan'] }}</td>
@@ -234,11 +202,10 @@
                 <td>{{ $item['hutang'] }}</td>
             </tr>
             @endforeach
-            </tr>
         </table>
     </div>
 
-    <p>7. Matriks daerah perkiraan batas (G) </p>
+    <p>7. Matriks ideal positif (A+) </p>
     <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
         <table class="table table-bordered table-striped table-hover tablesm">
              <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
@@ -256,8 +223,8 @@
             </thead>
            
             <tr>
-                <td>G</td>
-                @foreach ($matriksG as $item)
+                <td>A+</td>
+                @foreach ($matriksAPositif as $item)
                 <td>{{ $item }}</td>
                 @endforeach
             </tr>
@@ -266,12 +233,12 @@
         </table>
     </div>
 
-    <p>8. Matriks jarak alternatif dari daerah perkiraan perbatasan (Q)</p>
+    <p>8. Matriks ideal negatif (A-) </p>
     <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
         <table class="table table-bordered table-striped table-hover tablesm">
              <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
                 <tr>
-                    <th>Alternatif</th>
+                    <th></th>
                     <th>Penghasilan</th>
                     <th>Pajak Motor</th>
                     <th>Pajak Mobil</th>
@@ -282,24 +249,59 @@
                     <th>Hutang</th>
                 </tr>
             </thead>
-            @foreach ($matriksQ as $index=>$item)
+           
             <tr>
-                <td>{{ $item['nomor_kk'] }}</td>
-                <td>{{ $item['penghasilan'] }}</td>
-                <td>{{ $item['pajak_motor'] }}</td>
-                <td>{{ $item['pajak_mobil'] }}</td>
-                <td>{{ $item['pajak_bumi_bangunan'] }}</td>
-                <td>{{ $item['tagihan_air'] }}</td>
-                <td>{{ $item['tagihan_listrik'] }}</td>
-                <td>{{ $item['keluarga_ditanggung'] }}</td>
-                <td>{{ $item['hutang'] }}</td>
+                <td>A-</td>
+                @foreach ($matriksANegatif as $item)
+                <td>{{ $item }}</td>
+                @endforeach
             </tr>
-            @endforeach
+       
             </tr>
         </table>
     </div>
 
-    <p>9. Perankingan alternatif (S)</p>
+    <p>9. Menentukan jarak antara nilai terbobot setiap alternatif terhadap solusi ideal positif (D+) </p>
+    <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
+        <table class="table table-bordered table-striped table-hover tablesm">
+            <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
+                <tr>
+                    <th>Nomor KK</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+            @foreach ($matriksDPositif as $item)
+            <tr>
+          
+                <td>{{ $item['nomor_kk'] }}</td>
+                <td>{{ $item['nilai'] }}</td>
+               
+            </tr>
+            @endforeach
+        </table>
+    </div>
+
+    <p>10. Menentukan jarak antara nilai terbobot setiap alternatif terhadap solusi ideal negatif (D-) </p>
+    <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
+        <table class="table table-bordered table-striped table-hover tablesm">
+            <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
+                <tr>
+                    <th>Nomor KK</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+            @foreach ($matriksDNegatif as $item)
+            <tr>
+          
+                <td>{{ $item['nomor_kk'] }}</td>
+                <td>{{ $item['nilai'] }}</td>
+               
+            </tr>
+            @endforeach
+        </table>
+    </div>
+
+    <p>11. Perankingan alternatif (S)</p>
     <div style="max-height: 350px; overflow-y: auto;" class="mb-3">
         <table class="table table-bordered table-striped table-hover tablesm">
              <thead class="thead-light" style="position: sticky; top: 0; z-index: 1;">
@@ -319,6 +321,14 @@
             </tr>
         </table>
     </div>
+
+
+
+
+
+
+
+
 </div>
 
 
