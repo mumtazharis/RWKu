@@ -11,26 +11,31 @@ class SPKController extends Controller
 {
     public function index(){
         $this->topsis();
-        //$this->mabac();
-        // $breadcrumb = (object)[
-        //     'title' => 'Data SPK',
-        //     'list' => ['']
-        // ];
-        // $page = (object)[
-        //     'title' => 'Daftar SPK yang tedaftar dalam sistem'
-        // ];
+        $this->mabac();
+        $breadcrumb = (object)[
+            'title' => 'Data SPK',
+            'list' => ['']
+        ];
+        $page = (object)[
+            'title' => 'Daftar SPK yang tedaftar dalam sistem'
+        ];
 
-        // $activeMenu = 'warga';
-        // $activeSubMenu = 'kepemilikan_list';
+        $activeMenu = 'warga';
+        $activeSubMenu = 'kepemilikan_list';
 
-        // return view('kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
 
     }
 
     public function list(Request $request){
-        $dataSPK = SPKModel::select('spk_id','nomor_kk', 'peringkat_mabac', 'peringkat_electre')
+        $hasilMabac = $this->topsis();
+        $hasilTopsis = $this->mabac();
+        $matriksSMabac = $hasilMabac['matriksS'];
+        $matriksSTopsis = $hasilTopsis['matriksS'];
+
+        $dataSPK = SPKModel::select('spk_id','nomor_kk', 'skor_mabac','peringkat_mabac', 'skor_topsis','peringkat_topsis')
         ->join('kepemilikan', 'spk.kepemilikan_id', '=', 'kepemilikan.kepemilikan_id');
-      
+        
         return DataTables::of($dataSPK)
             ->addIndexColumn()
             ->make(true);
@@ -74,6 +79,51 @@ class SPKController extends Controller
             'matriksV' => $matriksV,
             'matriksG' => $matriksG,
             'matriksQ' => $matriksQ,
+            'matriksS' => $matriksS,
+            'activeSubMenu' => $activeSubMenu,
+            'activeMenu' => $activeMenu
+        ]);
+       
+    }
+
+    public function showTopsis(){
+        $result = $this->topsis();
+
+        // Jika data kepemilikan ditemukan, lanjutkan untuk menampilkan halaman detail
+        $breadcrumb = (object) [
+            'title' => 'Detail topsis',
+            'list' => ['Home', 'topsis', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail topsis'
+        ];
+
+        $activeMenu = 'warga'; // Set menu yang aktif
+        $activeSubMenu = 'kepemilikan_list';
+
+        // Mengakses data yang dikembalikan
+        $dataSPK = $result['dataSPK'];
+        $bobot = $result['bobot'];
+        $matriksR = $result['matriksR'];
+        $matriksY = $result['matriksY'];
+        $matriksAPositif = $result['matriksAPositif'];
+        $matriksANegatif = $result['matriksANegatif'];
+        $matriksDPositif = $result['matriksDPositif'];
+        $matriksDNegatif = $result['matriksDNegatif'];
+        $matriksS = $result['matriksS'];
+
+        return view('kepemilikan.spk.topsis', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'dataSPK' => $dataSPK,
+            'bobot' => $bobot,
+            'matriksR' => $matriksR,
+            'matriksY' => $matriksY,
+            'matriksAPositif' => $matriksAPositif,
+            'matriksANegatif' => $matriksANegatif,
+            'matriksDPositif' => $matriksDPositif,
+            'matriksDNegatif' => $matriksDNegatif,
             'matriksS' => $matriksS,
             'activeSubMenu' => $activeSubMenu,
             'activeMenu' => $activeMenu
@@ -187,46 +237,52 @@ class SPKController extends Controller
                         $sum += $value;
                     }
                 }
-                $matriksS[] = [$rowQ['kepemilikan_id'], $rowQ['nomor_kk'],$sum ]; // Tambahkan hasil penjumlahan ke matriksS
+                $matriksS[] = [
+                    'kepemilikan_id' => $rowQ['kepemilikan_id'],
+                    'nomor_kk' => $rowQ['nomor_kk'],
+                    'nilai' => $sum
+                ];
+                  //  $rowQ['kepemilikan_id'], $rowQ['nomor_kk'],$sum ]; // Tambahkan hasil penjumlahan ke matriksS
             }
 
-            array_multisort(array_column($matriksS, 2), SORT_DESC, $matriksS);
+            array_multisort(array_column($matriksS, 'nilai'), SORT_DESC, $matriksS);
         
             // Menambahkan peringkat untuk setiap baris di matriksS
             foreach ($matriksS as $index => $row) {
-                $matriksS[$index][] = $index + 1; // Menambahkan ranking
+                $matriksS[$index]['ranking'] = $index + 1; // Menambahkan ranking
             }
 
         }
         
-        dd(compact('matriksG'));
-        // $matriksData = [];
+   
+        $matriksData = [];
 
-        // foreach ($matriksS as $index => $row) {
-        //     $matriksData[] = [
-        //         'kepemilikan_id' => $row[0],
-        //         'peringkat_mabac' => $row[3]
-        //     ];
+        foreach ($matriksS as $index => $row) {
+            $matriksData[] = [
+                'kepemilikan_id' => $row['kepemilikan_id'],
+                'skor_mabac' => $row['nilai'],
+                'peringkat_mabac' => $row['ranking']
+            ];
         
-        // }
-        // $uniqueBy = ['kepemilikan_id'];
+        }
+        $uniqueBy = ['kepemilikan_id'];
 
-        // // Kolom yang akan di-update jika record sudah ada
-        // $updateColumns = ['peringkat_mabac'];
+        // Kolom yang akan di-update jika record sudah ada
+        $updateColumns = ['skor_mabac','peringkat_mabac'];
         
-        // SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
+        SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
 
-        // return [
-        //     'dataSPK' => $dataSPK,
-        //     'bobot' => $bobot,
-        //     'min' => $min,
-        //     'max' => $max,
-        //     'matriksX' => $matriksX,
-        //     'matriksV' => $matriksV,
-        //     'matriksG' => $matriksG,
-        //     'matriksQ' => $matriksQ,
-        //     'matriksS' => $matriksS
-        // ];
+        return [
+            'dataSPK' => $dataSPK,
+            'bobot' => $bobot,
+            'min' => $min,
+            'max' => $max,
+            'matriksX' => $matriksX,
+            'matriksV' => $matriksV,
+            'matriksG' => $matriksG,
+            'matriksQ' => $matriksQ,
+            'matriksS' => $matriksS
+        ];
     }
 
     public function topsis(){
@@ -304,34 +360,68 @@ class SPKController extends Controller
                 $productNegatif = 0;
                 foreach ($columns as $column) {
                     if ($column !== 'kepemilikan_id' && $column !== 'nomor_kk') {
-                        $productPositif += pow($rowY[$column] - $matriksAPositif[$column],2);
-                        $productNegatif += pow($rowY[$column] - $matriksANegatif[$column],2);
-                    } 
+                        $productPositif += pow($rowY[$column] - $matriksAPositif[$column], 2);
+                        $productNegatif += pow($rowY[$column] - $matriksANegatif[$column], 2);
+                    }
                 }
-                $matriksDPositif[] = sqrt($productPositif); // Tambahkan baris ke matriksQ
-                $matriksDNegatif[] = sqrt($productNegatif); // Tambahkan baris ke matriksQ
+                $matriksDPositif[] = [
+                    'kepemilikan_id' => $rowY['kepemilikan_id'],
+                    'nomor_kk' => $rowY['nomor_kk'],
+                    'nilai' => sqrt($productPositif)
+                ];
+                $matriksDNegatif[] = [
+                    'kepemilikan_id' => $rowY['kepemilikan_id'],
+                    'nomor_kk' => $rowY['nomor_kk'],
+                    'nilai' => sqrt($productNegatif)
+                ];
             }
 
-            foreach ($matriksDNegatif as $key => $value){
-                $matriksS[] = $value / ($matriksDPositif[$key] + $value);
+            foreach ($matriksDNegatif as $key => $value) {
+                $matriksS[] = [
+                    'kepemilikan_id' => $value['kepemilikan_id'],
+                    'nomor_kk' => $value['nomor_kk'],
+                    'nilai' => $value['nilai'] / ($matriksDPositif[$key]['nilai'] + $value['nilai'])
+                ];
             }
-            
-            
 
-            // foreach ($matriksV as $rowV) {
-            //     $rowQ = [];
-            //     foreach ($columns as $column) {
-            //         if ($column !== 'kepemilikan_id' && $column !== 'nomor_kk') {
-            //             $rowQ[$column] = $rowV[$column] - $matriksG[$column];
-            //         } else {
-            //             // Tambahkan nilai asli untuk kepemilikan_id dan nomor_kk tanpa perubahan
-            //             $rowQ[$column] = $rowV[$column];
-            //         }
-            //     }
-            //     $matriksQ[] = $rowQ; // Tambahkan baris ke matriksQ
-            // }
-            dd(compact('matriksR', 'matriksY', 'matriksAPositif', 'matriksANegatif', 'matriksDPositif', 'matriksDNegatif', 'matriksS'));
+            
+            array_multisort(array_column($matriksS, 'nilai'), SORT_DESC, $matriksS);
+        
+            // Menambahkan peringkat untuk setiap baris di matriksS
+            foreach ($matriksS as $index => $row) {
+                $matriksS[$index]['ranking'] = $index + 1; // Menambahkan ranking
+            }
 
+            $matriksData = [];
+
+            foreach ($matriksS as $index => $row) {
+                $matriksData[] = [
+                    'kepemilikan_id' => $row['kepemilikan_id'],
+                    'skor_topsis' => $row['nilai'],
+                    'peringkat_topsis' => $row['ranking']
+                ];
+            
+            }
+            $uniqueBy = ['kepemilikan_id'];
+    
+            // Kolom yang akan di-update jika record sudah ada
+            $updateColumns = ['skor_topsis','peringkat_topsis'];
+            
+            SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
+    
+            return [
+                'dataSPK' => $dataSPK,
+                'bobot' => $bobot,
+                'matriksR' => $matriksR,
+                'matriksY' => $matriksY,
+                'matriksAPositif' => $matriksAPositif,
+                'matriksANegatif' => $matriksANegatif,
+                'matriksDPositif' => $matriksDPositif,
+                'matriksDNegatif' => $matriksDNegatif,
+                'matriksS' => $matriksS
+            ];
+           // dd(compact('matriksR', 'matriksY', 'matriksAPositif', 'matriksANegatif', 'matriksDPositif', 'matriksDNegatif', 'matriksS'));
+   
         }
     }
 }
