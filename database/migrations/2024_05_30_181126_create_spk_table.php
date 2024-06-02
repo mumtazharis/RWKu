@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('spk', function (Blueprint $table) {
             $table->id('spk_id');
             $table->unsignedBigInteger('kepemilikan_id')->unique();
-            $table->double('skor_mabac');
-            $table->integer('peringkat_mabac');
-            $table->double('skor_topsis');
-            $table->integer('peringkat_topsis');
+            $table->double('skor_mabac')->nullable();
+            $table->integer('peringkat_mabac')->nullable();
+            $table->double('skor_topsis')->nullable();
+            $table->integer('peringkat_topsis')->nullable();
             $table->timestamps();
         });
     }
