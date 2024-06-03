@@ -134,7 +134,7 @@ class SPKController extends Controller
     public function mabac(){
         $dataSPK = KepemilikanModel::select('kepemilikan_id','nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')->get();
 
-        $bobot = [0.3, 0.1, 0.3, 0.05, 0.05, 0.05, 0.05, 0.1];
+        $bobot = [0.5, 0.05, 0.15, 0.05, 0.03, 0.07, 0.1, 0.05];
         
         $max = [];
         $min = [];
@@ -290,7 +290,7 @@ class SPKController extends Controller
 
        // print_r($dataSPK);
 
-        $bobot = [0.3, 0.1, 0.3, 0.05, 0.05, 0.05, 0.05, 0.1];
+        $bobot = [0.5, 0.05, 0.15, 0.05, 0.03, 0.07, 0.1, 0.05];
 
         $matriksR = [];
         $matriksY = [];

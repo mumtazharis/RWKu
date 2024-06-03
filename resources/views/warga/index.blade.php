@@ -41,6 +41,7 @@
         <th>Alamat</th>
         <th>RT</th>
         <th>RW</th>
+        <th>Status</th>
         <th>Aksi</th>
                 </tr>
             </thead>
@@ -74,6 +75,7 @@
             { data: 'alamat', orderable: true, searchable: true },
             { data: 'rt', orderable: true, searchable: true },
             { data: 'rw', orderable: true, searchable: true },
+            { data: 'status_kependudukan', orderable: true, searchable: true },
             { data: 'aksi', orderable: false, searchable: false }
             ],
             order: [[1, 'asc']]
