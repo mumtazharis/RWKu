@@ -9,6 +9,7 @@ use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\CheckNomorKKNull;
+use Illuminate\Validation\Rule;
 
 class KeluargaController extends Controller
 {
@@ -84,8 +85,21 @@ class KeluargaController extends Controller
             'nomor_kk' => 'required|integer|unique:keluarga,nomor_kk',
             'nik_kepala_keluarga' => 'required|numeric|exists:warga,nik|unique:keluarga,nik_kepala_keluarga',
             'alamat_kk' => 'required|string',
-            'anggota_keluarga' => 'array',
-            'anggota_keluarga.*' => ['required', new CheckNomorKKNull],
+            'anggota_keluarga' => [
+                'required', 
+                'array',
+                function($attribute, $value, $fail) use ($request) {
+                    if (!in_array($request->nik_kepala_keluarga, $value)) {
+                        $fail('Kepala keluarga harus termasuk kedalam anggota keluarga.');
+                    }
+                }
+            ],
+            'anggota_keluarga.*' => [
+                'required',
+                Rule::exists('warga', 'nik')->where(function ($query){
+                    $query->whereNull('nomor_kk');
+                }),
+            ],
 
             'penghasilan' => 'required|numeric|min:0',
             'keluarga_ditanggung' => 'required|integer|min:0',
@@ -112,6 +126,7 @@ class KeluargaController extends Controller
             'anggota_keluarga.required' => 'Anggota Keluarga wajib dipilih.',
             'anggota_keluarga.array' => 'Format Anggota Keluarga tidak valid.',
             'anggota_keluarga.*.required' => 'Setiap anggota keluarga harus valid.',
+            'anggota_keluarga.*.exists' => 'Anggota keluarga yang dipilih tidak valid atau sudah terdaftar dalam KK lain.',
 
             'penghasilan.required' => 'Penghasilan wajib diisi.',
             'penghasilan.numeric' => 'Penghasilan harus berupa angka.',
@@ -181,54 +196,103 @@ class KeluargaController extends Controller
 
         return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
     }
-public function edit($id)
-{
-   // Temukan data kepemilikna berdasarkan ID
-   $keluarga = KeluargaModel::find($id);
-
-   // Jika data keluarga$keluarga ditemukan, lanjutkan untuk menampilkan halaman detail
-   $breadcrumb = (object) [
-       'title' => 'Detail Keluarga',
-       'list' => ['Home', 'Keluarga', 'Detail']
-   ];
-
-   $page = (object) [
-       'title' => 'Detail Keluarga'
-   ];
-
-   $activeMenu = 'warga'; // Set menu yang aktif
-   $activeSubMenu = 'keluarga_list';
-
-   return view('keluarga.edit', [
-       'breadcrumb' => $breadcrumb,
-       'page' => $page,
-       'keluarga' => $keluarga,
-       'activeSubMenu' => $activeSubMenu,
-       'activeMenu' => $activeMenu
-   ]);
-}
-public function update(Request $request, $id)
+    public function edit($id)
     {
-        $request->validate([
-            'nomor_kk' => 'required|integer',
-            'nik_kepala_keluarga' => 'required|numeric',
-            'alamat_kk' => 'required|string',
-            'kelas_ekonomi' => 'required|string',
-      
-        ]);
+        // Find the family data by ID
+        $keluarga = KeluargaModel::find($id);
+        $wargas = WargaModel::all(); 
+        $anggotaKeluarga = WargaModel::where('nomor_kk', $keluarga->nomor_kk)->get();
+        $alamatKks = RTModel::all();
     
+        // Breadcrumb and page title
+        $breadcrumb = (object) [
+            'title' => 'Detail Keluarga',
+            'list' => ['Home', 'Keluarga', 'Detail']
+        ];
+    
+        $page = (object) [
+            'title' => 'Detail Keluarga'
+        ];
+    
+        // Active menu and submenu
+        $activeMenu = 'warga'; 
+        $activeSubMenu = 'keluarga_list';
+    
+        return view('keluarga.edit', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'keluarga' => $keluarga,
+            'warga' => $wargas,
+            'anggotaKeluarga' => $anggotaKeluarga,
+            'alamatkk' => $alamatKks,
+            'activeSubMenu' => $activeSubMenu,
+            'activeMenu' => $activeMenu
+        ]);
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $keluarga = KeluargaModel::find($id);
+        $request->validate([
+            'nomor_kk' => 'required|integer|unique:keluarga,nomor_kk,'.$id.',nomor_kk',
+            'nik_kepala_keluarga' => 'required|numeric|exists:warga,nik|unique:keluarga,nik_kepala_keluarga,'.$id.',nomor_kk',
+            'alamat_kk' => 'required|string',
+            'anggota_keluarga' => [
+                'required', 
+                'array',
+                function($attribute, $value, $fail) use ($request) {
+                    if (!in_array($request->nik_kepala_keluarga, $value)) {
+                        $fail('Kepala keluarga harus termasuk kedalam anggota keluarga.');
+                    }
+                }
+            ],
+            'anggota_keluarga.*' => [
+                'required',
+                Rule::exists('warga', 'nik')->where(function ($query) use ($keluarga) {
+                    $query->whereNull('nomor_kk')
+                          ->orWhere('nomor_kk', $keluarga->nomor_kk);
+                }),
+            ],
+      
+        ], [
+            'nomor_kk.required' => 'Nomor KK wajib diisi.',
+            'nomor_kk.integer' => 'Nomor KK harus berupa angka.',
+            'nomor_kk.unique' => 'Nomor KK sudah digunakan.',
+
+            'nik_kepala_keluarga.required' => 'NIK Kepala Keluarga wajib diisi.',
+            'nik_kepala_keluarga.numeric' => 'NIK Kepala Keluarga harus berupa angka.',
+            'nik_kepala_keluarga.exists' => 'NIK Kepala Keluarga tidak ditemukan.',
+            'nik_kepala_keluarga.unique' => 'NIK Sudah menajdi kepala keluarga di kk lain.',
+
+            'alamat_kk.required' => 'Alamat KK wajib diisi.',
+            'alamat_kk.string' => 'Alamat KK harus berupa teks.',
+
+            'anggota_keluarga.required' => 'Anggota Keluarga wajib dipilih.',
+            'anggota_keluarga.array' => 'Format Anggota Keluarga tidak valid.',
+            'anggota_keluarga.*.required' => 'Setiap anggota keluarga harus valid.',
+            'anggota_keluarga.*.exists' => 'Anggota keluarga yang dipilih tidak valid atau sudah terdaftar dalam KK lain.',
+        ]);
+       
         KeluargaModel::find($id)->update([
             'nomor_kk' => $request->nomor_kk,
             'nik_kepala_keluarga' => $request->nik_kepala_keluarga,
             'alamat_kk' => $request->alamat_kk,
-            'kelas_ekonomi' => $request->kelas_ekonomi,
-
+        
         ]);
-    
-        // if ($request->has('kepemilikan_id')) {
-        //     $data['kepemilikan_id'] = $request->kepemilikan_id;
-        // }
-        return redirect('/keluarga')->with('success', 'Data kepemilikan berhasil diubah');
+        if ($request->has('anggota_keluarga')) {
+            
+            WargaModel::where('nomor_kk', $request->nomor_kk)->update(['nomor_kk' => null]);
+            
+            foreach ($request->anggota_keluarga as $nik) {
+                
+                WargaModel::where('nik', $nik)->update(['nomor_kk' => $request->nomor_kk]);
+            }
+        }
+        
+        // // if ($request->has('kepemilikan_id')) {
+        // //     $data['kepemilikan_id'] = $request->kepemilikan_id;
+        // // }
+        return redirect('/keluarga')->with('success', 'Data keluarga berhasil diubah');
     }
 
 }

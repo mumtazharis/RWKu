@@ -75,8 +75,8 @@ public function create()
     public function store(Request $request)
 {
     $request->validate([
-        'nik' => 'required|string|min:3|',
-        'nomor_kk' => 'nullable|string|max:100',
+        'nik' => 'required|string|min:3|max:16|unique:warga,nik',
+        'nomor_kk' => 'nullable|string|max:100|exists:keluarga,nomor_kk',
         'nama' => 'required|string|max:255',
         'tempat_lahir' => 'nullable|string|max:255',
         'tanggal_lahir' => 'nullable|date',
@@ -91,6 +91,8 @@ public function create()
         'provinsi' => 'nullable|string|max:255',
         'agama' => 'nullable|string|max:50',
         'pekerjaan' => 'nullable|string|max:100',
+    ], [
+        'nomor_kk.exists' => 'Nomor KK belum terdaftar, ubah atau kosongkan form nomor kk.',
     ]);
 
     WargaModel::create([
@@ -170,8 +172,8 @@ public function edit($id)
 public function update(Request $request, $id)
     {
         $request->validate([
-            'nik' => 'required|string|min:3|',
-            'nomor_kk' => 'required|string|max:100',
+            'nik' => 'required|string|min:3',
+            'nomor_kk' => 'required|string|max:100|exists:keluarga,nomor_kk',
             'nama' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
@@ -186,6 +188,8 @@ public function update(Request $request, $id)
             'provinsi' => 'nullable|string|max:255',
             'agama' => 'nullable|string|max:50',
             'pekerjaan' => 'nullable|string|max:100',
+        ],[
+            'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);
 
         WargaModel::find($id)->update([
