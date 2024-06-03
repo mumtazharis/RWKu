@@ -17,11 +17,11 @@ class AuthController extends Controller
 
         if($user){
             if($user->level_id == '1'){
-                return redirect()->intended('rw');
+                return redirect()->intended('');
             } elseif($user->level_id == '2'){
-                return redirect()->intended('rt');
+                return redirect()->intended('');
             } elseif($user->level_id == '3'){
-                return redirect()->intended('warga');
+                return redirect()->intended('');
             }
         }
         return view('login');
@@ -39,11 +39,11 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if($user->level_id == '1'){
-                return redirect()->intended('rw');
+                return redirect()->intended('');
             } else if($user->level_id == '2'){
-                return redirect()->intended('rt');
+                return redirect()->intended('');
             } else if($user->level_id == '3'){
-                return redirect()->intended('warga');
+                return redirect()->intended('');
             }
 
             return redirect()->intended('/');
@@ -79,11 +79,10 @@ class AuthController extends Controller
     //     return redirect()->route('login');
     // }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $request->session()->flush();
-
         Auth::logout();
-
         return Redirect('login');
     }
 
