@@ -18,15 +18,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Filter:</label>
+                    <label class="col-1 control-label col-form-label">Filter RT:</label>
                     <div class="col-3">
-                        <select name="nomor_kk" id="nomor_kk" class="form-control" required>
+                        <select name="alamat_kk" id="alamat_kk" class="form-control" required>
                             <option value="">- Semua -</option>
-                            @foreach ($keluarga as $item)
-                                <option value="{{ $item->nomor_kk }}">{{ $item->alamat_kk }}</option>
+                            @foreach ($alamat as $item)
+                                <option value="{{ $item->rt_id }}">{{ $item->kode_rt }}</option>
                             @endforeach
                         </select>
-                        <small class="form-text text-muted">RT</small>
+      
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 url: "{{ url('keluarga/list') }}", // Change url to route()
                 type: "POST",
                 data: function (d) {
-                    d.nomor_kk = $('#nomor_kk').val(); // change to nomor_kk
+                    d.alamat_kk = $('#alamat_kk').val(); // change to nomor_kk
                     d._token = '{{ csrf_token() }}'; // Add CSRF token
                 }
             },
@@ -76,7 +76,7 @@
             order: [[1, 'asc']]
         });
 
-        $('#nomor_kk').on('change', function() { // change to nomor_kk
+        $('#alamat_kk').on('change', function() { // change to nomor_kk
             dataKeluarga.ajax.reload(null, false);
         });
     });

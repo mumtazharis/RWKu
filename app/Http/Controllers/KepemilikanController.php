@@ -86,14 +86,14 @@ public function create()
         'hutang' => 'nullable|numeric',
     ]);
 
-    KepemilikanModel::create([
+   KepemilikanModel::create([
         'kepemilikan_id' => $request->kepemilikan_id,
         'penghasilan' => $request->penghasilan,
         'keluarga_ditanggung' => $request->keluarga_ditanggung,
         'pajak_motor' => $request->pajak_motor,
         'pajak_mobil' => $request->pajak_mobil,
         'pajak_bumi_bangunan' => $request->pajak_bumi_bangunan,
-        'tagihan_air' => $request->tagihan_air,
+        'tagihan_air ' => $request->tagihan_air,
         'tagihan_listrik' => $request->tagihan_listrik,
         'hutang' => $request->hutang,
     ]);

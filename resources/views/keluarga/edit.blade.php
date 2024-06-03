@@ -35,12 +35,6 @@
                     <input type="text" class="form-control" name="alamat_kk" value="{{ $keluarga->alamat_kk }}" required>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-sm-2 control-label">Kelas Ekonomi</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="kelas_ekonomi" value="{{ $keluarga->kelas_ekonomi }}">
-                </div>
-            </div>
             <!-- Add other fields based on your requirements -->
             <div class="form-group row">
                 <div class="col-sm-offset-2 col-sm-10">
