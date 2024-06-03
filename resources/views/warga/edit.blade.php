@@ -71,9 +71,12 @@
                         <label class="col-2 control-label col-form-label">Jenis Kelamin</label>
                         <div class="col-10">
                             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                                <option value="">Pilih Jenis Kelamin</option>
+                                {{-- <option value="">Pilih Jenis Kelamin</option>
                                 <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="Perempuan">Perempuan</option> --}}
+                                <option value="" {{ old('jenis_kelamin', $warga->jenis_kelamin) == '' ? 'selected' : '' }}>Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki" {{ strtolower(old('jenis_kelamin', $warga->jenis_kelamin)) == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ strtolower(old('jenis_kelamin', $warga->jenis_kelamin)) == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                             @error('jenis_kelamin')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -85,10 +88,10 @@
                         <div class="col-10">
                             <select class="form-control" id="golongan_darah" name="golongan_darah">
                                 <option value="">Pilih Golongan Darah</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="AB">AB</option>
-                                <option value="0">0</option>
+                                <option value="A" {{ strtolower(old('golongan_darah', $warga->golonngan_darah)) == 'a' ? 'selected' : '' }}>A</option>
+                                <option value="B" {{ strtolower(old('golongan_darah', $warga->golongan_darah)) == 'b' ? 'selected' : '' }}>B</option>
+                                <option value="AB" {{ strtolower(old('golongan_darah', $warga->golongan_darah)) == 'ab' ? 'selected' : '' }}>AB</option>
+                                <option value="0" {{ strtolower(old('golongan_darah', $warga->golongan_darah)) == 'o' ? 'selected' : '' }}>0</option>
                             </select>
                             @error('golongan_darah')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -110,10 +113,10 @@
                         <div class="col-10">
                             <select class="form-control" id="rt" name="rt">
                                 <option value="">Pilih RT</option>
-                                <option value="RT1">RT 1</option>
-                                <option value="RT2">RT 2</option>
-                                <option value="RT3">RT 3</option>
-                                <option value="RT4">RT 4</option>
+                                <option value="RT1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
+                                <option value="RT2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
+                                <option value="RT3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
+                                <option value="RT4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -125,7 +128,7 @@
                         <div class="col-10">
                             <select class="form-control" id="rw" name="rw">
                                 <option value="">Pilih RW</option>
-                                <option value="RW5">RW 5</option>
+                                <option value="RW5" {{ (old('rw', $warga->rw)) == 5 ? 'selected' : '' }}>RW 5</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
