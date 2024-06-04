@@ -12,13 +12,19 @@
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Penginput</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" id="penginput" name="penginput"
-                            value="{{ $userNik }}" readonly>
+                        <!-- Input field untuk menampilkan nama pengguna -->
+                        <input type="text" class="form-control" id="penginput_nama" name="penginput_nama"
+                               value="{{ $warga->nama }}" readonly>
+                        
+                        <!-- Input field tersembunyi untuk mengirimkan NIK -->
+                        <input type="hidden" id="penginput" name="penginput" value="{{ $warga->nik }}">
+                        
                         @error('penginput')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
+                
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Pemasukan</label>
                     <div class="col-10">
