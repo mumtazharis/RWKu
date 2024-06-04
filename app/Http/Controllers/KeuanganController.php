@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\KeuanganModel;
+use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -71,6 +72,8 @@ public function create()
 
     $userNik = auth()->user()->username;
 
+    $warga = WargaModel::where('nik', $userNik)->first();
+
     $activeMenu = 'keuangan'; // Set menu yang aktif
     $activeSubMenu = 'keuangan_list';
 
@@ -79,13 +82,14 @@ public function create()
         'page' => $page,
         'activeMenu' => $activeMenu,
         'activeSubMenu' => $activeSubMenu,
-        'userNik' => $userNik // Pass $userNik individually
+        'warga' => $warga // Pass $userNik individually
     ]);
-}
+    }
 
     // Menyimpan data keuangan baru
     public function store(Request $request)
     {
+        
         $request->validate([
             'pemasukan' => 'nullable|numeric',
             'pengeluaran' => 'nullable|numeric',
@@ -94,16 +98,16 @@ public function create()
             'tanggal' => 'required|date',
         ]);
 
-        // Get the nik of the authenticated user
-      $penginput = Auth::user()->username;
-        KeuanganModel::create([
-            'penginput' => $penginput,
-            'pemasukan' => $request->pemasukan,
-            'pengeluaran' => $request->pengeluaran,
-            'pengeluaran_untuk' => $request->pengeluaran_untuk,
-            'pemasukan_dari' => $request->pemasukan_dari,
-            'tanggal' => $request->tanggal,
-        ]);
-    return redirect('/keuangan')->with('success', 'Data keuangan berhasil ditambahkan');
-}
+            // Get the nik of the authenticated user
+        $penginput = Auth::user()->username;
+            KeuanganModel::create([
+                'penginput' => $penginput,
+                'pemasukan' => $request->pemasukan,
+                'pengeluaran' => $request->pengeluaran,
+                'pengeluaran_untuk' => $request->pengeluaran_untuk,
+                'pemasukan_dari' => $request->pemasukan_dari,
+                'tanggal' => $request->tanggal,
+            ]);
+        return redirect('/keuangan')->with('success', 'Data keuangan berhasil ditambahkan');
+    }
 }
