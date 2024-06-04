@@ -53,8 +53,9 @@ class KeluargaController extends Controller
         return DataTables::of($dataKeluarga)
             ->addIndexColumn() // Add index column (DT_RowIndex)
             ->addColumn('aksi', function ($keluarga) { // Add action column
-                $btn = '<a href="' . url('/keluarga/' . $keluarga->nomor_kk . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-                return $btn;
+                $btn = '<a href="'.url('/keluarga/'.$keluarga->nomor_kk).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn .= '<a href="'.url('/keluarga/'.$keluarga->nomor_kk.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+                        return $btn;
             })
             ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
             ->make(true);
@@ -195,6 +196,26 @@ class KeluargaController extends Controller
 
 
         return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
+    }
+
+    public function show(string $id){
+        $keluarga  = KeluargaModel::find($id);
+        $warga  = WargaModel::where('nomor_kk', $id)->get();
+        $alamat  = RTModel::where('rt_id', $keluarga->alamat_kk)->first();
+        $kepemilikan  = KepemilikanModel::where('nomor_kk', $id)->first();
+
+        $breadcrumb = (object)[
+            'title' => 'Detail keluarga',
+            'list' => ['Home', 'Keluarga', 'Detail']
+        ];
+
+        $page = (object)[
+            'title' => 'Detail keluarga'
+        ];
+
+        $activeMenu = 'warga';
+        $activeSubMenu = 'keluarga';
+        return view('keluarga.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'keluarga' => $keluarga,'warga'=> $warga, 'alamat' => $alamat, 'kepemilikan' => $kepemilikan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
     public function edit($id)
     {
