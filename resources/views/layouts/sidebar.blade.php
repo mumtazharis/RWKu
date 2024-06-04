@@ -91,13 +91,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/datakeluarga') }}" class="nav-link {{ ($activeMenu == 'datakeluarga')? 'active' : '' }} ">
+                <a href="{{ url('/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-users"></i>
-                    <p>Keluarga</p>
+                    <p>Keluargaku</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profil') }}" class="nav-link {{ ($activeMenu == 'profil')? 'active' : '' }} ">
+                <a href="{{ url('/profile') }}" class="nav-link {{ ($activeMenu == 'profile')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-user-circle"></i>
                     <p>Profil</p>
                 </a>
