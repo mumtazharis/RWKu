@@ -64,6 +64,7 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::get('/create', [KeluargaController::class, 'create']);
                 Route::post('/', [KeluargaController::class, 'store']);
                 Route::get('/{id}/edit', [KeluargaController::class, 'edit']);
+                Route::get('/{id}', [KeluargaController::class, 'show']);
                 Route::put('/{id}', [KeluargaController::class, 'update']);
             });
     
