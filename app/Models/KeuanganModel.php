@@ -16,6 +16,6 @@ class KeuanganModel extends Model
     protected $fillable = ['penginput', 'pemasukan' , 'pengeluaran', 'pengeluaran_untuk', 'pemasukan_dari', 'tanggal'];
 
     public function penginput(): BelongsTo{
-        return $this->belongsTo(WargaModel::class, 'nik');
+        return $this->belongsTo(UserModel::class, 'username');
     }
 }

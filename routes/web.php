@@ -8,6 +8,9 @@ use App\Http\Controllers\WargaController;
 use App\Http\Controllers\KepemilikanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SPKController;
+use App\Http\Controllers\KeluargakuController;
+use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register', [AuthController::class, 'register'])->name('register');
@@ -74,9 +77,27 @@ Route::middleware('prevent-back-history')->group(function () {
                 // Route::get('/{id}/edit', [SPKController::class, 'edit']);
                 // Route::put('/{id}', [SPKController::class, 'update']);
             });
+
+            //keluargaku
+            Route::group(['prefix' => 'keluargaku'], function () {
+                Route::get('/', [KeluargakuController::class, 'index']);
+                Route::post('/list', [KeluargakuController::class, 'list']);
+            });
+
+            //profile
+            Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+
+            //keuangan
+            Route::group(['prefix' => 'keuangan'], function () {
+                Route::get('/', [KeuanganController::class, 'index']);
+                Route::post('/list', [KeuanganController::class, 'list']);
+                Route::get('/create', [KeuanganController::class, 'create']);
+                Route::post('/', [KeuanganController::class, 'store']);
+
+            });
     
         });
-    
+
         // Route::group(['middleware' => ['cek_login:2']], function(){
         //     Route::resource('manager', ManagerController::class);
         // });
