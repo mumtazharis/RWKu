@@ -23,7 +23,7 @@
                     <label class="col-2 control-label col-form-label">Pemasukan</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="pemasukan" name="pemasukan"
-                            value="{{ old('pemasukan') }}">
+                            value="{{ old('pemasukan')?? 0 }}">
                         @error('pemasukan')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -33,7 +33,7 @@
                     <label class="col-2 control-label col-form-label">Pengeluaran</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="pengeluaran" name="pengeluaran"
-                            value="{{ old('pengeluaran') }}">
+                            value="{{ old('pengeluaran') ?? 0 }}">
                         @error('pengeluaran')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -43,7 +43,7 @@
                     <label class="col-2 control-label col-form-label">Pengeluaran Untuk</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="pengeluaran_untuk" name="pengeluaran_untuk"
-                            value="{{ old('pengeluaran_untuk') }}">
+                            value="{{ old('pengeluaran_untuk')}}">
                         @error('pengeluaran_untuk')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
