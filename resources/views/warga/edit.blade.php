@@ -113,10 +113,10 @@
                         <div class="col-10">
                             <select class="form-control" id="rt" name="rt">
                                 <option value="">Pilih RT</option>
-                                <option value="RT1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
-                                <option value="RT2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
-                                <option value="RT3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
-                                <option value="RT4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
+                                <option value="1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
+                                <option value="2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
+                                <option value="3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
+                                <option value="4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -128,7 +128,7 @@
                         <div class="col-10">
                             <select class="form-control" id="rw" name="rw">
                                 <option value="">Pilih RW</option>
-                                <option value="RW5" {{ (old('rw', $warga->rw)) == 5 ? 'selected' : '' }}>RW 5</option>
+                                <option value="5" {{ (old('rw', $warga->rw)) == 5 ? 'selected' : '' }}>RW 5</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>

@@ -61,8 +61,9 @@ class KegiatanController extends Controller
 
         $rt = RTModel::all();
         $activeMenu = 'kegiatan';
+        $activeSubMenu = 'kegiatan_list';
 
-        return view('kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'rt' => $rt,'activeMenu' => $activeMenu]);
+        return view('kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'rt' => $rt,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function store(Request $request){

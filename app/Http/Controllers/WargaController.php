@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RTModel;
 use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,14 +29,15 @@ class WargaController extends Controller
 
         // Fetch warga data
         $warga = WargaModel::all();
-
+        $alamat = RTModel::all();
         // Return the view with data
         return view('warga.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
             'activeSubMenu' => $activeSubMenu,
-            'warga' => $warga
+            'warga' => $warga,
+            'alamat' => $alamat
         ]);
     }
 // Ambil data level dalam bentuk json untuk datatables
@@ -43,7 +45,10 @@ public function list(Request $request)
 {
     // Select specific columns from the DataWargaModel
     $dataWarga = WargaModel::select('nik', 'nomor_kk', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'alamat', 'rt', 'rw', 'kelurahan_desa', 'kecamatan', 'kabupaten_kota', 'provinsi', 'agama', 'pekerjaan','status_kependudukan');
-
+    
+    if ($request->rt){
+        $dataWarga->where('rt', $request->rt);
+    }
     // Return data in DataTables format
     return DataTables::of($dataWarga)
         ->addIndexColumn() // Add index column (DT_RowIndex)
@@ -80,11 +85,11 @@ public function create()
         'nama' => 'required|string|max:255',
         'tempat_lahir' => 'nullable|string|max:255',
         'tanggal_lahir' => 'nullable|date',
-        'jenis_kelamin' => 'nullable|string|in:Laki-laki,Perempuan',
+        'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
         'golongan_darah' => 'nullable|string|max:2',
-        'alamat' => 'nullable|string|max:255',
-        'rt' => 'nullable|string|max:3',
-        'rw' => 'nullable|string|max:3',
+        'alamat' => 'required|string|max:255',
+        'rt' => 'required|string|max:3',
+        'rw' => 'required|string|max:3',
         'kelurahan_desa' => 'nullable|string|max:255',
         'kecamatan' => 'nullable|string|max:255',
         'kabupaten_kota' => 'nullable|string|max:255',

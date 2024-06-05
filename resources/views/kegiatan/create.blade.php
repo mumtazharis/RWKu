@@ -11,11 +11,11 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Peserta</label>
                 <div class="col-11">
-                    <select class="form-control" id="kegiatan_peserta" name="kegiatan_peserta" required>
+                    <select class="form-control" id="kegiatan_peserta" name="kegiatan_peserta">
                         <option value="">- Pilih Peserta -</option>
                             <option value="RW">Satu RW</option>
                             @foreach($rt as $item)
-                                <option value="{{ $item->kode_rt }}">{{ $item->kode_rt}}</option>
+                                <option value="{{ $item->rt_id }}">{{ $item->kode_rt}}</option>
                             @endforeach
                     </select>
                     @error('level_id')
@@ -26,7 +26,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Nama Kegiatan</label>
                 <div class="col-11">
-                    <input type="text" class="form-control" id="kegiatan_nama" name="kegiatan_nama" value="{{ old('kegiatan_nama') }}" required>
+                    <input type="text" class="form-control" id="kegiatan_nama" name="kegiatan_nama" value="{{ old('kegiatan_nama') }}">
                     @error('kegiatan_nama')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -35,7 +35,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Lokasi Kegiatan</label>
                 <div class="col-11">
-                    <input type="text" class="form-control" id="kegiatan_lokasi" name="kegiatan_lokasi" value="{{ old('kegiatan_lokasi') }}" required>
+                    <input type="text" class="form-control" id="kegiatan_lokasi" name="kegiatan_lokasi" value="{{ old('kegiatan_lokasi') }}">
                     @error('kegiatan_lokasi')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -44,7 +44,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Tanggal</label>
                 <div class="col-11">
-                    <input type="text" class="form-control" id="kegiatan_tanggal" name="kegiatan_tanggal" value="{{ old('kegiatan_tanggal') }}" placeholder="Klik untuk memilih tanggal" required>
+                    <input type="text" class="form-control" id="kegiatan_tanggal" name="kegiatan_tanggal" value="{{ old('kegiatan_tanggal') }}" placeholder="Klik untuk memilih tanggal">
                     @error('kegiatan_tanggal')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -53,7 +53,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Waktu</label>
                 <div class="col-11">
-                    <input type="time" class="form-control" id="kegiatan_waktu" name="kegiatan_waktu" value="{{ old('kegiatan_waktu') }}" placeholder="Klik untuk memilih tanggal" required>
+                    <input type="time" class="form-control" id="kegiatan_waktu" name="kegiatan_waktu" value="{{ old('kegiatan_waktu') }}" placeholder="Klik untuk memilih tanggal">
                     @error('kegiatan_waktu')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -62,7 +62,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Deskripsi Kegiatan</label>
                 <div class="col-11">
-                    <input type="text" class="form-control" id="kegiatan_deskripsi" name="kegiatan_deskripsi" value="{{ old('kegiatan_deskripsi') }}" required>
+                    <input type="text" class="form-control" id="kegiatan_deskripsi" name="kegiatan_deskripsi" value="{{ old('kegiatan_deskripsi') }}">
                     @error('kegiatan_deskripsi')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -71,7 +71,7 @@
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Iuran</label>
                 <div class="col-11">
-                    <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
+                    <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}">
                     @error('nominal')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror

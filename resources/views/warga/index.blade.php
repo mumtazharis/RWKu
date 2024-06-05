@@ -20,10 +20,10 @@
                 <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Filter:</label>
                     <div class="col-3">
-                        <select name="nik" id="nik" class="form-control" required>
+                        <select name="rt" id="rt" class="form-control" required>
                             <option value="">- Semua -</option>
-                            @foreach ($warga as $item)
-                                <option value="{{ $item->nik }}">{{ $item->rt }}</option>
+                            @foreach ($alamat as $item)
+                                <option value="{{ $item->rt_id }}">{{ $item->kode_rt }}</option>
                             @endforeach
                         </select>
                         <small class="form-text text-muted">RT</small>
@@ -63,7 +63,7 @@
                 url: "{{ url('warga/list') }}", // Change url to route()
                 type: "POST",
                 data: function (d) {
-                    d.nik = $('#nik').val();
+                    d.rt = $('#rt').val();
                     d._token = '{{ csrf_token() }}'; // Add CSRF token
                 }
             },
@@ -81,7 +81,7 @@
             order: [[1, 'asc']]
         });
 
-        $('#nik').on('change', function() {
+        $('#rt').on('change', function() {
             dataWarga.ajax.reload(null, false);
         });
     });

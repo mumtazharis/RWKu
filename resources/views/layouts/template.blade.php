@@ -62,7 +62,7 @@
     <aside class="main-sidebar  sidebar-light-gray elevation-4"  style="position: fixed;">
       <!-- Brand Logo -->
       <a href="{{ url('/') }}" class="brand-link">
-        <img src="{{ asset('adminlte/dist/img/adminlteLogo.png') }}" alt="adminlte Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ asset('images/rw-ku.png') }}" alt="adminlte Logo" class="brand-image img-circle" style="opacity: .8">
         <span class="brand-text font-weight-light">RWKu</span>
       </a>
   
