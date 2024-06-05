@@ -15,8 +15,8 @@
             @else
                     <table class="table table-bordered table-striped table-hover table-sm">
                         <tr>
-                            <th>ID</th>
-                            <td>{{ $kepemilikan->kepemilikan_id }}</td>
+                            <th>Nomor KK</th>
+                            <td>{{ $kepemilikan->nomor_kk }}</td>
                         </tr>
                         <tr>
                             <th>Penghasilan</th>

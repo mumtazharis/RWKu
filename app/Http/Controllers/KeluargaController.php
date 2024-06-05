@@ -10,11 +10,19 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\CheckNomorKKNull;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\SPKController;
 
 class KeluargaController extends Controller
 {
+    private $spkController;
+    public function __construct(SPKController $spkController)
+    {
+        $this->spkController = $spkController;
+    }
+
     public function index()
     {
+        $this->spkController->runSPK();
         // Set the breadcrumb data
         $breadcrumb = (object) [
             'title' => 'Daftar Keluarga',
@@ -194,7 +202,7 @@ class KeluargaController extends Controller
         }
         
 
-
+        $this->spkController->runSPK();
         return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
     }
 
