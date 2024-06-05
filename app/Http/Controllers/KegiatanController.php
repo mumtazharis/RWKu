@@ -7,6 +7,7 @@ use App\Models\KegiatanModel;
 use App\Models\RTModel;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class KegiatanController extends Controller
 {
@@ -69,6 +70,7 @@ class KegiatanController extends Controller
     public function store(Request $request){
         //dd($request->all());
         $request->validate([
+            'kegiatan_foto' => 'file|image|max:20000',
             'kegiatan_peserta' => 'required|max:6',
             'kegiatan_nama' => 'required|string|max:100',
             'kegiatan_lokasi' => 'required|string',
@@ -78,6 +80,26 @@ class KegiatanController extends Controller
             'nominal' => 'required|numeric|min:0',
         ]);
 
+        if ($request->hasFile('kegiatan_foto')) {
+            $file = $request->file('kegiatan_foto');
+            $extfile = $file->extension();
+            $hash = Str::random(40); // Generate a random hash
+            $namaFile = $request->kegiatan_nama . '_' . $hash . '.' . $extfile;
+    
+            // Clean file name from unwanted characters
+            $namaFile = preg_replace("/[^a-zA-Z0-9_.]/", '_', $namaFile);
+    
+            // Store file and get relative path
+            $path = $file->storeAs('kegiatan_foto', $namaFile, 'public');
+        } else {
+            $path = null;
+        }
+        // dd(compact('request', 'path'));
+        // $data = $request->except('_token');
+
+        // // Ubah data menjadi query string
+        // $queryString = http_build_query($data);
+
         KegiatanModel::create([
             'kegiatan_peserta' => $request->kegiatan_peserta,
             'kegiatan_nama' => $request->kegiatan_nama,
@@ -85,6 +107,7 @@ class KegiatanController extends Controller
             'kegiatan_tanggal' => $request->kegiatan_tanggal,
             'kegiatan_waktu' => $request->kegiatan_waktu,
             'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
+            'foto' => $path,
         ]);
 
         return redirect('/kegiatan')->with('success', 'Data kegiatan berhasil disimpan');
@@ -103,7 +126,8 @@ class KegiatanController extends Controller
         ];
 
         $activeMenu = 'kegiatan';
-        return view('kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu]);
+        $activeSubMenu = 'kegiatan_list';
+        return view('kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
@@ -122,7 +146,8 @@ class KegiatanController extends Controller
         $rt = RTModel::all();
 
         $activeMenu = 'kegiatan';
-        return view('kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'rt'=>$rt, 'activeMenu' => $activeMenu]);
+        $activeSubMenu = 'kegiatan_list';
+        return view('kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'rt'=>$rt, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
