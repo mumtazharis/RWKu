@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('keuangan', function (Blueprint $table) {
             $table->id('keuangan_id');
             $table->bigInteger('penginput');
-            $table->double('pemasukan');
-            $table->double('pemngeluaran');
-            $table->text('pengeluaran_untuk');
-            $table->text('pemasukan_dari');
+            $table->double('pemasukan')->nullable();
+            $table->double('pemngeluaran')->nullable();
+            $table->text('pengeluaran_untuk')->nullable();
+            $table->text('pemasukan_dari')->nullable();
             $table->date('tanggal');
             $table->timestamps();
         });
