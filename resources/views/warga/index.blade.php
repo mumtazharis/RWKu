@@ -59,6 +59,7 @@
         var dataWarga = $('#table_warga').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 url: "{{ url('warga/list') }}", // Change url to route()
                 type: "POST",
