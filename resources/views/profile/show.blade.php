@@ -1,19 +1,78 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Profile') }}</div>
-
-                <div class="card-body">
-                    <form>
-                        <!-- Isi form profile seperti sebelumnya -->
-                    </form>
-                </div>
-            </div>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">{{ $page->title }}</h3>
+            <div class="card-tools"></div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <tr>
+                    <th>NIK</th>
+                    <td>{{ $warga->nik }}</td>
+                </tr>
+                <tr>
+                    <th>Nama</th>
+                    <td>{{ $warga->nama }}</td>
+                </tr>
+                <tr>
+                    <th>Nomor KK</th>
+                    <td>{{ $warga->nomor_kk }}</td>
+                </tr>
+                <tr>
+                    <th>Tempat Lahir</th>
+                    <td>{{ $warga->tempat_lahir }}</td>
+                </tr>
+                <tr>
+                    <th>Tanggal Lahir</th>
+                    <td>{{ $warga->tanggal_lahir }}</td>
+                </tr>
+                <tr>
+                    <th>Jenis Kelamin</th>
+                    <td>{{ $warga->jenis_kelamin }}</td>
+                </tr>
+                <tr>
+                    <th>Golongan Darah</th>
+                    <td>{{ $warga->golongan_darah }}</td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ $warga->alamat }}</td>
+                </tr>
+                <tr>
+                    <th>RT</th>
+                    <td>{{ $warga->rt }}</td>
+                </tr>
+                <tr>
+                    <th>RW</th>
+                    <td>{{ $warga->rw }}</td>
+                </tr>
+                <tr>
+                    <th>Kelurahan/Desa</th>
+                    <td>{{ $warga->kelurahan_desa }}</td>
+                </tr>
+                <tr>
+                    <th>Kecamatan</th>
+                    <td>{{ $warga->kecamatan }}</td>
+                </tr>
+                <tr>
+                    <th>Kabupaten/Kota</th>
+                    <td>{{ $warga->kabupaten_kota }}</td>
+                </tr>
+                <tr>
+                    <th>Provinsi</th>
+                    <td>{{ $warga->provinsi }}</td>
+                </tr>
+                <tr>
+                    <th>Agama</th>
+                    <td>{{ $warga->agama }}</td>
+                </tr>
+                <tr>
+                    <th>Pekerjaan</th>
+                    <td>{{ $warga->pekerjaan }}</td>
+                </tr>
+            </table>
         </div>
     </div>
-</div>
 @endsection

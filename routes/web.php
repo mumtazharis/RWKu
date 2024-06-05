@@ -23,6 +23,7 @@ Route::middleware('prevent-back-history')->group(function () {
             Route::get('/', [WelcomeController::class, 'index']);
     
             //Data Warga
+            
             Route::group(['prefix' => 'warga'], function () {
                 Route::get('/', [WargaController::class, 'index']);
                 Route::post('/list', [WargaController::class, 'list']);
