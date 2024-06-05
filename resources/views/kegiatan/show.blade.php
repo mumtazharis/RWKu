@@ -12,7 +12,18 @@
     Data yang Anda cari tidak ditemukan.
 </div>
 @else
+
 <table class="table table-bordered table-striped table-hover tablesm">
+    <tr>
+        <th>Foto</th>
+        <td>
+            @if($kegiatan->foto)
+                <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="{{ $kegiatan->kegiatan_nama }}" style="max-width: 200px; max-height: 200px;">
+            @else
+                <p>Tidak ada foto.</p>
+            @endif
+        </td>
+    </tr>
     <tr>
         <th>ID</th>
         <td>{{ $kegiatan->kegiatan_id }}</td>

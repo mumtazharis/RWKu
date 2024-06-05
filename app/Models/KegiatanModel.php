@@ -13,7 +13,7 @@ class KegiatanModel extends Model
     protected $table = 'kegiatan';
     protected $primaryKey = 'kegiatan_id';
 
-    protected $fillable = ['kegiatan_nama', 'kegiatan_deskripsi','kegiatan_lokasi', 'kegiatan_tanggal','kegiatan_waktu', 'kegiatan_peserta'];
+    protected $fillable = ['kegiatan_nama', 'kegiatan_deskripsi','kegiatan_lokasi', 'kegiatan_tanggal','kegiatan_waktu', 'kegiatan_peserta', 'foto'];
 
     public function peserta(): HasMany{
         return $this->hasMany(PesertaModel::class, 'kegiatan_id');
