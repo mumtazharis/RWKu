@@ -45,6 +45,7 @@
         var dataKeuangan = $('#table_keuangan').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 url: "{{ url('keuangan/list') }}",
                 type: "POST",

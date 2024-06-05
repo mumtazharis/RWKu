@@ -196,6 +196,21 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-2 control-label col-form-label">Status Kependudukan</label>
+                        <div class="col-10">
+                            <select class="form-control" id="status_kependudukan" name="status_kependudukan">
+                                <option value="">Pilih Status Kependudukan</option>
+                                <option value="warga" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'warga' ? 'selected' : '' }}>Warga</option>
+                                <option value="meninggal" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'meninggal' ? 'selected' : '' }}>Meninggal</option>
+                                <option value="pindah" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'pindah' ? 'selected' : '' }}>Pindah</option>
+                                <option value="pendatang" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'pendatang' ? 'selected' : '' }}>Pendatang</option>
+                            </select>
+                            @error('status_kependudukan')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-2 control-label col-form-label"></label>
                         <div class="col-10">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>

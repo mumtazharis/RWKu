@@ -96,6 +96,7 @@ public function create()
         'provinsi' => 'nullable|string|max:255',
         'agama' => 'nullable|string|max:50',
         'pekerjaan' => 'nullable|string|max:100',
+        'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
     ], [
         'nomor_kk.exists' => 'Nomor KK belum terdaftar, ubah atau kosongkan form nomor kk.',
     ]);
@@ -104,10 +105,10 @@ public function create()
         'nik' => $request->nik,
         'nomor_kk' => $request->nomor_kk,
         'nama' => $request->nama,
-        'tempat_lahir' => $request->tempat_lahir,
-        'tanggal_lahir' => $request->tanggal_lahir,
+        // 'tempat_lahir' => $request->tempat_lahir,
+        // 'tanggal_lahir' => $request->tanggal_lahir,
         'jenis_kelamin' => $request->jenis_kelamin,
-        'golongan_darah' => $request->golongan_darah,
+        // 'golongan_darah' => $request->golongan_darah,
         'alamat' => $request->alamat,
         'rt' => $request->rt,
         'rw' => $request->rw,
@@ -115,8 +116,9 @@ public function create()
         'kecamatan' => $request->kecamatan,
         'kabupaten_kota' => $request->kabupaten_kota,
         'provinsi' => $request->provinsi,
-        'agama' => $request->agama,
-        'pekerjaan' => $request->pekerjaan,
+        // 'agama' => $request->agama,
+        // 'pekerjaan' => $request->pekerjaan,
+        'status_kependudukan' => $request->status_kependudukan
     ]);
 
     return redirect('/warga')->with('success', 'Data warga berhasil ditambahkan');
@@ -193,6 +195,7 @@ public function update(Request $request, $id)
             'provinsi' => 'nullable|string|max:255',
             'agama' => 'nullable|string|max:50',
             'pekerjaan' => 'nullable|string|max:100',
+            'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
         ],[
             'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);
@@ -214,6 +217,7 @@ public function update(Request $request, $id)
             'provinsi' => $request->provinsi,
             'agama' => $request->agama,
             'pekerjaan' => $request->pekerjaan,
+            'status_kependudukan' => $request->status_kependudukan
         ]);
 
         return redirect('/warga')->with('success', 'Data warga berhasil diubah');

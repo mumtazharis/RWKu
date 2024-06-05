@@ -162,7 +162,7 @@ public function update(Request $request, $id)
     {
         $request->validate([
         'penghasilan' => 'required|numeric|min:0',
-        'keluarga_ditanggung' => 'required|integer|min:0',
+        'keluarga_ditanggung' => 'required|integer|min:1',
         'pajak_motor' => 'required|numeric|min:0',
         'pajak_mobil' => 'required|numeric|min:0',
         'pajak_bumi_bangunan' => 'required|numeric|min:0',
@@ -176,7 +176,7 @@ public function update(Request $request, $id)
         
         'keluarga_ditanggung.required' => 'Keluarga yang ditanggung wajib diisi.',
         'keluarga_ditanggung.integer' => 'Keluarga yang ditanggung harus berupa angka bulat.',
-        'keluarga_ditanggung.min' => 'Keluarga yang ditanggung tidak boleh kurang dari 0.',
+        'keluarga_ditanggung.min' => 'Keluarga yang ditanggung tidak boleh kurang dari 1.',
         
         'pajak_motor.required' => 'Pajak motor wajib diisi.',
         'pajak_motor.numeric' => 'Pajak motor harus berupa angka.',

@@ -13,7 +13,7 @@
                     <label class="col-2 control-label col-form-label">NIK</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="nik" name="nik"
-                            value="{{ old('nik') }}" required>
+                            value="{{ old('nik') }}">
                         @error('nik')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -23,7 +23,7 @@
                     <label class="col-2 control-label col-form-label">Nama</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="nama" name="nama"
-                            value="{{ old('nama') }}" required>
+                            value="{{ old('nama') }}">
                         @error('nama')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -56,7 +56,7 @@
                     <label class="col-2 control-label col-form-label">Alamat</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="alamat" name="alamat"
-                            value="{{ old('alamat') }}" required>
+                            value="{{ old('alamat') }}">
                         @error('alamat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -93,7 +93,7 @@
                     <label class="col-2 control-label col-form-label">Kelurahan</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="kelurahan_desa" name="kelurahan_desa"
-                            value="{{ old('kelurahan_desa') }}" required>
+                            value="{{ old('kelurahan_desa') }}">
                         @error('kelurahan_desa')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -103,7 +103,7 @@
                     <label class="col-2 control-label col-form-label">Kecamatan</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="kecamatan" name="kecamatan"
-                            value="{{ old('kecamatan') }}" required>
+                            value="{{ old('kecamatan') }}">
                         @error('kecamatan')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -113,7 +113,7 @@
                     <label class="col-2 control-label col-form-label">Kabupaten/Kota</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="kabupaten_kota" name="kabupaten_kota"
-                            value="{{ old('kabupaten_kota') }}" required>
+                            value="{{ old('kabupaten_kota') }}">
                         @error('kabupaten_kota')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -123,8 +123,23 @@
                     <label class="col-2 control-label col-form-label">Provinsi</label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="provinsi" name="provinsi"
-                            value="{{ old('provinsi') }}" required>
+                            value="{{ old('provinsi') }}">
                         @error('provinsi')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 control-label col-form-label">Status Kependudukan</label>
+                    <div class="col-10">
+                        <select class="form-control" id="status_kependudukan" name="status_kependudukan">
+                            <option value="">Pilih Status Kependudukan</option>
+                            <option value="warga">Warga</option>
+                            <option value="meninggal">Meninggal</option>
+                            <option value="pindah">Pindah</option>
+                            <option value="pendatang">Pendatang</option>
+                        </select>
+                        @error('status_kependudukan')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>

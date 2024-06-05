@@ -18,22 +18,7 @@
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Filter:</label>
-                    <div class="col-3">
-                        <select name="kepemilikan_id" id="kepemilikan_id" class="form-control" required>
-                            <option value="">- Semua -</option>
-                            @foreach ($kepemilikan as $item)
-                                <option value="{{ $item->kepemilikan_id }}">{{ $item->kepemilikan_id }}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-text text-muted">Kepemilikan ID</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <table class="table table-bordered table-striped table-hover table-sm" id="table_kepemilikan">
             <thead>
                 <tr>
@@ -59,6 +44,7 @@
         var dataKepemilikan = $('#table_kepemilikan').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 url: "{{ url('kepemilikan/list') }}", // Change url to route()
                 type: "POST",
