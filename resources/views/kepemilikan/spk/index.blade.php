@@ -53,6 +53,7 @@
                 //     d.kegiatan_peserta = $('#kegiatan_peserta').val();
                 // }
             },
+            dom: 't',
             columns: [
                 {
                     data: "DT_RowIndex",
