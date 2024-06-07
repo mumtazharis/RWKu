@@ -21,7 +21,7 @@
                 <div class="col-11">
                     <select class="form-control" id="kegiatan_peserta" name="kegiatan_peserta" required>
                         <option value="">- Pilih Peserta -</option>
-                            <option value="RW" {{ old('kegiatan_peserta', $kegiatan->kegiatan_peserta ?? '') == 'RW' ? 'selected' : '' }}>Satu RW</option>
+                            <option value="RW" {{ old('kegiatan_peserta', $kegiatan->kegiatan_peserta ?? '') == 'RW-5' ? 'selected' : '' }}>Satu RW</option>
                             @foreach($rt as $item)
                                 <option value="{{ $item->kode_rt }}" {{ old('kegiatan_peserta', $kegiatan->kegiatan_peserta ?? '') == $item->kode_rt ? 'selected' : '' }}>{{ $item->kode_rt}}</option>
                             @endforeach
@@ -77,9 +77,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">Iuran</label>
+                <label class="col-1 control-label col-form-label">Total Biaya</label>
                 <div class="col-11">
-                    <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
+                    <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal', $kegiatan->total_biaya) }}" required readonly>
                     @error('nominal')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -109,4 +109,5 @@
         });
     });
 </script>
+
 @endpush

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use App\Http\Controllers\SPKController;
+use App\Http\Controllers\rw\SPKController;
 
 class KepemilikanController extends Controller
 {
@@ -36,7 +38,7 @@ class KepemilikanController extends Controller
         $kepemilikan = KepemilikanModel::all();
 
         // Return the view with data
-        return view('kepemilikan.index', [
+        return view('rw.kepemilikan.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -124,7 +126,7 @@ public function show($id)
     $activeMenu = 'warga'; // Set menu yang aktif
     $activeSubMenu = 'kepemilikan_list';
 
-    return view('kepemilikan.show', [
+    return view('rw.kepemilikan.show', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'kepemilikan' => $kepemilikan,
@@ -150,7 +152,7 @@ public function edit($id)
    $activeMenu = 'warga'; // Set menu yang aktif
    $activeSubMenu = 'kepemilikan_list';
 
-   return view('kepemilikan.edit', [
+   return view('rw.kepemilikan.edit', [
        'breadcrumb' => $breadcrumb,
        'page' => $page,
        'kepemilikan' => $kepemilikan,

@@ -4,7 +4,13 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Halo, apakabar!!!</h3>
+        @if(Auth::user()->level_id == 1)
+        <h3 class="card-title">Halo, RW!!!</h3>
+        @elseif (Auth::user()->level_id == 2)
+        <h3 class="card-title">Halo, RT!!!</h3>
+        @elseif (Auth::user()->level_id == 3)
+        <h3 class="card-title">Halo, Warga!!!</h3>
+        @endif
         <div class="card-tools"></div>
     </div> 
     <div class="card-body">

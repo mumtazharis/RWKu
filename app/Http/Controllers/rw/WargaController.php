@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\RTModel;
+use App\Models\UserModel;
 use App\Models\WargaModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Session;
 
 class WargaController extends Controller
 {
@@ -31,7 +36,7 @@ class WargaController extends Controller
         $warga = WargaModel::all();
         $alamat = RTModel::all();
         // Return the view with data
-        return view('warga.index', [
+        return view('rw.warga.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -74,7 +79,7 @@ public function create()
         $activeMenu = 'warga'; //set menu yang aktif
         $activeSubMenu = 'warga_list';
 
-        return view('warga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
+        return view('rw.warga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
     }
     // Menyimpan data warga baru
     public function store(Request $request)
@@ -96,7 +101,8 @@ public function create()
         'provinsi' => 'nullable|string|max:255',
         'agama' => 'nullable|string|max:50',
         'pekerjaan' => 'nullable|string|max:100',
-        'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
+        'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang',
+        'level' => 'required'
     ], [
         'nomor_kk.exists' => 'Nomor KK belum terdaftar, ubah atau kosongkan form nomor kk.',
     ]);
@@ -121,7 +127,13 @@ public function create()
         'status_kependudukan' => $request->status_kependudukan
     ]);
 
-    return redirect('/warga')->with('success', 'Data warga berhasil ditambahkan');
+    UserModel::create([
+        'level_id' => $request->level,
+        'username' => $request->nik,
+        'password' => Hash::make($request->nik),
+    ]);
+
+    return redirect('/warga')->with('success', 'Data warga baru berhasil ditambahkan');
 }
 // Menampilkan detail warga
 public function show($id)
@@ -142,7 +154,7 @@ public function show($id)
     $activeMenu = 'warga'; // Set menu yang aktif
     $activeSubMenu = 'warga_list';
 
-    return view('warga.show', [
+    return view('rw.warga.show', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'warga' => $warga,
@@ -154,7 +166,7 @@ public function edit($id)
 {
     // Temukan data warga berdasarkan ID
     $warga = WargaModel::find($id);
-
+    $user = UserModel::where('username', $warga->nik)->first();
     // Jika data warga ditemukan, lanjutkan untuk menampilkan halaman detail
     $breadcrumb = (object) [
         'title' => 'Detail Warga',
@@ -168,10 +180,11 @@ public function edit($id)
     $activeMenu = 'warga'; // Set menu yang aktif
     $activeSubMenu = 'warga_list';
 
-    return view('warga.edit', [
+    return view('rw.warga.edit', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'warga' => $warga,
+        'user' => $user,
         'activeSubMenu' => $activeSubMenu,
         'activeMenu' => $activeMenu
     ]);
@@ -195,7 +208,9 @@ public function update(Request $request, $id)
             'provinsi' => 'nullable|string|max:255',
             'agama' => 'nullable|string|max:50',
             'pekerjaan' => 'nullable|string|max:100',
-            'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
+            'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang',
+            'level' => 'required',
+            'reset_password' => 'nullable|boolean',
         ],[
             'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);
@@ -220,6 +235,30 @@ public function update(Request $request, $id)
             'status_kependudukan' => $request->status_kependudukan
         ]);
 
+        // UserModel::where('username', $request->nik)->update([
+        //     'level_id' => $request->level,
+           
+        // ]);
+        // if ($request->has('reset_password') && $request->reset_password) {
+        //     UserModel::where('username', $request->nik)->update([
+        //         'password' =>  Hash::make($request->nik),
+        //     ]);
+        // }
+
+        $user = UserModel::where('username', $request->nik)->first();
+
+        if ($user) {
+            $user->update([
+                'level_id' => $request->level,
+            ]);
+        
+            if ($request->has('reset_password') && $request->reset_password) {
+                $user->update([
+                    'password' => Hash::make($request->nik),
+                ]);
+            }
+
+        }
         return redirect('/warga')->with('success', 'Data warga berhasil diubah');
     }
 

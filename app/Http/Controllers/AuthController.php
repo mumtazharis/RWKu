@@ -1,14 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UserModel;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -16,13 +11,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         if($user){
-            if($user->level_id == '1'){
-                return redirect()->intended('');
-            } elseif($user->level_id == '2'){
-                return redirect()->intended('');
-            } elseif($user->level_id == '3'){
-                return redirect()->intended('');
-            }
+            return $this->redirectBasedOnRole($user->level_id);
         }
         return view('login');
     }
@@ -33,20 +22,11 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        $credential = $request->only('username', 'password');
-      //  dd($credential);
-        if(Auth::attempt($credential)){
+        $credentials = $request->only('username', 'password');
+
+        if(Auth::attempt($credentials)){
             $user = Auth::user();
-
-            if($user->level_id == '1'){
-                return redirect()->intended('');
-            } else if($user->level_id == '2'){
-                return redirect()->intended('');
-            } else if($user->level_id == '3'){
-                return redirect()->intended('');
-            }
-
-            return redirect()->intended('/');
+            return $this->redirectBasedOnRole($user->level_id);
         }
 
         return redirect('login')
@@ -54,37 +34,23 @@ class AuthController extends Controller
             ->withErrors(['login_gagal' => 'Pastikan kembali username dan password yang dimasukkan sudah benar']);
     }
 
-    // public function register(){
-    //     return view('register');
-    // }
-
-    // public function proses_register(Request $request){
-    //     $validator = Validator::make($request->all(), [
-    //         'nama' => 'required',
-    //         'username' => 'required|unique:m_user',
-    //         'password' => 'required'
-    //     ]);
-
-    //     if($validator->fails()){
-    //         return redirect('/register')
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-
-    //     $request['level_id'] = '2';
-    //     $request['password'] = Hash::make($request->password);
-
-    //     UserModel::create($request->all());
-
-    //     return redirect()->route('login');
-    // }
-
     public function logout(Request $request)
     {
-        $request->session()->flush();
         Auth::logout();
         return Redirect('login');
     }
 
-
+    private function redirectBasedOnRole($level_id)
+    {
+        switch ($level_id) {
+            case '1':
+                return redirect()->route('home'); // Redirect ke rute home untuk level 1
+            case '2':
+                return redirect()->route('home'); // Redirect ke rute home untuk level 2
+            case '3':
+                return redirect()->route('home'); // Redirect ke rute home untuk level 3
+            default:
+                return redirect('/'); // Redirect default jika level_id tidak diketahui
+        }
+    }
 }

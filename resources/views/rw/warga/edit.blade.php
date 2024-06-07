@@ -211,6 +211,30 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-2 control-label col-form-label">Jabatan</label>
+                        <div class="col-10">
+                            <select class="form-control" id="level" name="level">
+                                <option value="">Pilih Status Kependudukan</option>
+                                <option value="1" {{ (old('level', $user->level_id)) == '1' ? 'selected' : '' }}>RW</option>
+                                <option value="2" {{ (old('level', $user->level_id)) == '2' ? 'selected' : '' }}>RT</option>
+                                <option value="3" {{ (old('level', $user->level_id)) == '3' ? 'selected' : '' }}>Warga</option>
+                            </select>
+                            @error('level')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 control-label col-form-label">Reset Password</label>
+                        <div class="col-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="reset_password" name="reset_password" {{ old('reset_password') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="reset_password">Reset Password ke Nilai Default</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
                         <label class="col-2 control-label col-form-label"></label>
                         <div class="col-10">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>

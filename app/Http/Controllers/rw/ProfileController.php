@@ -1,5 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use Illuminate\Http\Request;
 use App\Models\WargaModel;
@@ -28,7 +30,7 @@ class ProfileController extends Controller
             return redirect()->route('error.page')->with('error', 'Data yang Anda cari tidak ditemukan.');
         }
 
-        return view('profile.show', [
+        return view('rw.profile.show', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'user' => $user,

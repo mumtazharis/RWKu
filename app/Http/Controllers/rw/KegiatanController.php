@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\KegiatanModel;
+use App\Models\KeluargaModel;
 use App\Models\RTModel;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,7 +26,7 @@ class KegiatanController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
 
-        return view('kegiatan.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
+        return view('rw.kegiatan.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
     }
 
     
@@ -64,7 +66,7 @@ class KegiatanController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
 
-        return view('kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'rt' => $rt,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'rt' => $rt,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function store(Request $request){
@@ -77,7 +79,9 @@ class KegiatanController extends Controller
             'kegiatan_tanggal' => 'required|date|after_or_equal:today',
             'kegiatan_waktu' => 'required|date_format:H:i',
             'kegiatan_deskripsi' => 'required|string',
-            'nominal' => 'required|numeric|min:0',
+            'nominal' => 'required|integer|min:0',
+        ], [
+            'nominal.integer' => 'Input harus berupa bilangan bulat.',
         ]);
 
         if ($request->hasFile('kegiatan_foto')) {
@@ -100,6 +104,49 @@ class KegiatanController extends Controller
         // // Ubah data menjadi query string
         // $queryString = http_build_query($data);
 
+ 
+        $keluarga = KeluargaModel::all();
+        
+
+        $kelasAtasCount = 0;
+        $kelasMenengahCount = 0;
+        $kelasBawahCount = 0;
+        
+        // Hitung jumlah keluarga dalam setiap kelas ekonomi dan total iuran
+        $totalIuran = $request->nominal;
+        foreach ($keluarga as $keluarga) {
+            $kelasEkonomi = $keluarga->kelas_ekonomi;
+            // Tambahkan jumlah keluarga dalam kelas ekonomi
+            if ($kelasEkonomi === 'atas') {
+                $kelasAtasCount++;
+            } elseif ($kelasEkonomi === 'menengah') {
+                $kelasMenengahCount++;
+            } elseif ($kelasEkonomi === 'bawah') {
+                $kelasBawahCount++;
+            }
+        }
+        
+        // Hitung besaran iuran untuk setiap kelas ekonomi
+        if ($kelasAtasCount > 0) {
+            $besaranIuranAtas = ($totalIuran * 0.5) / $kelasAtasCount;
+        } else {
+            $besaranIuranAtas = 0;
+        }
+        
+        if ($kelasMenengahCount > 0) {
+            $besaranIuranMenengah = ($totalIuran * 0.3) / $kelasMenengahCount;
+        } else {
+            $besaranIuranMenengah = 0;
+        }
+        
+        if ($kelasBawahCount > 0) {
+            $besaranIuranBawah = ($totalIuran * 0.2) / $kelasBawahCount;
+        } else {
+            $besaranIuranBawah = 0;
+        }
+        
+     //   dd($keluarga);
+        
         KegiatanModel::create([
             'kegiatan_peserta' => $request->kegiatan_peserta,
             'kegiatan_nama' => $request->kegiatan_nama,
@@ -108,6 +155,7 @@ class KegiatanController extends Controller
             'kegiatan_waktu' => $request->kegiatan_waktu,
             'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
             'foto' => $path,
+          //  'total_biaya' => $request->nominal,
         ]);
 
         return redirect('/kegiatan')->with('success', 'Data kegiatan berhasil disimpan');
@@ -127,7 +175,7 @@ class KegiatanController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
-        return view('kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
@@ -147,7 +195,7 @@ class KegiatanController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
-        return view('kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'rt'=>$rt, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'rt'=>$rt, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 

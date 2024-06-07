@@ -35,8 +35,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Peserta</th>
                     <th>Nama Kegiatan</th>
+                    <th>Peserta</th>
                     <th>Deskripsi</th>
                     <th>Lokasi</th>
                     <th>Tanggal</th>
@@ -71,14 +71,15 @@
                     orderable: false,
                     searchable: false
                 },
+           
                 {
-                    data: "kegiatan_peserta",
+                    data: "kegiatan_nama",
                     className: "",
                     orderable: true,
                     searchable: true 
                 },
                 {
-                    data: "kegiatan_nama",
+                    data: "kegiatan_peserta",
                     className: "",
                     orderable: true,
                     searchable: true 
