@@ -61,6 +61,10 @@
         <th>Deskripsi</th>
         <td>{{ $kegiatan->kegiatan_deskripsi }}</td>
     </tr>
+    <tr>
+        <th>Total Biaya</th>
+        <td>{{'Rp'. $kegiatan->total_biaya }}</td>
+    </tr>
 </table>
 @endempty
 <a href="{{ url('kegiatan') }}" class="btn btn-sm btn-default mt2">Kembali</a>

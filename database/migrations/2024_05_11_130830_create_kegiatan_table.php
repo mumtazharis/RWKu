@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('kegiatan_waktu');
             $table->string('kegiatan_peserta', 6);
             $table->text('foto');
+            $table->integer('total_biaya');
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
 use App\Models\DokumentasiModel;
 use App\Models\KegiatanModel;
 use App\Models\RTModel;
@@ -25,7 +25,7 @@ class DokumentasiController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'dokumentasi_list';
 
-        return view('dokumentasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
+        return view('rw.dokumentasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
     }
 
     public function list(Request $request){
@@ -64,7 +64,7 @@ class DokumentasiController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'dokumentasi_list';
 
-        return view('dokumentasi.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'kegiatan' => $kegiatan ,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.dokumentasi.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'kegiatan' => $kegiatan ,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function store(Request $request){
@@ -115,7 +115,7 @@ class DokumentasiController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'dokumentasi_list';
-        return view('dokumentasi.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'dokumentasi' => $dokumentasi,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.dokumentasi.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'dokumentasi' => $dokumentasi,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function update(Request $request, $id)
@@ -166,7 +166,7 @@ class DokumentasiController extends Controller
          
         }
 
-        return redirect('dokumentasi')->with('success', 'Data berhasil diperbarui!');
+        return redirect('/dokumentasi')->with('success', 'Data berhasil diperbarui!');
     }
     
 }

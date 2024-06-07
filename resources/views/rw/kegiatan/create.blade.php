@@ -25,7 +25,7 @@
                         <option value="">- Pilih Peserta -</option>
                             <option value="RW-5">Satu RW</option>
                             @foreach($rt as $item)
-                                <option value="{{ $item->rt_id }}">{{ $item->kode_rt}}</option>
+                                <option value="{{ $item->kode_rt }}">{{ $item->kode_rt}}</option>
                             @endforeach
                     </select>
                     @error('level_id')
@@ -87,7 +87,6 @@
                     @enderror
                 </div>
             </div>
-            
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label"></label>
                 <div class="col-11">

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 use App\Models\KeuanganModel;
 use App\Models\WargaModel;
 use Illuminate\Http\Request;
@@ -30,7 +32,7 @@ class KeuanganController extends Controller
         $keuangan = KeuanganModel::all();
 
         // Return the view with data
-        return view('keuangan.index', [
+        return view('rw.keuangan.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -58,7 +60,7 @@ class KeuanganController extends Controller
             ->make(true);
     }
 
-    return view('keuangan.index');
+    return view('rw.keuangan.index');
 }
 
 public function create()
@@ -79,7 +81,7 @@ public function create()
     $activeMenu = 'keuangan'; // Set menu yang aktif
     $activeSubMenu = 'keuangan_list';
 
-    return view('keuangan.create', [
+    return view('rw.keuangan.create', [
         'breadcrumb' => $breadcrumb,
         'page' => $page,
         'activeMenu' => $activeMenu,

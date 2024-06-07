@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +28,7 @@ class KeluargakuController extends Controller
         $activeSubMenu = 'warga_list';
 
         // Return the view with data
-        return view('keluargaku.index', [
+        return view('rw.keluargaku.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,

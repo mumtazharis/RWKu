@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
@@ -22,7 +24,7 @@ class SPKController extends Controller
         $activeMenu = 'warga';
         $activeSubMenu = 'kepemilikan_list';
 
-        return view('kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kepemilikan.spk.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
 
     }
 
@@ -68,7 +70,7 @@ class SPKController extends Controller
         $matriksQ = $result['matriksQ'];
         $matriksS = $result['matriksS'];
 
-        return view('kepemilikan.spk.mabac', [
+        return view('rw.kepemilikan.spk.mabac', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'dataSPK' => $dataSPK,
@@ -113,7 +115,7 @@ class SPKController extends Controller
         $matriksDNegatif = $result['matriksDNegatif'];
         $matriksS = $result['matriksS'];
 
-        return view('kepemilikan.spk.topsis', [
+        return view('rw.kepemilikan.spk.topsis', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'dataSPK' => $dataSPK,

@@ -144,6 +144,20 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-2 control-label col-form-label">Jabatan</label>
+                    <div class="col-10">
+                        <select class="form-control" id="level" name="level">
+                            <option value="">Pilih Jabatan</option>
+                            <option value="1">RW</option>
+                            <option value="2">RT</option>
+                            <option value="3">Warga</option>
+                        </select>
+                        @error('level')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
                 <!-- Add other fields based on your requirements -->
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label"></label>

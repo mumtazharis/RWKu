@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\rw;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
@@ -10,7 +12,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\CheckNomorKKNull;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\SPKController;
+use App\Http\Controllers\rw\SPKController;
 
 class KeluargaController extends Controller
 {
@@ -42,7 +44,7 @@ class KeluargaController extends Controller
         $alamat = RTModel::all();
 
         // Return the view with data
-        return view('keluarga.index', [
+        return view('rw.keluarga.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -86,7 +88,7 @@ class KeluargaController extends Controller
         $wargas = WargaModel::all(); 
         $alamatKks = RTModel::all();
 
-        return view('keluarga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu,'warga' => $wargas, 'alamatkk' => $alamatKks, 'activeSubMenu' => $activeSubMenu,]);
+        return view('rw.keluarga.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu,'warga' => $wargas, 'alamatkk' => $alamatKks, 'activeSubMenu' => $activeSubMenu,]);
     }
     public function store(Request $request)
     {
@@ -223,7 +225,7 @@ class KeluargaController extends Controller
 
         $activeMenu = 'warga';
         $activeSubMenu = 'keluarga';
-        return view('keluarga.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'keluarga' => $keluarga,'warga'=> $warga, 'alamat' => $alamat, 'kepemilikan' => $kepemilikan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.keluarga.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'keluarga' => $keluarga,'warga'=> $warga, 'alamat' => $alamat, 'kepemilikan' => $kepemilikan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
     public function edit($id)
     {
@@ -247,7 +249,7 @@ class KeluargaController extends Controller
         $activeMenu = 'warga'; 
         $activeSubMenu = 'keluarga_list';
     
-        return view('keluarga.edit', [
+        return view('rw.keluarga.edit', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'keluarga' => $keluarga,

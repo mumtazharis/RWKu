@@ -19,7 +19,7 @@
                     <p>Dashboard</p>
                 </a>
             </li>
-           
+            @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 )
             <li class="nav-item has-treeview {{ ($activeMenu == 'warga')? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ ($activeSubMenu == 'warga')? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
@@ -49,6 +49,8 @@
                     </li>
                 </ul>
             </li>
+            @endif
+            @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 || Auth::user()->level_id == 3 )
             <li class="nav-item has-treeview {{ ($activeMenu == 'kegiatan')? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ ($activeSubMenu == 'kegiatan')? 'active' : '' }}">
                     <i class="nav-icon fas fa-list-alt"></i>
@@ -70,26 +72,26 @@
                             <p>Dokumentasi Kegiatan</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url('/peserta') }}" class="nav-link {{ ($activeSubMenu == 'peserta_list')? 'active' : '' }}">
-                            <i class="far nav-icon"></i>
-                            <p>Daftar Pesrta Kegiatan</p>
-                        </a>
-                    </li>
                 </ul>
             </li>
+            @endif
+            @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 || Auth::user()->level_id == 3 )
             <li class="nav-item">
                 <a href="{{ url('/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>Data Keuangan</p>
                 </a>
             </li>
+            @endif
+            @if(Auth::user()->level_id == 1)
             <li class="nav-item">
                 <a href="{{ url('/permintaan') }}" class="nav-link {{ ($activeMenu == 'permintaan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Permintaan</p>
                 </a>
             </li>
+            @endif
+            @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 || Auth::user()->level_id == 3 )
             <li class="nav-item">
                 <a href="{{ url('/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-users"></i>
@@ -108,6 +110,7 @@
                     <p>Keluar</p>
                 </a>
             </li>
+            @endif
         </ul>
     </nav>
   </div>
