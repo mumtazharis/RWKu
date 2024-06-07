@@ -6,9 +6,15 @@ use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Controllers\SPKController;
 
 class KepemilikanController extends Controller
 {
+    private $spkController;
+    public function __construct(SPKController $spkController)
+    {
+        $this->spkController = $spkController;
+    }
     public function index()
     {
         // Set the breadcrumb data
@@ -56,50 +62,50 @@ class KepemilikanController extends Controller
         ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
         ->make(true);
 }
-public function create()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Tambah Kepemilikan',
-            'list' => ['Home', 'Kepemilikan', 'Tambah']
-        ];
+// public function create()
+//     {
+//         $breadcrumb = (object) [
+//             'title' => 'Tambah Kepemilikan',
+//             'list' => ['Home', 'Kepemilikan', 'Tambah']
+//         ];
 
-        $page = (object) [
-            'title' => 'Tambah Kepemilikan Baru'
-        ];
+//         $page = (object) [
+//             'title' => 'Tambah Kepemilikan Baru'
+//         ];
 
-        $activeMenu = 'kepemilikan'; //set menu yang aktif
-        $activeSubMenu = 'kepemilikan_list';
+//         $activeMenu = 'kepemilikan'; //set menu yang aktif
+//         $activeSubMenu = 'kepemilikan_list';
 
-        return view('kepemilikan.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
-    }
-    public function store(Request $request)
-{
-    $request->validate([
-        'kepemilikan_id' => 'required|integer',
-        'penghasilan' => 'required|numeric',
-        'keluarga_ditanggung' => 'required|integer',
-        'pajak_motor' => 'nullable|numeric',
-        'pajak_mobil' => 'nullable|numeric',
-        'pajak_bumi_bangunan' => 'nullable|numeric',
-        'tagihan_air' => 'nullable|numeric',
-        'tagihan_listrik' => 'nullable|numeric',
-        'hutang' => 'nullable|numeric',
-    ]);
+//         return view('kepemilikan.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
+//     }
+//     public function store(Request $request)
+// {
+//     $request->validate([
+//         'kepemilikan_id' => 'required|integer',
+//         'penghasilan' => 'required|numeric',
+//         'keluarga_ditanggung' => 'required|integer',
+//         'pajak_motor' => 'nullable|numeric',
+//         'pajak_mobil' => 'nullable|numeric',
+//         'pajak_bumi_bangunan' => 'nullable|numeric',
+//         'tagihan_air' => 'nullable|numeric',
+//         'tagihan_listrik' => 'nullable|numeric',
+//         'hutang' => 'nullable|numeric',
+//     ]);
 
-   KepemilikanModel::create([
-        'kepemilikan_id' => $request->kepemilikan_id,
-        'penghasilan' => $request->penghasilan,
-        'keluarga_ditanggung' => $request->keluarga_ditanggung,
-        'pajak_motor' => $request->pajak_motor,
-        'pajak_mobil' => $request->pajak_mobil,
-        'pajak_bumi_bangunan' => $request->pajak_bumi_bangunan,
-        'tagihan_air ' => $request->tagihan_air,
-        'tagihan_listrik' => $request->tagihan_listrik,
-        'hutang' => $request->hutang,
-    ]);
+//    KepemilikanModel::create([
+//         'kepemilikan_id' => $request->kepemilikan_id,
+//         'penghasilan' => $request->penghasilan,
+//         'keluarga_ditanggung' => $request->keluarga_ditanggung,
+//         'pajak_motor' => $request->pajak_motor,
+//         'pajak_mobil' => $request->pajak_mobil,
+//         'pajak_bumi_bangunan' => $request->pajak_bumi_bangunan,
+//         'tagihan_air ' => $request->tagihan_air,
+//         'tagihan_listrik' => $request->tagihan_listrik,
+//         'hutang' => $request->hutang,
+//     ]);
 
-    return redirect('/kepemilikan')->with('success', 'Data kepemilikan berhasil ditambahkan');
-}
+//     return redirect('/kepemilikan')->with('success', 'Data kepemilikan berhasil ditambahkan');
+// }
 public function show($id)
 {
     // Temukan data kepmilikan berdasarkan ID
@@ -141,7 +147,7 @@ public function edit($id)
        'title' => 'Detail Kepemilikan'
    ];
 
-   $activeMenu = 'kepemilikan'; // Set menu yang aktif
+   $activeMenu = 'warga'; // Set menu yang aktif
    $activeSubMenu = 'kepemilikan_list';
 
    return view('kepemilikan.edit', [
@@ -155,19 +161,49 @@ public function edit($id)
 public function update(Request $request, $id)
     {
         $request->validate([
-        'kepemilikan_id' => 'required|integer',
-        'penghasilan' => 'required|numeric',
-        'keluarga_ditanggung' => 'required|integer',
-        'pajak_motor' => 'nullable|numeric',
-        'pajak_mobil' => 'nullable|numeric',
-        'pajak_bumi_bangunan' => 'nullable|numeric',
-        'tagihan_air' => 'nullable|numeric',
-        'tagihan_listrik' => 'nullable|numeric',
-        'hutang' => 'nullable|numeric',
+        'penghasilan' => 'required|numeric|min:0',
+        'keluarga_ditanggung' => 'required|integer|min:1',
+        'pajak_motor' => 'required|numeric|min:0',
+        'pajak_mobil' => 'required|numeric|min:0',
+        'pajak_bumi_bangunan' => 'required|numeric|min:0',
+        'tagihan_air' => 'required|numeric|min:0',
+        'tagihan_listrik' => 'required|numeric|min:0',
+        'hutang' => 'required|numeric|min:0',
+    ], [
+        'penghasilan.required' => 'Penghasilan wajib diisi.',
+        'penghasilan.numeric' => 'Penghasilan harus berupa angka.',
+        'penghasilan.min' => 'Penghasilan tidak boleh kurang dari 0.',
+        
+        'keluarga_ditanggung.required' => 'Keluarga yang ditanggung wajib diisi.',
+        'keluarga_ditanggung.integer' => 'Keluarga yang ditanggung harus berupa angka bulat.',
+        'keluarga_ditanggung.min' => 'Keluarga yang ditanggung tidak boleh kurang dari 1.',
+        
+        'pajak_motor.required' => 'Pajak motor wajib diisi.',
+        'pajak_motor.numeric' => 'Pajak motor harus berupa angka.',
+        'pajak_motor.min' => 'Pajak motor tidak boleh kurang dari 0.',
+        
+        'pajak_mobil.required' => 'Pajak mobil wajib diisi.',
+        'pajak_mobil.numeric' => 'Pajak mobil harus berupa angka.',
+        'pajak_mobil.min' => 'Pajak mobil tidak boleh kurang dari 0.',
+        
+        'pajak_bumi_bangunan.required' => 'Pajak bumi dan bangunan wajib diisi.',
+        'pajak_bumi_bangunan.numeric' => 'Pajak bumi dan bangunan harus berupa angka.',
+        'pajak_bumi_bangunan.min' => 'Pajak bumi dan bangunan tidak boleh kurang dari 0.',
+        
+        'tagihan_air.required' => 'Tagihan air wajib diisi.',
+        'tagihan_air.numeric' => 'Tagihan air harus berupa angka.',
+        'tagihan_air.min' => 'Tagihan air tidak boleh kurang dari 0.',
+        
+        'tagihan_listrik.required' => 'Tagihan listrik wajib diisi.',
+        'tagihan_listrik.numeric' => 'Tagihan listrik harus berupa angka.',
+        'tagihan_listrik.min' => 'Tagihan listrik tidak boleh kurang dari 0.',
+        
+        'hutang.required' => 'Hutang wajib diisi.',
+        'hutang.numeric' => 'Hutang harus berupa angka.',
+        'hutang.min' => 'Hutang tidak boleh kurang dari 0.',
     ]);
 
     KepemilikanModel::find($id)->update([
-        'kepemilikan_id' => $request->kepemilikan_id,
         'penghasilan' => $request->penghasilan,
         'keluarga_ditanggung' => $request->keluarga_ditanggung,
         'pajak_motor' => $request->pajak_motor,
@@ -177,7 +213,7 @@ public function update(Request $request, $id)
         'tagihan_listrik' => $request->tagihan_listrik,
         'hutang' => $request->hutang,
     ]);
-
+    $this->spkController->runSPK();
     return redirect('/kepemilikan')->with('success', 'Data kepemilikan berhasil diubah');
 }
 

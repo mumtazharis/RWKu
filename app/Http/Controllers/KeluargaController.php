@@ -10,11 +10,19 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Rules\CheckNomorKKNull;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\SPKController;
 
 class KeluargaController extends Controller
 {
+    private $spkController;
+    public function __construct(SPKController $spkController)
+    {
+        $this->spkController = $spkController;
+    }
+
     public function index()
     {
+        $this->spkController->runSPK();
         // Set the breadcrumb data
         $breadcrumb = (object) [
             'title' => 'Daftar Keluarga',
@@ -103,7 +111,7 @@ class KeluargaController extends Controller
             ],
 
             'penghasilan' => 'required|numeric|min:0',
-            'keluarga_ditanggung' => 'required|integer|min:0',
+            'keluarga_ditanggung' => 'required|integer|min:1',
             'pajak_motor' => 'required|numeric|min:0',
             'pajak_mobil' => 'required|numeric|min:0',
             'pajak_bumi_bangunan' => 'required|numeric|min:0',
@@ -135,7 +143,7 @@ class KeluargaController extends Controller
             
             'keluarga_ditanggung.required' => 'Keluarga yang ditanggung wajib diisi.',
             'keluarga_ditanggung.integer' => 'Keluarga yang ditanggung harus berupa angka bulat.',
-            'keluarga_ditanggung.min' => 'Keluarga yang ditanggung tidak boleh kurang dari 0.',
+            'keluarga_ditanggung.min' => 'Keluarga yang ditanggung tidak boleh kurang dari 1.',
             
             'pajak_motor.required' => 'Pajak motor wajib diisi.',
             'pajak_motor.numeric' => 'Pajak motor harus berupa angka.',
@@ -194,7 +202,7 @@ class KeluargaController extends Controller
         }
         
 
-
+        $this->spkController->runSPK();
         return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
     }
 

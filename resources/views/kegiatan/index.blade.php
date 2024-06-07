@@ -55,6 +55,7 @@
     $(document).ready(function() {
         var dataKegiatan = $('#table_kegiatan').DataTable({
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 "url": "{{ url('kegiatan/list') }}",
                 "dataType": "json",

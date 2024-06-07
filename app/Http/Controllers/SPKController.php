@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KeluargaModel;
 use App\Models\KepemilikanModel;
 use App\Models\SPKModel;
 use Illuminate\Http\Request;
@@ -10,8 +11,6 @@ use Yajra\DataTables\Facades\DataTables;
 class SPKController extends Controller
 {
     public function index(){
-        $this->topsis();
-        $this->mabac();
         $breadcrumb = (object)[
             'title' => 'Data SPK',
             'list' => ['']
@@ -28,10 +27,6 @@ class SPKController extends Controller
     }
 
     public function list(Request $request){
-        $hasilMabac = $this->topsis();
-        $hasilTopsis = $this->mabac();
-        $matriksSMabac = $hasilMabac['matriksS'];
-        $matriksSTopsis = $hasilTopsis['matriksS'];
 
         $dataSPK = SPKModel::select('spk_id','nomor_kk', 'skor_mabac','peringkat_mabac', 'skor_topsis','peringkat_topsis')
         ->join('kepemilikan', 'spk.kepemilikan_id', '=', 'kepemilikan.kepemilikan_id');
@@ -39,6 +34,11 @@ class SPKController extends Controller
         return DataTables::of($dataSPK)
             ->addIndexColumn()
             ->make(true);
+    }
+
+    public function runSPK(){
+        $this->topsis();
+        $this->mabac();
     }
 
     public function showMabac(){
@@ -256,22 +256,60 @@ class SPKController extends Controller
         
    
         $matriksData = [];
-
+        $matriksKelas = [];
         foreach ($matriksS as $index => $row) {
             $matriksData[] = [
                 'kepemilikan_id' => $row['kepemilikan_id'],
                 'skor_mabac' => $row['nilai'],
                 'peringkat_mabac' => $row['ranking']
             ];
+            $matriksKelas[] = [
+                'nomor_kk' => $row['nomor_kk'],
+                'kelas_ekonomi' => ''
+            ];
         
         }
+
+        usort($matriksData, function ($a, $b) {
+            return $a['peringkat_mabac'] <=> $b['peringkat_mabac'];
+        });
+        
+        // Tentukan batas kelas
+        $total = count($matriksData);
+        $top30 = floor($total * 0.3);
+        $middle60 = round($total * 0.6);
+        
+        // Tambahkan kelas berdasarkan peringkat
+        foreach ($matriksData as $index => $data) {
+            if ($index < $top30) {
+                $kelas = 'atas';
+            } elseif ($index < $middle60) {
+                $kelas = 'menengah';
+            } else {
+                $kelas = 'bawah';
+            }
+        
+            // Cari elemen dengan 'kepemilikan_id' yang sama di $matriksKelas dan tambahkan 'kelas'
+            foreach ($matriksS as $originalIndex => $originalRow) {
+                if ($originalRow['kepemilikan_id'] == $data['kepemilikan_id']) {
+                    $matriksKelas[$originalIndex]['kelas_ekonomi'] = $kelas;
+                    break;
+                }
+            }
+        }
+        unset($data);
+
+        // dd(compact('top30','middle60','matriksData', 'matriksKelas', 'matriksS'));
         $uniqueBy = ['kepemilikan_id'];
 
         // Kolom yang akan di-update jika record sudah ada
-        $updateColumns = ['skor_mabac','peringkat_mabac'];
+        $updateColumnsSPK = ['skor_mabac','peringkat_mabac'];
         
-        SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
+        SPKModel::upsert($matriksData, $uniqueBy, $updateColumnsSPK);
+        $uniqueBy = ['nomor_kk'];
+        $updateColumnsKeluarga = ['kelas_ekonomi'];
 
+        KeluargaModel::upsert($matriksKelas, $uniqueBy, $updateColumnsKeluarga);
         return [
             'dataSPK' => $dataSPK,
             'bobot' => $bobot,
@@ -405,9 +443,9 @@ class SPKController extends Controller
             $uniqueBy = ['kepemilikan_id'];
     
             // Kolom yang akan di-update jika record sudah ada
-            $updateColumns = ['skor_topsis','peringkat_topsis'];
+            $updateColumnsSPK = ['skor_topsis','peringkat_topsis'];
             
-            SPKModel::upsert($matriksData, $uniqueBy, $updateColumns);
+            SPKModel::upsert($matriksData, $uniqueBy, $updateColumnsSPK);
     
             return [
                 'dataSPK' => $dataSPK,

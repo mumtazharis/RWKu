@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RTModel;
 use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,14 +29,15 @@ class WargaController extends Controller
 
         // Fetch warga data
         $warga = WargaModel::all();
-
+        $alamat = RTModel::all();
         // Return the view with data
         return view('warga.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
             'activeSubMenu' => $activeSubMenu,
-            'warga' => $warga
+            'warga' => $warga,
+            'alamat' => $alamat
         ]);
     }
 // Ambil data level dalam bentuk json untuk datatables
@@ -43,7 +45,10 @@ public function list(Request $request)
 {
     // Select specific columns from the DataWargaModel
     $dataWarga = WargaModel::select('nik', 'nomor_kk', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'alamat', 'rt', 'rw', 'kelurahan_desa', 'kecamatan', 'kabupaten_kota', 'provinsi', 'agama', 'pekerjaan','status_kependudukan');
-
+    
+    if ($request->rt){
+        $dataWarga->where('rt', $request->rt);
+    }
     // Return data in DataTables format
     return DataTables::of($dataWarga)
         ->addIndexColumn() // Add index column (DT_RowIndex)
@@ -80,17 +85,18 @@ public function create()
         'nama' => 'required|string|max:255',
         'tempat_lahir' => 'nullable|string|max:255',
         'tanggal_lahir' => 'nullable|date',
-        'jenis_kelamin' => 'nullable|string|in:Laki-laki,Perempuan',
+        'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
         'golongan_darah' => 'nullable|string|max:2',
-        'alamat' => 'nullable|string|max:255',
-        'rt' => 'nullable|string|max:3',
-        'rw' => 'nullable|string|max:3',
+        'alamat' => 'required|string|max:255',
+        'rt' => 'required|string|max:3',
+        'rw' => 'required|string|max:3',
         'kelurahan_desa' => 'nullable|string|max:255',
         'kecamatan' => 'nullable|string|max:255',
         'kabupaten_kota' => 'nullable|string|max:255',
         'provinsi' => 'nullable|string|max:255',
         'agama' => 'nullable|string|max:50',
         'pekerjaan' => 'nullable|string|max:100',
+        'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
     ], [
         'nomor_kk.exists' => 'Nomor KK belum terdaftar, ubah atau kosongkan form nomor kk.',
     ]);
@@ -99,10 +105,10 @@ public function create()
         'nik' => $request->nik,
         'nomor_kk' => $request->nomor_kk,
         'nama' => $request->nama,
-        'tempat_lahir' => $request->tempat_lahir,
-        'tanggal_lahir' => $request->tanggal_lahir,
+        // 'tempat_lahir' => $request->tempat_lahir,
+        // 'tanggal_lahir' => $request->tanggal_lahir,
         'jenis_kelamin' => $request->jenis_kelamin,
-        'golongan_darah' => $request->golongan_darah,
+        // 'golongan_darah' => $request->golongan_darah,
         'alamat' => $request->alamat,
         'rt' => $request->rt,
         'rw' => $request->rw,
@@ -110,8 +116,9 @@ public function create()
         'kecamatan' => $request->kecamatan,
         'kabupaten_kota' => $request->kabupaten_kota,
         'provinsi' => $request->provinsi,
-        'agama' => $request->agama,
-        'pekerjaan' => $request->pekerjaan,
+        // 'agama' => $request->agama,
+        // 'pekerjaan' => $request->pekerjaan,
+        'status_kependudukan' => $request->status_kependudukan
     ]);
 
     return redirect('/warga')->with('success', 'Data warga berhasil ditambahkan');
@@ -188,6 +195,7 @@ public function update(Request $request, $id)
             'provinsi' => 'nullable|string|max:255',
             'agama' => 'nullable|string|max:50',
             'pekerjaan' => 'nullable|string|max:100',
+            'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang'
         ],[
             'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);
@@ -209,6 +217,7 @@ public function update(Request $request, $id)
             'provinsi' => $request->provinsi,
             'agama' => $request->agama,
             'pekerjaan' => $request->pekerjaan,
+            'status_kependudukan' => $request->status_kependudukan
         ]);
 
         return redirect('/warga')->with('success', 'Data warga berhasil diubah');

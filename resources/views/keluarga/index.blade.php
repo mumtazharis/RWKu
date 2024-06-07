@@ -57,6 +57,7 @@
         var dataKeluarga = $('#table_keluarga').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 url: "{{ url('keluarga/list') }}", // Change url to route()
                 type: "POST",

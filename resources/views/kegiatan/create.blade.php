@@ -6,8 +6,18 @@
         <div class="card-tools"></div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ url('kegiatan') }}" class="form-horizontal">
+        <form method="POST" action="{{ url('kegiatan') }}" class="form-horizontal" enctype="multipart/form-data">
         @csrf
+            <div class="form-group row">
+                <label class="col-1 control-label col-form-label">Foto</label>
+                <div class="col-11">
+                    <input type="file" class="form-control" id="kegiatan_foto" name="kegiatan_foto" accept="image/*" onchange="previewImage(event)">
+                    <img id="preview" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
+                    @error('kegiatan_foto')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Peserta</label>
                 <div class="col-11">
@@ -15,7 +25,7 @@
                         <option value="">- Pilih Peserta -</option>
                             <option value="RW">Satu RW</option>
                             @foreach($rt as $item)
-                                <option value="{{ $item->kode_rt }}">{{ $item->kode_rt}}</option>
+                                <option value="{{ $item->rt_id }}">{{ $item->kode_rt}}</option>
                             @endforeach
                     </select>
                     @error('level_id')
@@ -69,7 +79,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-1 control-label col-form-label">Iuran</label>
+                <label class="col-1 control-label col-form-label">Perkiraan Biaya</label>
                 <div class="col-11">
                     <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
                     @error('nominal')
@@ -101,5 +111,16 @@
         });
     });
 </script>
-
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById('preview');
+            img.src = reader.result;
+            img.style.display = 'block'; // Menampilkan preview setelah file dipilih
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+    </script>
 @endpush

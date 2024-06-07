@@ -44,6 +44,7 @@
     $(document).ready(function() {
         var dataSPK = $('#table_spk').DataTable({
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 "url": "{{ url('spk/list') }}",
                 "dataType": "json",

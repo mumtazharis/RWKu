@@ -113,10 +113,10 @@
                         <div class="col-10">
                             <select class="form-control" id="rt" name="rt">
                                 <option value="">Pilih RT</option>
-                                <option value="RT1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
-                                <option value="RT2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
-                                <option value="RT3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
-                                <option value="RT4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
+                                <option value="1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
+                                <option value="2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
+                                <option value="3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
+                                <option value="4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -128,7 +128,7 @@
                         <div class="col-10">
                             <select class="form-control" id="rw" name="rw">
                                 <option value="">Pilih RW</option>
-                                <option value="RW5" {{ (old('rw', $warga->rw)) == 5 ? 'selected' : '' }}>RW 5</option>
+                                <option value="5" {{ (old('rw', $warga->rw)) == 5 ? 'selected' : '' }}>RW 5</option>
                             </select>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -191,6 +191,21 @@
                             <input type="text" class="form-control" id="pekerjaan" name="pekerjaan"
                                 value="{{ old('pekerjaan' , $warga->pekerjaan) }}" required>
                             @error('pekerjaan')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 control-label col-form-label">Status Kependudukan</label>
+                        <div class="col-10">
+                            <select class="form-control" id="status_kependudukan" name="status_kependudukan">
+                                <option value="">Pilih Status Kependudukan</option>
+                                <option value="warga" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'warga' ? 'selected' : '' }}>Warga</option>
+                                <option value="meninggal" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'meninggal' ? 'selected' : '' }}>Meninggal</option>
+                                <option value="pindah" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'pindah' ? 'selected' : '' }}>Pindah</option>
+                                <option value="pendatang" {{ (old('status_kependudukan', $warga->status_kependudukan)) == 'pendatang' ? 'selected' : '' }}>Pendatang</option>
+                            </select>
+                            @error('status_kependudukan')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
