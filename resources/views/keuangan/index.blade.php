@@ -31,6 +31,9 @@
         <div class="mt-3">
             <h5 class="text-right saldo-large">Saldo: <span id="saldo"></span></h5>
         </div>
+        <div class="mt-3">
+            <canvas id="financialChart" width="300" height="300"></canvas>
+        </div>
     </div>
 </div>
 @endsection
@@ -40,11 +43,14 @@
 @endpush
 
 @push('js')
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     $(document).ready(function() {
         var dataKeuangan = $('#table_keuangan').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: 25,
             ajax: {
                 url: "{{ url('keuangan/list') }}",
                 type: "POST",
@@ -57,6 +63,14 @@
                 },
                 dataSrc: function(json) {
                     $('#saldo').text(json.saldo); // Display saldo
+
+                var totalPemasukan = json.data.reduce((acc, curr) => acc + parseFloat(curr.pemasukan), 0);
+                var totalPengeluaran = json.data.reduce((acc, curr) => acc + parseFloat(curr.pengeluaran), 0);
+
+                // Update pie chart with new data
+                updatePieChart(totalPemasukan, totalPengeluaran);
+
+
                     return json.data;
                 }
             },
@@ -75,6 +89,42 @@
         $('#penginput').on('change', function() {
             dataKeuangan.ajax.reload(null, false);
         });
+
+        // Initialize pie chart
+        var ctx = document.getElementById('financialChart').getContext('2d');
+        var financialChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Pemasukan', 'Pengeluaran'],
+                datasets: [{
+                    label: 'Financial Data',
+                    data: [0, 0],
+                    backgroundColor: ['#4CAF50', '#F44336'],
+                    borderColor: ['#388E3C', '#D32F2F'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function updatePieChart(totalPemasukan, totalPengeluaran) {
+        financialChart.data.datasets[0].data = [totalPemasukan, totalPengeluaran];
+        financialChart.update();
+    }
     });
 </script>
 @endpush

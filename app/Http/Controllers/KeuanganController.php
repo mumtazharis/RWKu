@@ -49,6 +49,8 @@ class KeuanganController extends Controller
 
         $keuangan = $query->get();
         $saldo = $keuangan->sum('pemasukan') - $keuangan->sum('pengeluaran');
+        
+        
 
         return datatables()->of($keuangan) // Pass $keuangan data instead of $query
             ->addIndexColumn()
