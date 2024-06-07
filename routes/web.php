@@ -7,6 +7,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\KepemilikanController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DokumentasiController;
 use App\Http\Controllers\SPKController;
 use App\Http\Controllers\KeluargakuController;
 use App\Http\Controllers\KeuanganController;
@@ -44,6 +45,15 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::get('/{id}/edit', [KegiatanController::class, 'edit']);
                 Route::put('/{id}', [KegiatanController::class, 'update']);
                 Route::delete('/{id}', [KegiatanController::class, 'destroy']);
+                });
+
+            Route::group(['prefix' => 'dokumentasi'], function () {
+                Route::get('/', [DokumentasiController::class, 'index']);
+                Route::post('/list', [DokumentasiController::class, 'list']);
+                Route::get('/create', [DokumentasiController::class, 'create']);
+                Route::post('/', [DokumentasiController::class, 'store']);
+                Route::get('/{id}/edit', [DokumentasiController::class, 'edit']);
+                Route::put('/{id}', [DokumentasiController::class, 'update']);
                 });
     
             //Kepemilikan

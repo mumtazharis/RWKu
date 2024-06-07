@@ -23,7 +23,7 @@
                 <div class="col-11">
                     <select class="form-control" id="kegiatan_peserta" name="kegiatan_peserta" required>
                         <option value="">- Pilih Peserta -</option>
-                            <option value="RW">Satu RW</option>
+                            <option value="RW-5">Satu RW</option>
                             @foreach($rt as $item)
                                 <option value="{{ $item->rt_id }}">{{ $item->kode_rt}}</option>
                             @endforeach

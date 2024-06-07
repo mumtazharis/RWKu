@@ -37,7 +37,7 @@
                     <th>No</th>
                     <th>No KK</th>
                     <th>NIK Kepala Keluarga</th>
-                    <th>Alamat</th>
+                    <th>RT</th>
                     <th>Kelas Ekonomi</th>
                     <th>Aksi</th>
                 </tr>
