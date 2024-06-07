@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigInteger('nomor_kk')->primary();
             $table->bigInteger('nik_kepala_keluarga')->nullable();
             $table->unsignedBigInteger('alamat_kk')->nullable();
-            $table->tinyInteger('kelas_ekonomi')->nullable();
+            $table->string('kelas_ekonomi')->nullable();
             $table->timestamps();
         });
     }
