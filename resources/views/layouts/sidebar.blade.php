@@ -30,19 +30,31 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url('/warga') }}" class="nav-link {{ ($activeSubMenu == 'warga_list')? 'active' : '' }}">
+                        @if(Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/warga') }}" class="nav-link {{ ($activeSubMenu == 'warga_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/warga') }}" class="nav-link {{ ($activeSubMenu == 'warga_list')? 'active' : '' }}">
+                        @endif
                             <i class="far nav-icon"></i>
                             <p>Daftar Warga</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/keluarga') }}" class="nav-link {{ ($activeSubMenu == 'keluarga_list')? 'active' : '' }}">
+                        @if(Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/keluarga') }}" class="nav-link {{ ($activeSubMenu == 'keluarga_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/keluarga') }}" class="nav-link {{ ($activeSubMenu == 'keluarga_list')? 'active' : '' }}">
+                        @endif
                             <i class="far nav-icon"></i>
                             <p>Daftar Keluarga</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/kepemilikan') }}" class="nav-link {{ ($activeSubMenu == 'kepemilikan_list')? 'active' : '' }}">
+                        @if (Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/kepemilikan') }}" class="nav-link {{ ($activeSubMenu == 'kepemilikan_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/kepemilikan') }}" class="nav-link {{ ($activeSubMenu == 'kepemilikan_list')? 'active' : '' }}">
+                        @endif
                             <i class="far nav-icon"></i>
                             <p>Data Kepemilikan</p>
                         </a>
@@ -61,13 +73,25 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url('/kegiatan') }}" class="nav-link {{ ($activeSubMenu == 'kegiatan_list')? 'active' : '' }}">
+                        @if (Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/kegiatan') }}" class="nav-link {{ ($activeSubMenu == 'kegiatan_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/kegiatan') }}" class="nav-link {{ ($activeSubMenu == 'kegiatan_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 3)
+                        <a href="{{ url('warga/kegiatan') }}" class="nav-link {{ ($activeSubMenu == 'kegiatan_list')? 'active' : '' }}">
+                        @endif
                             <i class="far nav-icon"></i>
                             <p>Daftar kegiatan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/dokumentasi') }}" class="nav-link {{ ($activeSubMenu == 'dokumentasi_list')? 'active' : '' }}">
+                        @if (Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/dokumentasi') }}" class="nav-link {{ ($activeSubMenu == 'dokumentasi_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/dokumentasi') }}" class="nav-link {{ ($activeSubMenu == 'dokumentasi_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 3)
+                        <a href="{{ url('warga/dokumentasi') }}" class="nav-link {{ ($activeSubMenu == 'dokumentasi_list')? 'active' : '' }}">
+                        @endif
                             <i class="far nav-icon"></i>
                             <p>Dokumentasi Kegiatan</p>
                         </a>
@@ -77,7 +101,13 @@
             @endif
             @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 || Auth::user()->level_id == 3 )
             <li class="nav-item">
-                <a href="{{ url('/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} ">
+                @if (Auth::user()->level_id == 1)
+                <a href="{{ url('rw/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 2)
+                <a href="{{ url('rt/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 3)
+                <a href="{{ url('warga/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} ">
+                @endif
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>Data Keuangan</p>
                 </a>
@@ -85,7 +115,7 @@
             @endif
             @if(Auth::user()->level_id == 1)
             <li class="nav-item">
-                <a href="{{ url('/permintaan') }}" class="nav-link {{ ($activeMenu == 'permintaan')? 'active' : '' }} ">
+                <a href="{{ url('rw/permintaan') }}" class="nav-link {{ ($activeMenu == 'permintaan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Permintaan</p>
                 </a>
@@ -93,13 +123,25 @@
             @endif
             @if(Auth::user()->level_id == 1 || Auth::user()->level_id == 2 || Auth::user()->level_id == 3 )
             <li class="nav-item">
-                <a href="{{ url('/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
+                @if (Auth::user()->level_id == 1)
+                <a href="{{ url('rw/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 2)
+                <a href="{{ url('rt/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 3)
+                <a href="{{ url('warga/keluargaku') }}" class="nav-link {{ ($activeMenu == 'keluargaku')? 'active' : '' }} ">
+                @endif
                     <i class="nav-icon fas fa-users"></i>
                     <p>Keluargaku</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link {{ ($activeMenu == 'profile')? 'active' : '' }} ">
+                @if (Auth::user()->level_id == 1)
+                <a href="{{ url('rw/profile') }}" class="nav-link {{ ($activeMenu == 'profile')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 2)
+                <a href="{{ url('rt/profile') }}" class="nav-link {{ ($activeMenu == 'profile')? 'active' : '' }} ">
+                @elseif (Auth::user()->level_id == 3)
+                <a href="{{ url('warga/profile') }}" class="nav-link {{ ($activeMenu == 'profile')? 'active' : '' }} ">
+                @endif
                     <i class="nav-icon fas fa-user-circle"></i>
                     <p>Profil</p>
                 </a>

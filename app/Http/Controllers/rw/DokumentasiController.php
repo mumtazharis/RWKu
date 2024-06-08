@@ -95,7 +95,7 @@ class DokumentasiController extends Controller
             }
         }
 
-        return redirect('/dokumentasi')->with('success', 'Data kegiatan berhasil disimpan');
+        return redirect('rw/dokumentasi')->with('success', 'Data kegiatan berhasil disimpan');
     }
 
 
@@ -166,7 +166,7 @@ class DokumentasiController extends Controller
          
         }
 
-        return redirect('/dokumentasi')->with('success', 'Data berhasil diperbarui!');
+        return redirect('rw/dokumentasi')->with('success', 'Data berhasil diperbarui!');
     }
     
 }

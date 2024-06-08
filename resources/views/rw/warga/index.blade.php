@@ -5,7 +5,7 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('warga/create')}}">Tambah</a>
+            <a class="btn btn-sm btn-primary mt-1" href="{{ url('rw/warga/create')}}">Tambah</a>
         </div>
     </div>
     <div class="card-body">
@@ -61,7 +61,7 @@
             serverSide: true,
             pageLength: 25,
             ajax: {
-                url: "{{ url('warga/list') }}", // Change url to route()
+                url: "{{ url('rw/warga/list') }}", // Change url to route()
                 type: "POST",
                 data: function (d) {
                     d.rt = $('#rt').val();

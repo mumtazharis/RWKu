@@ -335,7 +335,7 @@
 
 @endempty
 <br>
-<a href="{{ url('spk') }}" class="btn btn-sm btn-default mt2">Kembali</a>
+<a href="{{ url('rw/spk') }}" class="btn btn-sm btn-default mt2">Kembali</a>
 </div>
 </div>
 @endsection

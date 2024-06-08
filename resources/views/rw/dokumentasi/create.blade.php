@@ -6,7 +6,7 @@
         <div class="card-tools"></div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ url('dokumentasi') }}" class="form-horizontal" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('rw/dokumentasi') }}" class="form-horizontal" enctype="multipart/form-data">
         @csrf
 
             <div class="form-group row">
@@ -40,7 +40,7 @@
                 <label class="col-1 control-label col-form-label"></label>
                 <div class="col-11">
                     <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                    <a class="btn btn-sm btn-default ml-1" href="{{ url('dokumentasi')}}">Kembali</a>
+                    <a class="btn btn-sm btn-default ml-1" href="{{ url('rw/dokumentasi')}}">Kembali</a>
                 </div>
             </div>
         </form>

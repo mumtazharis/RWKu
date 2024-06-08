@@ -7,7 +7,7 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ url('warga') }}" class="form-horizontal">
+            <form method="POST" action="{{ url('rw/warga') }}" class="form-horizontal">
                 @csrf
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">NIK</label>
@@ -163,7 +163,7 @@
                     <label class="col-2 control-label col-form-label"></label>
                     <div class="col-10">
                         <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                        <a class="btn btn-sm btn-default ml-1" href="{{ url('warga') }}">Kembali</a>
+                        <a class="btn btn-sm btn-default ml-1" href="{{ url('rw/warga') }}">Kembali</a>
                     </div>
                 </div>
             </form>

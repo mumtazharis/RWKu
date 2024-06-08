@@ -13,7 +13,7 @@ class IuranModel extends Model
     protected $table = 'iuran';
     protected $primaryKey = 'iuran_id';
 
-    protected $fillable = ['kegiatan_id', 'nik', 'nominal'];
+    protected $fillable = ['kegiatan_id', 'nomor_kk', 'nominal', 'status'];
 
     public function kegiatan(): BelongsTo{
         return $this->belongsTo(KegiatanModel::class, 'kegiatan_id');

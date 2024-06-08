@@ -13,6 +13,13 @@ use App\Http\Controllers\rw\KeluargakuController;
 use App\Http\Controllers\rw\KeuanganController;
 use App\Http\Controllers\rw\ProfileController;
 
+
+use App\Http\Controllers\warga\WargaKegiatanCOntroller;
+use App\Http\Controllers\warga\WargaDokumentasiController;
+use App\Http\Controllers\warga\WargaKeuanganController;
+use App\Http\Controllers\warga\WargaKeluargakuController;
+use App\Http\Controllers\warga\WargaProfileController;
+
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
@@ -25,7 +32,7 @@ Route::middleware('prevent-back-history')->group(function () {
     Route::middleware(['auth'])->group(function () {
 
         // Rute untuk pengguna dengan peran RW (role_id: 1)
-        Route::middleware(['cek_login:1'])->group(function () {
+        Route::prefix('rw')->middleware(['cek_login:1'])->group(function () {
            
 
             // Data Warga
@@ -110,15 +117,37 @@ Route::middleware('prevent-back-history')->group(function () {
         });
 
         // Rute untuk pengguna dengan peran RT (role_id: 2)
-        Route::middleware(['cek_login:2'])->group(function () {
+        Route::prefix('rt')->middleware(['cek_login:2'])->group(function () {
             // Route::get('/', [WelcomeController::class, 'index'])->name('home');
             // Tambahkan rute khusus untuk pengguna RT di sini
         });
 
         // Rute untuk pengguna dengan peran lainnya (role_id: 3)
-        Route::middleware(['cek_login:3'])->group(function () {
-            // Route::get('/', [WelcomeController::class, 'index'])->name('home');
-            // Tambahkan rute khusus untuk pengguna dengan peran lainnya di sini
+        Route::prefix('warga')->middleware(['cek_login:3'])->group(function () {
+            Route::prefix('kegiatan')->group(function () {
+                Route::get('/', [WargaKegiatanCOntroller::class, 'index']);
+                Route::post('/list', [WargaKegiatanCOntroller::class, 'list']);
+                Route::get('/{id}', [WargaKegiatanCOntroller::class, 'show']);
+            });
+            Route::prefix('dokumentasi')->group(function () {
+                Route::get('/', [WargaDokumentasiController::class, 'index']);
+                Route::post('/list', [WargaDokumentasiController::class, 'list']);
+    
+            });
+    
+            Route::prefix('keuangan')->group(function () {
+                Route::get('/', [WargaKeuanganController::class, 'index']);
+                Route::post('/list', [WargaKeuanganController::class, 'list']);
+            });
+    
+            Route::prefix('keluargaku')->group(function () {
+                Route::get('/', [WargaKeluargakuController::class, 'index']);
+                Route::post('/list', [WargaKeluargakuController::class, 'list']);
+            });
+
+            Route::get('/profile', [WargaProfileController::class, 'show'])->name('profile.show');
         });
+
+      
     });
 });

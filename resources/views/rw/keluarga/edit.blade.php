@@ -12,9 +12,9 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
                     Data yang Anda cari tidak ditemukan.
                 </div>
-                <a href="{{ url('keluarga') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+                <a href="{{ url('rw/keluarga') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-        <form method="POST" action="{{ url('keluarga/' . $keluarga->nomor_kk) }}" class="form-horizontal">
+        <form method="POST" action="{{ url('rw/keluarga/' . $keluarga->nomor_kk) }}" class="form-horizontal">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -86,7 +86,7 @@
             <div class="form-group row">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ url('keluarga') }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ url('rw/keluarga') }}" class="btn btn-default">Kembali</a>
                 </div>
             </div>
         </form>
