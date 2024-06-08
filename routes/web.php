@@ -8,6 +8,7 @@ use App\Http\Controllers\rw\KeluargaController;
 use App\Http\Controllers\rw\WargaController;
 use App\Http\Controllers\rw\KepemilikanController;
 use App\Http\Controllers\rw\DokumentasiController;
+use App\Http\Controllers\rw\IuranController;
 use App\Http\Controllers\rw\SPKController;
 use App\Http\Controllers\rw\KeluargakuController;
 use App\Http\Controllers\rw\KeuanganController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\warga\WargaDokumentasiController;
 use App\Http\Controllers\warga\WargaKeuanganController;
 use App\Http\Controllers\warga\WargaKeluargakuController;
 use App\Http\Controllers\warga\WargaProfileController;
+use App\Http\Controllers\warga\WargaIuranController;
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register', [AuthController::class, 'register'])->name('register');
@@ -27,10 +29,10 @@ Route::post('proses_register', [AuthController::class, 'proses_register'])->name
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
 Route::middleware('prevent-back-history')->group(function () {
     Route::middleware(['auth'])->group(function () {
-
+        Route::get('/', [WelcomeController::class, 'index'])->name('home');
         // Rute untuk pengguna dengan peran RW (role_id: 1)
         Route::prefix('rw')->middleware(['cek_login:1'])->group(function () {
            
@@ -114,6 +116,15 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::get('/create', [KeuanganController::class, 'create']);
                 Route::post('/', [KeuanganController::class, 'store']);
             });
+
+            Route::prefix('iuran')->group(function () {
+                Route::get('/', [IuranController::class, 'index']);
+                Route::post('/list', [IuranController::class, 'list']);
+                Route::post('/listSaya', [IuranController::class, 'listSaya']);
+                Route::get('/{id}/bayar', [IuranController::class, 'bayar']);
+                Route::put('/{id}', [IuranController::class, 'buktiPembayaran']);
+                Route::get('/{id}', [IuranController::class, 'show']);
+            });
         });
 
         // Rute untuk pengguna dengan peran RT (role_id: 2)
@@ -146,6 +157,14 @@ Route::middleware('prevent-back-history')->group(function () {
             });
 
             Route::get('/profile', [WargaProfileController::class, 'show'])->name('profile.show');
+
+            Route::prefix('iuran')->group(function () {
+                Route::get('/', [WargaIuranController::class, 'index']);
+                Route::post('/listSaya', [WargaIuranController::class, 'listSaya']);
+                Route::get('/{id}/bayar', [WargaIuranController::class, 'bayar']);
+                Route::put('/{id}', [WargaIuranController::class, 'buktiPembayaran']);
+                Route::get('/{id}', [WargaIuranController::class, 'show']);
+            });
         });
 
       
