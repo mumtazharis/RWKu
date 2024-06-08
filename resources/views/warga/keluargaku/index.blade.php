@@ -44,7 +44,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('rw/keluargaku/list') }}", // Change url to route()
+                url: "{{ url('warga/keluargaku/list') }}", // Change url to route()
                 type: "POST",
                 data: function (d) {
                     d.nomor_kk = $('#nomor_kk').val(); // change to nomor_kk if needed

@@ -63,8 +63,8 @@ class KeluargaController extends Controller
         return DataTables::of($dataKeluarga)
             ->addIndexColumn() // Add index column (DT_RowIndex)
             ->addColumn('aksi', function ($keluarga) { // Add action column
-                $btn = '<a href="'.url('/keluarga/'.$keluarga->nomor_kk).'" class="btn btn-info btn-sm">Detail</a>';
-                $btn .= '<a href="'.url('/keluarga/'.$keluarga->nomor_kk.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+                $btn = '<a href="'.url('rw/keluarga/'.$keluarga->nomor_kk).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn .= '<a href="'.url('rw/keluarga/'.$keluarga->nomor_kk.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
                         return $btn;
             })
             ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
@@ -205,7 +205,7 @@ class KeluargaController extends Controller
         
 
         $this->spkController->runSPK();
-        return redirect('/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
+        return redirect('rw/keluarga')->with('success', 'Data keluarga berhasil ditambahkan');
     }
 
     public function show(string $id){
@@ -323,7 +323,7 @@ class KeluargaController extends Controller
         // // if ($request->has('kepemilikan_id')) {
         // //     $data['kepemilikan_id'] = $request->kepemilikan_id;
         // // }
-        return redirect('/keluarga')->with('success', 'Data keluarga berhasil diubah');
+        return redirect('rw/keluarga')->with('success', 'Data keluarga berhasil diubah');
     }
 
 }

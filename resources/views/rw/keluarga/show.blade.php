@@ -98,7 +98,7 @@
         </tr> 
 </table>
 @endempty
-<a href="{{ url('keluarga') }}" class="btn btn-sm btn-default mt2">Kembali</a>
+<a href="{{ url('rw/keluarga') }}" class="btn btn-sm btn-default mt2">Kembali</a>
 </div>
 </div>
 @endsection

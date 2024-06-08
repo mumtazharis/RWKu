@@ -57,57 +57,14 @@ class KepemilikanController extends Controller
     return DataTables::of($dataKepemilikan)
         ->addIndexColumn() // Add index column (DT_RowIndex)
         ->addColumn('aksi', function ($kepemilikan) { // Add action column
-            $btn = '<a href="' . url('/kepemilikan/' . $kepemilikan->kepemilikan_id) . '" class="btn btn-info btn-sm">Detail</a> ';
-            $btn .= '<a href="' . url('/kepemilikan/' . $kepemilikan->kepemilikan_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+            $btn = '<a href="' . url('rw/kepemilikan/' . $kepemilikan->kepemilikan_id) . '" class="btn btn-info btn-sm">Detail</a> ';
+            $btn .= '<a href="' . url('rw/kepemilikan/' . $kepemilikan->kepemilikan_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
             return $btn;
         })
         ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
         ->make(true);
 }
-// public function create()
-//     {
-//         $breadcrumb = (object) [
-//             'title' => 'Tambah Kepemilikan',
-//             'list' => ['Home', 'Kepemilikan', 'Tambah']
-//         ];
 
-//         $page = (object) [
-//             'title' => 'Tambah Kepemilikan Baru'
-//         ];
-
-//         $activeMenu = 'kepemilikan'; //set menu yang aktif
-//         $activeSubMenu = 'kepemilikan_list';
-
-//         return view('kepemilikan.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,]);
-//     }
-//     public function store(Request $request)
-// {
-//     $request->validate([
-//         'kepemilikan_id' => 'required|integer',
-//         'penghasilan' => 'required|numeric',
-//         'keluarga_ditanggung' => 'required|integer',
-//         'pajak_motor' => 'nullable|numeric',
-//         'pajak_mobil' => 'nullable|numeric',
-//         'pajak_bumi_bangunan' => 'nullable|numeric',
-//         'tagihan_air' => 'nullable|numeric',
-//         'tagihan_listrik' => 'nullable|numeric',
-//         'hutang' => 'nullable|numeric',
-//     ]);
-
-//    KepemilikanModel::create([
-//         'kepemilikan_id' => $request->kepemilikan_id,
-//         'penghasilan' => $request->penghasilan,
-//         'keluarga_ditanggung' => $request->keluarga_ditanggung,
-//         'pajak_motor' => $request->pajak_motor,
-//         'pajak_mobil' => $request->pajak_mobil,
-//         'pajak_bumi_bangunan' => $request->pajak_bumi_bangunan,
-//         'tagihan_air ' => $request->tagihan_air,
-//         'tagihan_listrik' => $request->tagihan_listrik,
-//         'hutang' => $request->hutang,
-//     ]);
-
-//     return redirect('/kepemilikan')->with('success', 'Data kepemilikan berhasil ditambahkan');
-// }
 public function show($id)
 {
     // Temukan data kepmilikan berdasarkan ID
@@ -216,7 +173,7 @@ public function update(Request $request, $id)
         'hutang' => $request->hutang,
     ]);
     $this->spkController->runSPK();
-    return redirect('/kepemilikan')->with('success', 'Data kepemilikan berhasil diubah');
+    return redirect('rw/kepemilikan')->with('success', 'Data kepemilikan berhasil diubah');
 }
 
 

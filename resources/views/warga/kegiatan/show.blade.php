@@ -56,7 +56,7 @@
     </tr>
 </table>
 @endempty
-<a href="{{ url('url/kegiatan') }}" class="btn btn-sm btn-default mt2">Kembali</a>
+<a href="{{ url('warga/kegiatan') }}" class="btn btn-sm btn-default mt2">Kembali</a>
 </div>
 </div>
 

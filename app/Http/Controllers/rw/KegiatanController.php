@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\rw;
 use App\Http\Controllers\Controller;
-
+use App\Models\IuranModel;
 use Illuminate\Http\Request;
 use App\Models\KegiatanModel;
 use App\Models\KeluargaModel;
@@ -31,18 +31,14 @@ class KegiatanController extends Controller
 
     
     public function list(Request $request){
-        $kegiatans = KegiatanModel::select('kegiatan_id', 'kegiatan_nama', 'kegiatan_lokasi', 'kegiatan_tanggal','kegiatan_waktu','kegiatan_deskripsi', 'kegiatan_peserta');
-      
-        if ($request->kegiatan_peserta){
-            $kegiatans->where('kegiatan_peserta', $request->kegiatan_peserta);
-        }
+        $kegiatans = KegiatanModel::select('kegiatan_id', 'kegiatan_nama', 'kegiatan_lokasi', 'kegiatan_tanggal','kegiatan_waktu','kegiatan_deskripsi');
         
         return DataTables::of($kegiatans)
             ->addIndexColumn()
             ->addColumn('aksi', function($kegiatan){
-                $btn = '<a href="'.url('/kegiatan/'.$kegiatan->kegiatan_id).'" class="btn btn-info btn-sm">Detail</a>';
-                $btn .= '<a href="'.url('/kegiatan/'.$kegiatan->kegiatan_id.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
-                $btn .= '<form class="d-inline-block" method="POST" action="'.url('/kegiatan/'.$kegiatan->kegiatan_id).'">'
+                $btn = '<a href="'.url('rw/kegiatan/'.$kegiatan->kegiatan_id).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn .= '<a href="'.url('rw/kegiatan/'.$kegiatan->kegiatan_id.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+                $btn .= '<form class="d-inline-block" method="POST" action="'.url('rw/kegiatan/'.$kegiatan->kegiatan_id).'">'
                         . csrf_field().method_field('DELETE').
                         '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah anda yakin menghapus data ini?\');">Hapus</button</form>';
                         return $btn;
@@ -62,18 +58,16 @@ class KegiatanController extends Controller
             'title' => 'Tambah kegiatan baru'
         ];
 
-        $rt = RTModel::all();
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
 
-        return view('rw.kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'rt' => $rt,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function store(Request $request){
-        //dd($request->all());
+        
         $request->validate([
             'kegiatan_foto' => 'file|image|max:20000',
-            'kegiatan_peserta' => 'required|max:6',
             'kegiatan_nama' => 'required|string|max:100',
             'kegiatan_lokasi' => 'required|string',
             'kegiatan_tanggal' => 'required|date|after_or_equal:today',
@@ -98,14 +92,19 @@ class KegiatanController extends Controller
         } else {
             $path = null;
         }
-        // dd(compact('request', 'path'));
-        // $data = $request->except('_token');
-
-        // // Ubah data menjadi query string
-        // $queryString = http_build_query($data);
-
  
-        $keluarga = KeluargaModel::all();
+        KegiatanModel::create([
+            'kegiatan_nama' => $request->kegiatan_nama,
+            'kegiatan_lokasi' => $request->kegiatan_lokasi,
+            'kegiatan_tanggal' => $request->kegiatan_tanggal,
+            'kegiatan_waktu' => $request->kegiatan_waktu,
+            'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
+            'foto' => $path,
+            'total_biaya' => $request->nominal,
+        ]);
+
+
+        $kelasKeluarga = KeluargaModel::all();
         
 
         $kelasAtasCount = 0;
@@ -114,7 +113,7 @@ class KegiatanController extends Controller
         
         // Hitung jumlah keluarga dalam setiap kelas ekonomi dan total iuran
         $totalIuran = $request->nominal;
-        foreach ($keluarga as $keluarga) {
+        foreach ($kelasKeluarga as $keluarga) {
             $kelasEkonomi = $keluarga->kelas_ekonomi;
             // Tambahkan jumlah keluarga dalam kelas ekonomi
             if ($kelasEkonomi === 'atas') {
@@ -144,21 +143,22 @@ class KegiatanController extends Controller
         } else {
             $besaranIuranBawah = 0;
         }
-        
+   
      //   dd($keluarga);
         
-        KegiatanModel::create([
-            'kegiatan_peserta' => $request->kegiatan_peserta,
-            'kegiatan_nama' => $request->kegiatan_nama,
-            'kegiatan_lokasi' => $request->kegiatan_lokasi,
-            'kegiatan_tanggal' => $request->kegiatan_tanggal,
-            'kegiatan_waktu' => $request->kegiatan_waktu,
-            'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
-            'foto' => $path,
-          //  'total_biaya' => $request->nominal,
-        ]);
-
-        return redirect('/kegiatan')->with('success', 'Data kegiatan berhasil disimpan');
+   
+        $kegiatan_id = KegiatanModel::latest()->first()->kegiatan_id;
+        $listKeluarga = KeluargaModel::all();
+        
+        foreach ($listKeluarga as $keluarga){
+            IuranModel::create([
+                'kegiatan_id' => $kegiatan_id,
+                'nomor_kk' => $keluarga->nomor_kk,
+                'nominal' => $keluarga->kelas_ekonomi === 'atas' ? $besaranIuranAtas : ($keluarga->kelas_ekonomi === 'menengah' ? $besaranIuranMenengah : $besaranIuranBawah),
+                'status' => 'belum lunas',
+            ]);
+        }
+        return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil disimpan');
     }
 
     public function show(string $id){
@@ -191,17 +191,14 @@ class KegiatanController extends Controller
             'title' => 'Edit kegiatan'
         ];
 
-        $rt = RTModel::all();
-
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
-        return view('rw.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'rt'=>$rt, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rw.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
     public function update(Request $request, string $id){
         $request->validate([
-            'kegiatan_peserta' => 'required|max:6',
             'kegiatan_nama' => 'required|string|max:100',
             'kegiatan_lokasi' => 'required|string',
             'kegiatan_tanggal' => 'required|date|after_or_equal:today',
@@ -211,7 +208,6 @@ class KegiatanController extends Controller
         ]);
 
         KegiatanModel::find($id)->update([
-            'kegiatan_peserta' => $request->kegiatan_peserta,
             'kegiatan_nama' => $request->kegiatan_nama,
             'kegiatan_lokasi' => $request->kegiatan_lokasi,
             'kegiatan_tanggal' => $request->kegiatan_tanggal,
@@ -219,21 +215,21 @@ class KegiatanController extends Controller
             'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
         ]);
 
-        return redirect('/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
+        return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
     }
 
 
     public function destroy(string $id){
         $check = KegiatanModel::find($id);
         if(!$check){
-            return redirect('/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
+            return redirect('rw/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
         }
 
         try{
             KegiatanModel::destroy($id);
-            return redirect('/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
+            return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
         } catch(\Illuminate\Database\QueryException $e) {
-            return redirect('/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('rw/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 }

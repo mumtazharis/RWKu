@@ -6,7 +6,7 @@
         <div class="card-tools"></div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ url('kegiatan') }}" class="form-horizontal" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('rw/kegiatan') }}" class="form-horizontal" enctype="multipart/form-data">
         @csrf
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Foto</label>
@@ -14,21 +14,6 @@
                     <input type="file" class="form-control" id="kegiatan_foto" name="kegiatan_foto" accept="image/*" onchange="previewImage(event)">
                     <img id="preview" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
                     @error('kegiatan_foto')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-1 control-label col-form-label">Peserta</label>
-                <div class="col-11">
-                    <select class="form-control" id="kegiatan_peserta" name="kegiatan_peserta" required>
-                        <option value="">- Pilih Peserta -</option>
-                            <option value="RW-5">Satu RW</option>
-                            @foreach($rt as $item)
-                                <option value="{{ $item->kode_rt }}">{{ $item->kode_rt}}</option>
-                            @endforeach
-                    </select>
-                    @error('level_id')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -91,7 +76,7 @@
                 <label class="col-1 control-label col-form-label"></label>
                 <div class="col-11">
                     <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                    <a class="btn btn-sm btn-default ml-1" href="{{ url('kegiatan')}}">Kembali</a>
+                    <a class="btn btn-sm btn-default ml-1" href="{{ url('rw/kegiatan')}}">Kembali</a>
                 </div>
             </div>
         </form>

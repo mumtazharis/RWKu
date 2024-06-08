@@ -271,7 +271,6 @@ class SPKController extends Controller
             ];
         
         }
-
         usort($matriksData, function ($a, $b) {
             return $a['peringkat_mabac'] <=> $b['peringkat_mabac'];
         });
@@ -279,7 +278,7 @@ class SPKController extends Controller
         // Tentukan batas kelas
         $total = count($matriksData);
         $top30 = floor($total * 0.3);
-        $middle60 = round($total * 0.6);
+        $middle60 = floor($total * 0.6);
         
         // Tambahkan kelas berdasarkan peringkat
         foreach ($matriksData as $index => $data) {

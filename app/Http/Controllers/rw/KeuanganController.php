@@ -112,6 +112,6 @@ public function create()
                 'pemasukan_dari' => $request->pemasukan_dari,
                 'tanggal' => $request->tanggal,
             ]);
-        return redirect('/keuangan')->with('success', 'Data keuangan berhasil ditambahkan');
+        return redirect('rw/keuangan')->with('success', 'Data keuangan berhasil ditambahkan');
     }
 }

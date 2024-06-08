@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('kegiatan_lokasi');
             $table->date('kegiatan_tanggal');
             $table->time('kegiatan_waktu');
-            $table->string('kegiatan_peserta', 6);
             $table->text('foto');
             $table->integer('total_biaya');
             $table->timestamps();

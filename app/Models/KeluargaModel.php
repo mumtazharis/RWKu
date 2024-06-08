@@ -34,6 +34,6 @@ class KeluargaModel extends Model
     }
 
     public function iuran(): HasMany{
-        return $this->hasMany(IuranModel::class, 'nik');
+        return $this->hasMany(IuranModel::class, 'nomor_kk');
     }
 }

@@ -4,11 +4,11 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm mt-1" href="{{ url('spk/mabac')}}" style="background-color: transparent; border: 1px solid #007bff; color: #007bff;">
+            <a class="btn btn-sm mt-1" href="{{ url('rw/spk/mabac')}}" style="background-color: transparent; border: 1px solid #007bff; color: #007bff;">
                 <i class="fas fa-chart-line"></i> Mabac
             </a>
             
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('spk/topsis')}}">
+            <a class="btn btn-sm btn-primary mt-1" href="{{ url('rw/spk/topsis')}}">
                 <i class="fas fa-chart-bar"></i> Topsis
             </a>
             
@@ -33,7 +33,7 @@
                 </tr>
             </thead>
         </table>
-        <a href="{{ url('kepemilikan') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+        <a href="{{ url('rw/kepemilikan') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
     </div>
 </div>
 @endsection
@@ -46,7 +46,7 @@
             serverSide: true,
             pageLength: 25,
             ajax: {
-                "url": "{{ url('spk/list') }}",
+                "url": "{{ url('rw/spk/list') }}",
                 "dataType": "json",
                 "type": "POST"
                 // "data": function (d){

@@ -58,8 +58,8 @@ public function list(Request $request)
     return DataTables::of($dataWarga)
         ->addIndexColumn() // Add index column (DT_RowIndex)
         ->addColumn('aksi', function ($warga) { // Add action column
-            $btn = '<a href="' . url('/warga/' . $warga->nik) . '" class="btn btn-info btn-sm">Detail</a> ';
-            $btn .= '<a href="' . url('/warga/' . $warga->nik . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+            $btn = '<a href="' . url('rw/warga/' . $warga->nik) . '" class="btn btn-info btn-sm">Detail</a> ';
+            $btn .= '<a href="' . url('rw/warga/' . $warga->nik . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
             return $btn;
         })
         ->rawColumns(['aksi']) // Render HTML in the 'aksi' column
@@ -133,7 +133,7 @@ public function create()
         'password' => Hash::make($request->nik),
     ]);
 
-    return redirect('/warga')->with('success', 'Data warga baru berhasil ditambahkan');
+    return redirect('rw/warga')->with('success', 'Data warga baru berhasil ditambahkan');
 }
 // Menampilkan detail warga
 public function show($id)
@@ -259,7 +259,7 @@ public function update(Request $request, $id)
             }
 
         }
-        return redirect('/warga')->with('success', 'Data warga berhasil diubah');
+        return redirect('rw/warga')->with('success', 'Data warga berhasil diubah');
     }
 
 

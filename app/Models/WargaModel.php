@@ -40,10 +40,5 @@ class WargaModel extends Model
     public function keuangan(): HasMany{
         return $this->hasMany(KeuanganModel::class, 'penginput');
     }
-
-    public function peserta(): HasMany{
-        return $this->hasMany(PesertaModel::class, 'nik');
-    }
-
    
 }
