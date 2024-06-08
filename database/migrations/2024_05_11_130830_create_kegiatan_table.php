@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('kegiatan_lokasi');
             $table->date('kegiatan_tanggal');
             $table->time('kegiatan_waktu');
-            $table->text('foto');
+            $table->text('foto')->nullable();
             $table->integer('total_biaya');
             $table->timestamps();
         });

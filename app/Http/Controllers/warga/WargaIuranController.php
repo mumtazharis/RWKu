@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\rw;
+namespace App\Http\Controllers\warga;
 
 use App\Http\Controllers\Controller;
 use App\Models\IuranModel;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-class IuranController extends Controller
+class WargaIuranController extends Controller
 {
     public function index(){
         $breadcrumb = (object)[
@@ -28,20 +28,7 @@ class IuranController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
 
-        return view('rw.iuran.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
-    }
-
-    public function list(Request $request){
-        $iurans = IuranModel::select('iuran.iuran_id', 'iuran.kegiatan_id', 'iuran.nomor_kk', 'iuran.nominal', 'iuran.status')->with('kegiatan');
-    
-        return DataTables::of($iurans)
-            ->addIndexColumn()
-            ->addColumn('aksi', function($iuran){
-                $btn = '<a href="'.url('rw/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
-                        return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+        return view('warga.iuran.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
     }
 
     public function listSaya(Request $request)
@@ -64,9 +51,9 @@ class IuranController extends Controller
         return DataTables::of($iurans)
             ->addIndexColumn()
             ->addColumn('aksi', function($iuran){
-                $btn = '<a href="'.url('rw/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn = '<a href="'.url('warga/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
                 if ($iuran->status == 'belum lunas'){
-                    $btn .= '<a href="'.url('rw/iuran/'.$iuran->iuran_id.'/bayar').'" class="btn btn-primary btn-sm">Bayar</a>';
+                    $btn .= '<a href="'.url('warga/iuran/'.$iuran->iuran_id.'/bayar').'" class="btn btn-primary btn-sm">Bayar</a>';
                 }
                 return $btn;
             })
@@ -79,9 +66,9 @@ class IuranController extends Controller
         if ($iuran){
             $kegiatan  = KegiatanModel::find($iuran->kegiatan_id);
         } else {
-           return redirect('rw/iuran');
-        }
- 
+            return redirect('warga/iuran');
+        } 
+   
         $breadcrumb = (object)[
             'title' => 'Pembayaran iuran',
             'list' => ['Home', 'iuran']
@@ -93,7 +80,7 @@ class IuranController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
 
-        return view('rw.iuran.bayar', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,'kegiatan' => $kegiatan, 'iuran' => $iuran]);
+        return view('warga.iuran.bayar', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,'kegiatan' => $kegiatan, 'iuran' => $iuran]);
     }
 
     public function buktiPembayaran(Request $request, string $id){
@@ -119,7 +106,7 @@ class IuranController extends Controller
             'status' => 'menunggu',
         ]);
 
-        return redirect('rw/iuran')->with('success', 'Data kegiatan berhasil diubah');
+        return redirect('warga/iuran')->with('success', 'Data kegiatan berhasil diubah');
     }
 
     public function show(string $id){
@@ -127,7 +114,7 @@ class IuranController extends Controller
         if ($iuran){
             $kegiatan = KegiatanModel::find($iuran->kegiatan_id);
         } else {
-            return redirect('rw/iuran');
+            return redirect('warga/iuran');
         }
         $breadcrumb = (object)[
             'title' => 'Detail iuran',
@@ -140,9 +127,7 @@ class IuranController extends Controller
 
         $activeMenu = 'iuran';
         $activeSubMenu = 'iuran_list';
-        return view('rw.iuran.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'iuran' => $iuran,'kegiatan'=>$kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('warga.iuran.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'iuran' => $iuran,'kegiatan'=>$kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
-
-
     
 }

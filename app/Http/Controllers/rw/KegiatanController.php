@@ -127,22 +127,24 @@ class KegiatanController extends Controller
         
         // Hitung besaran iuran untuk setiap kelas ekonomi
         if ($kelasAtasCount > 0) {
-            $besaranIuranAtas = ($totalIuran * 0.5) / $kelasAtasCount;
+            // Bagi dengan 500, bulatkan ke atas, kemudian kalikan kembali dengan 500
+            $besaranIuranAtas = ceil(ceil(($totalIuran * 0.5) / $kelasAtasCount) / 500) * 500;
         } else {
             $besaranIuranAtas = 0;
         }
-        
+
         if ($kelasMenengahCount > 0) {
-            $besaranIuranMenengah = ($totalIuran * 0.3) / $kelasMenengahCount;
+            $besaranIuranMenengah = ceil(ceil(($totalIuran * 0.3) / $kelasMenengahCount) / 500) * 500;
         } else {
             $besaranIuranMenengah = 0;
         }
-        
+
         if ($kelasBawahCount > 0) {
-            $besaranIuranBawah = ($totalIuran * 0.2) / $kelasBawahCount;
+            $besaranIuranBawah = ceil(ceil(($totalIuran * 0.2) / $kelasBawahCount) / 500) * 500;
         } else {
             $besaranIuranBawah = 0;
         }
+
    
      //   dd($keluarga);
         

@@ -96,6 +96,18 @@
                             <p>Dokumentasi Kegiatan</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        @if (Auth::user()->level_id == 1)
+                        <a href="{{ url('rw/iuran') }}" class="nav-link {{ ($activeSubMenu == 'iuran_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 2)
+                        <a href="{{ url('rt/iuran') }}" class="nav-link {{ ($activeSubMenu == 'iuran_list')? 'active' : '' }}">
+                        @elseif (Auth::user()->level_id == 3)
+                        <a href="{{ url('warga/iuran') }}" class="nav-link {{ ($activeSubMenu == 'iuran_list')? 'active' : '' }}">
+                        @endif
+                            <i class="far nav-icon"></i>
+                            <p>Iuran Kegiatan</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endif

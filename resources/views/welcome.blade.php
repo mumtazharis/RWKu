@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="card">
     <div class="card-header">
         @if(Auth::user()->level_id == 1)

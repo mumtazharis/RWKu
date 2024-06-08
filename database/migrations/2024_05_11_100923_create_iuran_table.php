@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('kegiatan_id');
             $table->bigInteger('nomor_kk');
             $table->double('nominal');
-            $table->enum('status', ['lunas', 'belum lunas']);
+            $table->enum('status', ['lunas', 'belum lunas', 'menunggu']);
+            $table->string('bukti_pembayarann')->nullable();
             $table->timestamps();
         });
     }
