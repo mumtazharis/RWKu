@@ -65,7 +65,38 @@ class KeluargaSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-
+            [
+                'nomor_kk' => 3510000000000006,
+                'nik_kepala_keluarga' => 3500000000000006,
+                'alamat_kk' => 3,
+                'kelas_ekonomi' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nomor_kk' => 3510000000000007,
+                'nik_kepala_keluarga' => 3500000000000007,
+                'alamat_kk' => 4,
+                'kelas_ekonomi' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nomor_kk' => 3510000000000008,
+                'nik_kepala_keluarga' => 3500000000000008,
+                'alamat_kk' => 1,
+                'kelas_ekonomi' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nomor_kk' => 3510000000000009,
+                'nik_kepala_keluarga' => 3500000000000009,
+                'alamat_kk' => 2,
+                'kelas_ekonomi' => null,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
         DB::table('keluarga')->insert($data);
     }
