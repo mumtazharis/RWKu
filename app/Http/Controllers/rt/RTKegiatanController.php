@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\rw;
+namespace App\Http\Controllers\rt;
 use App\Http\Controllers\Controller;
 use App\Models\IuranModel;
 use Illuminate\Http\Request;
 use App\Models\KegiatanModel;
 use App\Models\KeluargaModel;
+use App\Models\PersetujuanModel;
 use App\Models\RTModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-class KegiatanController extends Controller
+class RTKegiatanController extends Controller
 {
     public function index(){
         $breadcrumb = (object)[
@@ -26,7 +28,7 @@ class KegiatanController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
 
-        return view('rw.kegiatan.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
+        return view('rt.kegiatan.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
     }
 
     
@@ -36,9 +38,9 @@ class KegiatanController extends Controller
         return DataTables::of($kegiatans)
             ->addIndexColumn()
             ->addColumn('aksi', function($kegiatan){
-                $btn = '<a href="'.url('rw/kegiatan/'.$kegiatan->kegiatan_id).'" class="btn btn-info btn-sm">Detail</a>';
-                $btn .= '<a href="'.url('rw/kegiatan/'.$kegiatan->kegiatan_id.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
-              
+                $btn = '<a href="'.url('rt/kegiatan/'.$kegiatan->kegiatan_id).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn .= '<a href="'.url('rt/kegiatan/'.$kegiatan->kegiatan_id.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+             
                         return $btn;
             })
             ->rawColumns(['aksi'])
@@ -59,7 +61,7 @@ class KegiatanController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
 
-        return view('rw.kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rt.kegiatan.create', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
     public function store(Request $request){
@@ -90,75 +92,28 @@ class KegiatanController extends Controller
         } else {
             $path = null;
         }
- 
-        KegiatanModel::create([
-            'kegiatan_nama' => $request->kegiatan_nama,
-            'kegiatan_lokasi' => $request->kegiatan_lokasi,
-            'kegiatan_tanggal' => $request->kegiatan_tanggal,
-            'kegiatan_waktu' => $request->kegiatan_waktu,
-            'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
-            'foto' => $path,
-            'total_biaya' => $request->nominal,
+
+        $kegiatan_nama = $request->input('kegiatan_nama');
+        $kegiatan_lokasi = $request->input('kegiatan_lokasi');
+        $kegiatan_tanggal = $request->input('kegiatan_tanggal');
+        $kegiatan_waktu = $request->input('kegiatan_waktu');
+        $kegiatan_deskripsi = $request->input('kegiatan_deskripsi');
+        $foto = $path;
+        $total_biaya = $request->input('nominal');
+
+        $query = "$kegiatan_nama|$kegiatan_lokasi|$kegiatan_tanggal|$kegiatan_waktu|$kegiatan_deskripsi|$foto|$total_biaya";
+        
+        $user = Auth::user();
+        
+        PersetujuanModel::create([
+            'user_id' => $user->user_id,
+            'jenis' => 'kegiatan',
+            'query' => $query,
+            'keterangan' => 'Permintaan persetujuan pelaksanaan kegiatan',
+            'status' => 'menunggu',
         ]);
 
-
-        $kelasKeluarga = KeluargaModel::all();
-        
-
-        $kelasAtasCount = 0;
-        $kelasMenengahCount = 0;
-        $kelasBawahCount = 0;
-        
-        // Hitung jumlah keluarga dalam setiap kelas ekonomi dan total iuran
-        $totalIuran = $request->nominal;
-        foreach ($kelasKeluarga as $keluarga) {
-            $kelasEkonomi = $keluarga->kelas_ekonomi;
-            // Tambahkan jumlah keluarga dalam kelas ekonomi
-            if ($kelasEkonomi === 'atas') {
-                $kelasAtasCount++;
-            } elseif ($kelasEkonomi === 'menengah') {
-                $kelasMenengahCount++;
-            } elseif ($kelasEkonomi === 'bawah') {
-                $kelasBawahCount++;
-            }
-        }
-        
-        // Hitung besaran iuran untuk setiap kelas ekonomi
-        if ($kelasAtasCount > 0) {
-            // Bagi dengan 500, bulatkan ke atas, kemudian kalikan kembali dengan 500
-            $besaranIuranAtas = ceil(ceil(($totalIuran * 0.5) / $kelasAtasCount) / 500) * 500;
-        } else {
-            $besaranIuranAtas = 0;
-        }
-
-        if ($kelasMenengahCount > 0) {
-            $besaranIuranMenengah = ceil(ceil(($totalIuran * 0.3) / $kelasMenengahCount) / 500) * 500;
-        } else {
-            $besaranIuranMenengah = 0;
-        }
-
-        if ($kelasBawahCount > 0) {
-            $besaranIuranBawah = ceil(ceil(($totalIuran * 0.2) / $kelasBawahCount) / 500) * 500;
-        } else {
-            $besaranIuranBawah = 0;
-        }
-
-   
-     //   dd($keluarga);
-        
-   
-        $kegiatan_id = KegiatanModel::latest()->first()->kegiatan_id;
-        $listKeluarga = KeluargaModel::all();
-        
-        foreach ($listKeluarga as $keluarga){
-            IuranModel::create([
-                'kegiatan_id' => $kegiatan_id,
-                'nomor_kk' => $keluarga->nomor_kk,
-                'nominal' => $keluarga->kelas_ekonomi === 'atas' ? $besaranIuranAtas : ($keluarga->kelas_ekonomi === 'menengah' ? $besaranIuranMenengah : $besaranIuranBawah),
-                'status' => 'belum lunas',
-            ]);
-        }
-        return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil disimpan');
+        return redirect('rt/kegiatan')->with('info', 'Data kegiatan menunggu persetujuan RW');
     }
 
     public function show(string $id){
@@ -175,7 +130,7 @@ class KegiatanController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
-        return view('rw.kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rt.kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
@@ -193,7 +148,7 @@ class KegiatanController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
-        return view('rw.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rt.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 
@@ -215,21 +170,21 @@ class KegiatanController extends Controller
             'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
         ]);
 
-        return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
+        return redirect('rt/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
     }
 
 
     public function destroy(string $id){
         $check = KegiatanModel::find($id);
         if(!$check){
-            return redirect('rw/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
+            return redirect('rt/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
         }
 
         try{
             KegiatanModel::destroy($id);
-            return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
+            return redirect('rt/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
         } catch(\Illuminate\Database\QueryException $e) {
-            return redirect('rw/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('rt/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 }

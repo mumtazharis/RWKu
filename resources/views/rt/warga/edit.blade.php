@@ -12,9 +12,9 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
                     Data yang Anda cari tidak ditemukan.
                 </div>
-                <a href="{{ url('rw/warga') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+                <a href="{{ url('rt/warga') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('rw/warga/' . $warga->nik) }}" class="form-horizontal">
+                <form method="POST" action="{{ url('rt/warga/' . $warga->nik) }}" class="form-horizontal">
                     @csrf
                     {!! method_field('PUT') !!}
                     <div class="form-group row">
@@ -111,13 +111,8 @@
                     <div class="form-group row">
                         <label class="col-2 control-label col-form-label">RT</label>
                         <div class="col-10">
-                            <select class="form-control" id="rt" name="rt">
-                                <option value="">Pilih RT</option>
-                                <option value="1" {{ (old('rt', $warga->rt)) == 1 ? 'selected' : '' }}>RT 1</option>
-                                <option value="2" {{ (old('rt', $warga->rt)) == 2 ? 'selected' : '' }}>RT 2</option>
-                                <option value="3" {{ (old('rt', $warga->rt)) == 3 ? 'selected' : '' }}>RT 3</option>
-                                <option value="4" {{ (old('rt', $warga->rt)) == 4 ? 'selected' : '' }}>RT 4</option>
-                            </select>
+                            <input type="text" class="form-control" id="rt" name="rt"
+                                value="{{$alamatrt->rt_id}}" readonly>
                             @error('rt')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -213,32 +208,24 @@
                     <div class="form-group row">
                         <label class="col-2 control-label col-form-label">Jabatan</label>
                         <div class="col-10">
-                            <select class="form-control" id="level" name="level">
+                            <select class="form-control" id="level" name="level" disabled>
                                 <option value="">Pilih Status Kependudukan</option>
                                 <option value="1" {{ (old('level', $user->level_id)) == '1' ? 'selected' : '' }}>RW</option>
                                 <option value="2" {{ (old('level', $user->level_id)) == '2' ? 'selected' : '' }}>RT</option>
                                 <option value="3" {{ (old('level', $user->level_id)) == '3' ? 'selected' : '' }}>Warga</option>
                             </select>
+
+                            <input type="hidden" name="level" value={{ old('level', $user->level_id)}}>
                             @error('level')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-2 control-label col-form-label">Reset Password</label>
-                        <div class="col-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="reset_password" name="reset_password" {{ old('reset_password') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="reset_password">Reset Password ke Nilai Default</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row">
                         <label class="col-2 control-label col-form-label"></label>
                         <div class="col-10">
                             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                            <a class="btn btn-sm btn-default ml-1" href="{{ url('rw/warga') }}">Kembali</a>
+                            <a class="btn btn-sm btn-default ml-1" href="{{ url('rt/warga') }}">Kembali</a>
                         </div>
                     </div>
                 </form>

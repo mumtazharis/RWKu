@@ -17,7 +17,7 @@ class UserModel extends Authenticatable
 
     protected $fillable = ['level_id', 'username', 'password'];
 
-    public function username(): BelongsTo{
+    public function warga(): BelongsTo{
         return $this->BelongsTo(WargaModel::class, 'nik');
     }
 
