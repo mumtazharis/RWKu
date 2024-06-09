@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             KepemilikanSeeder::class,
             LevelSeeder::class,
             UserSeeder::class,
+            KKWarga::class,
         ]);
     }
 }
