@@ -127,9 +127,9 @@
             @endif
             @if(Auth::user()->level_id == 1)
             <li class="nav-item">
-                <a href="{{ url('rw/permintaan') }}" class="nav-link {{ ($activeMenu == 'permintaan')? 'active' : '' }} ">
+                <a href="{{ url('rw/persetujuan') }}" class="nav-link {{ ($activeMenu == 'persetujuan')? 'active' : '' }} ">
                     <i class="nav-icon fas fa-envelope"></i>
-                    <p>Permintaan</p>
+                    <p>Persetujuan</p>
                 </a>
             </li>
             @endif

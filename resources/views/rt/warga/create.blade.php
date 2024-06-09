@@ -7,7 +7,7 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ url('rw/warga') }}" class="form-horizontal">
+            <form method="POST" action="{{ url('rt/warga') }}" class="form-horizontal">
                 @csrf
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">NIK</label>
@@ -65,13 +65,8 @@
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">RT</label>
                     <div class="col-10">
-                        <select class="form-control" id="rt" name="rt">
-                            <option value="">Pilih RT</option>
-                            <option value="1">RT 1</option>
-                            <option value="2">RT 2</option>
-                            <option value="3">RT 3</option>
-                            <option value="4">RT 4</option>
-                        </select>
+                        <input type="text" class="form-control" id="rt" name="rt"
+                            value="{{$alamatrt->rt_id}}" readonly>
                         @error('rt')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -147,12 +142,13 @@
                 <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Jabatan</label>
                     <div class="col-10">
-                        <select class="form-control" id="level" name="level">
+                        <select class="form-control" id="level" name="level" disabled>
                             <option value="">Pilih Jabatan</option>
                             <option value="1">RW</option>
                             <option value="2">RT</option>
-                            <option value="3">Warga</option>
+                            <option value="3" selected>Warga</option>
                         </select>
+                        <input type="hidden" name="level" value=3>
                         @error('level')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -163,7 +159,7 @@
                     <label class="col-2 control-label col-form-label"></label>
                     <div class="col-10">
                         <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-                        <a class="btn btn-sm btn-default ml-1" href="{{ url('rw/warga') }}">Kembali</a>
+                        <a class="btn btn-sm btn-default ml-1" href="{{ url('rt/warga') }}">Kembali</a>
                     </div>
                 </div>
             </form>

@@ -13,7 +13,18 @@ use App\Http\Controllers\rw\SPKController;
 use App\Http\Controllers\rw\KeluargakuController;
 use App\Http\Controllers\rw\KeuanganController;
 use App\Http\Controllers\rw\ProfileController;
+use App\Http\Controllers\rw\PersetujuanController;
 
+use App\Http\Controllers\rt\RTKegiatanController;
+use App\Http\Controllers\rt\RTKeluargaController;
+use App\Http\Controllers\rt\RTWargaController;
+use App\Http\Controllers\rt\RTKepemilikanController;
+use App\Http\Controllers\rt\RTDokumentasiController;
+use App\Http\Controllers\rt\RTIuranController;
+use App\Http\Controllers\rt\RTSPKController;
+use App\Http\Controllers\rt\RTKeluargakuController;
+use App\Http\Controllers\rt\RTKeuanganController;
+use App\Http\Controllers\rt\RTProfileController;
 
 use App\Http\Controllers\warga\WargaKegiatanCOntroller;
 use App\Http\Controllers\warga\WargaDokumentasiController;
@@ -57,7 +68,6 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::get('/{id}', [KegiatanController::class, 'show']);
                 Route::get('/{id}/edit', [KegiatanController::class, 'edit']);
                 Route::put('/{id}', [KegiatanController::class, 'update']);
-                Route::delete('/{id}', [KegiatanController::class, 'destroy']);
             });
 
             // Dokumentasi
@@ -125,12 +135,107 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::put('/{id}', [IuranController::class, 'buktiPembayaran']);
                 Route::get('/{id}', [IuranController::class, 'show']);
             });
+
+            Route::prefix('persetujuan')->group(function () {
+                Route::get('/', [PersetujuanController::class, 'index']);
+                Route::post('/list', [PersetujuanController::class, 'list']);
+                Route::get('/{id}/iuran', [PersetujuanController::class, 'periksaIuran']);
+                Route::get('/{id}/data kepemilikan', [PersetujuanController::class, 'periksaDataKepemilikan']);
+                Route::get('/{id}/kegiatan', [PersetujuanController::class, 'periksaKegiatan']);
+                Route::put('/{id}/keputusan', [PersetujuanController::class, 'keputusan']);
+            });
         });
 
         // Rute untuk pengguna dengan peran RT (role_id: 2)
         Route::prefix('rt')->middleware(['cek_login:2'])->group(function () {
-            // Route::get('/', [WelcomeController::class, 'index'])->name('home');
-            // Tambahkan rute khusus untuk pengguna RT di sini
+            Route::prefix('warga')->group(function () {
+                Route::get('/', [RTWargaController::class, 'index']);
+                Route::post('/list', [RTWargaController::class, 'list']);
+                Route::get('/create', [RTWargaController::class, 'create']);
+                Route::post('/', [RTWargaController::class, 'store']);
+                Route::get('/{id}', [RTWargaController::class, 'show']);
+                Route::get('/{id}/edit', [RTWargaController::class, 'edit']);
+                Route::put('/{id}', [RTWargaController::class, 'update']);
+            });
+
+            // Kegiatan
+            Route::prefix('kegiatan')->group(function () {
+                Route::get('/', [RTKegiatanController::class, 'index']);
+                Route::post('/list', [RTKegiatanController::class, 'list']);
+                Route::get('/create', [RTKegiatanController::class, 'create']);
+                Route::post('/', [RTKegiatanController::class, 'store']);
+                Route::get('/{id}', [RTKegiatanController::class, 'show']);
+                Route::get('/{id}/edit', [RTKegiatanController::class, 'edit']);
+                Route::put('/{id}', [RTKegiatanController::class, 'update']);
+            });
+
+            // Dokumentasi
+            Route::prefix('dokumentasi')->group(function () {
+                Route::get('/', [RTDokumentasiController::class, 'index']);
+                Route::post('/list', [RTDokumentasiController::class, 'list']);
+                Route::get('/create', [RTDokumentasiController::class, 'create']);
+                Route::post('/', [RTDokumentasiController::class, 'store']);
+                Route::get('/{id}/edit', [RTDokumentasiController::class, 'edit']);
+                Route::put('/{id}', [RTDokumentasiController::class, 'update']);
+            });
+
+            // Kepemilikan
+            Route::prefix('kepemilikan')->group(function () {
+                Route::get('/', [RTKepemilikanController::class, 'index']);
+                Route::post('/list', [RTKepemilikanController::class, 'list']);
+                Route::get('/create', [RTKepemilikanController::class, 'create']);
+                Route::post('/', [RTKepemilikanController::class, 'store']);
+                Route::get('/{id}', [RTKepemilikanController::class, 'show']);
+                Route::get('/{id}/edit', [RTKepemilikanController::class, 'edit']);
+                Route::put('/{id}', [RTKepemilikanController::class, 'update']);
+            });
+
+            // Keluarga
+            Route::prefix('keluarga')->group(function () {
+                Route::get('/', [RTKeluargaController::class, 'index']);
+                Route::post('/list', [RTKeluargaController::class, 'list']);
+                Route::get('/create', [RTKeluargaController::class, 'create']);
+                Route::post('/', [RTKeluargaController::class, 'store']);
+                Route::get('/{id}/edit', [RTKeluargaController::class, 'edit']);
+                Route::get('/{id}', [RTKeluargaController::class, 'show']);
+                Route::put('/{id}', [RTKeluargaController::class, 'update']);
+            });
+
+            // SPK
+            Route::prefix('spk')->group(function () {
+                Route::get('/', [SPKController::class, 'index']);
+                Route::post('/list', [SPKController::class, 'list']);
+                Route::get('/mabac', [SPKController::class, 'showMabac']);
+                Route::get('/topsis', [SPKController::class, 'showTopsis']);
+            });
+
+            // Keluargaku
+            Route::prefix('keluargaku')->group(function () {
+                Route::get('/', [RTKeluargakuController::class, 'index']);
+                Route::post('/list', [RTKeluargakuController::class, 'list']);
+            });
+
+            // Profile
+            Route::get('/profile', [RTProfileController::class, 'show'])->name('profile.show');
+
+            // Keuangan
+            Route::prefix('keuangan')->group(function () {
+                Route::get('/', [RTKeuanganController::class, 'index']);
+                Route::post('/list', [RTKeuanganController::class, 'list']);
+                Route::get('/create', [RTKeuanganController::class, 'create']);
+                Route::post('/', [RTKeuanganController::class, 'store']);
+            });
+
+            Route::prefix('iuran')->group(function () {
+                Route::get('/', [RTIuranController::class, 'index']);
+                Route::post('/list', [RTIuranController::class, 'list']);
+                Route::post('/listSaya', [RTIuranController::class, 'listSaya']);
+                Route::get('/{id}/bayar', [RTIuranController::class, 'bayar']);
+                Route::put('/{id}', [RTIuranController::class, 'buktiPembayaran']);
+                Route::get('/{id}', [RTIuranController::class, 'show']);
+            });
+
+        
         });
 
         // Rute untuk pengguna dengan peran lainnya (role_id: 3)

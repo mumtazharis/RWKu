@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('persetujuan_id');
             $table->unsignedBigInteger('user_id');
             $table->enum('jenis', ['data kepemilikan', 'iuran', 'kegiatan']);
-            $table->text('query');
+            $table->text('query')->nullable();
             $table->text('keterangan')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak']);
             $table->timestamps();

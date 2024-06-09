@@ -46,6 +46,7 @@ class WargaIuranController extends Controller
         $iurans = IuranModel::select('iuran.iuran_id', 'iuran.kegiatan_id', 'iuran.nomor_kk', 'iuran.nominal', 'iuran.status')
             ->with('kegiatan')
             ->where('iuran.nomor_kk', $warga->nomor_kk)
+            ->orderByRaw("FIELD(status,'belum lunas', 'menunggu', 'lunas' )")
             ->get();
     
         return DataTables::of($iurans)
@@ -57,6 +58,18 @@ class WargaIuranController extends Controller
                 }
                 return $btn;
             })
+            ->setRowAttr([
+                'style' => function($persetujuan) {
+                    if ($persetujuan->status === 'lunas') {
+                        return 'background-color: #97ffaf;'; // Hijau muda untuk diterima
+                    } elseif ($persetujuan->status === 'belum lunas') {
+                        return 'background-color: #f8d7da;'; // Merah muda untuk ditolak
+                    } elseif ($persetujuan->status === 'menunggu') {
+                        return 'background-color: #fff3cd;'; // Kuning muda untuk menunggu
+                    }
+                    return '';
+                }
+            ])
             ->rawColumns(['aksi'])
             ->make(true);
     }
@@ -125,7 +138,7 @@ class WargaIuranController extends Controller
             'title' => 'Detail iuran'
         ];
 
-        $activeMenu = 'iuran';
+        $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
         return view('warga.iuran.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'iuran' => $iuran,'kegiatan'=>$kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }

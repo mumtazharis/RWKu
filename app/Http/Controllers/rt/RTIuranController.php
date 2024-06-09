@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\rw;
+namespace App\Http\Controllers\rt;
 
 use App\Http\Controllers\Controller;
 use App\Models\IuranModel;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-class IuranController extends Controller
+class RTIuranController extends Controller
 {
     public function index(){
         $breadcrumb = (object)[
@@ -25,15 +25,20 @@ class IuranController extends Controller
             'title' => 'Daftar iuran yang tedaftar dalam sistem'
         ];
 
-        $rt = RTModel::all();
+        $user = Auth::user();
+        $rt = WargaModel::where('nik', $user->username)->first();
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
 
-        return view('rw.iuran.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
+        return view('rt.iuran.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'rt' => $rt]);
     }
 
     public function list(Request $request){
+        $user = Auth::user();
+        $rt = WargaModel::where('nik', $user->username)->first();
         $iurans = IuranModel::select('iuran.iuran_id', 'iuran.kegiatan_id', 'iuran.nomor_kk', 'iuran.nominal', 'iuran.status')
+        ->join('keluarga', 'iuran.nomor_kk', '=', 'keluarga.nomor_kk') // Join dengan tabel keluarga
+        ->where('keluarga.alamat_kk', $rt->rt) // Tambahkan kondisi where
         ->with('kegiatan')
         ->orderByRaw("FIELD(status,'belum lunas', 'menunggu', 'lunas' )")
         ->get();
@@ -41,7 +46,7 @@ class IuranController extends Controller
         return DataTables::of($iurans)
             ->addIndexColumn()
             ->addColumn('aksi', function($iuran){
-                $btn = '<a href="'.url('rw/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn = '<a href="'.url('rt/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
                         return $btn;
             })
             ->setRowAttr([
@@ -80,9 +85,9 @@ class IuranController extends Controller
         return DataTables::of($iurans)
             ->addIndexColumn()
             ->addColumn('aksi', function($iuran){
-                $btn = '<a href="'.url('rw/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
+                $btn = '<a href="'.url('rt/iuran/'.$iuran->iuran_id).'" class="btn btn-info btn-sm">Detail</a>';
                 if ($iuran->status == 'belum lunas'){
-                    $btn .= '<a href="'.url('rw/iuran/'.$iuran->iuran_id.'/bayar').'" class="btn btn-primary btn-sm">Bayar</a>';
+                    $btn .= '<a href="'.url('rt/iuran/'.$iuran->iuran_id.'/bayar').'" class="btn btn-primary btn-sm">Bayar</a>';
                 }
                 return $btn;
             })
@@ -107,7 +112,7 @@ class IuranController extends Controller
         if ($iuran){
             $kegiatan  = KegiatanModel::find($iuran->kegiatan_id);
         } else {
-           return redirect('rw/iuran');
+           return redirect('rt/iuran');
         }
  
         $breadcrumb = (object)[
@@ -121,7 +126,7 @@ class IuranController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
 
-        return view('rw.iuran.bayar', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,'kegiatan' => $kegiatan, 'iuran' => $iuran]);
+        return view('rt.iuran.bayar', ['breadcrumb' => $breadcrumb, 'page' => $page,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu,'kegiatan' => $kegiatan, 'iuran' => $iuran]);
     }
 
     public function buktiPembayaran(Request $request, string $id){
@@ -157,7 +162,7 @@ class IuranController extends Controller
             'status' => 'menunggu',
         ]);
 
-        return redirect('rw/iuran')->with('success', 'Data kegiatan berhasil diubah');
+        return redirect('rt/iuran')->with('success', 'Data kegiatan berhasil diubah');
     }
 
     public function show(string $id){
@@ -165,7 +170,7 @@ class IuranController extends Controller
         if ($iuran){
             $kegiatan = KegiatanModel::find($iuran->kegiatan_id);
         } else {
-            return redirect('rw/iuran');
+            return redirect('rt/iuran');
         }
         $breadcrumb = (object)[
             'title' => 'Detail iuran',
@@ -178,7 +183,7 @@ class IuranController extends Controller
 
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'iuran_list';
-        return view('rw.iuran.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'iuran' => $iuran,'kegiatan'=>$kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+        return view('rt.iuran.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'iuran' => $iuran,'kegiatan'=>$kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
     }
 
 

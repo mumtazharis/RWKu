@@ -31,7 +31,7 @@
         @if (session('error'))
             <div class="alert alert-danger">{{session('error')}}</div>
         @endif
-        <h4>Iuran Warga</h4>
+        <h4>Iuran Warga RT-{{$rt->rt}}</h4>
         <table class="table table-bordered table-striped table-hover table-sm" id="table_iuran">
             <thead>
                 <tr>
@@ -57,7 +57,7 @@
             serverSide: true,
             pageLength: 10,
             ajax: {
-                "url": "{{ url('rw/iuran/listSaya') }}",
+                "url": "{{ url('rt/iuran/listSaya') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": function (d){
@@ -108,7 +108,7 @@
             serverSide: true,
             pageLength: 25,
             ajax: {
-                "url": "{{ url('rw/iuran/list') }}",
+                "url": "{{ url('rt/iuran/list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": function (d){
