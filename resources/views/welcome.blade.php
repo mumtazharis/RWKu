@@ -15,6 +15,12 @@
         <div class="card-tools"></div>
     </div> 
     <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success">{{session('success')}}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{session('error')}}</div>
+        @endif
         Selamat datang di Sistem Iuran Kegiatan Warga RW 05 Talun RWKu.
     </div>
     

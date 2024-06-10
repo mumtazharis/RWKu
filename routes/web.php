@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 use App\Http\Controllers\rw\KegiatanController;
 use App\Http\Controllers\rw\KeluargaController;
@@ -44,6 +45,8 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('prevent-back-history')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [WelcomeController::class, 'index'])->name('home');
+        Route::get('/ubah-password', [ResetPasswordController::class, 'showChangePasswordForm'])->name('ubah-password');
+        Route::post('/ubah-password', [ResetPasswordController::class, 'changePassword']);
         // Rute untuk pengguna dengan peran RW (role_id: 1)
         Route::prefix('rw')->middleware(['cek_login:1'])->group(function () {
            

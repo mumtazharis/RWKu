@@ -1,29 +1,43 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Models\UserModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
+    public function showChangePasswordForm()
+    {
+        $breadcrumb = (object) [
+            'title' => 'Selamat Datang',
+            'list' => ['Home', 'Welcome']
+            ];
+        $activeMenu = 'dashboard';
+        $activeSubMenu = '';
+        return view('auth.ubah-password', ['breadcrumb' => $breadcrumb,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
+    }
 
-    use ResetsPasswords;
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+        }
+
+        UserModel::find($user->user_id)->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+        
+        return redirect('/logout');
+    }
 }
+
