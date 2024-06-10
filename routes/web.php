@@ -115,8 +115,7 @@ Route::middleware('prevent-back-history')->group(function () {
 
             // Keluargaku
             Route::prefix('keluargaku')->group(function () {
-                Route::get('/', [KeluargakuController::class, 'index']);
-                Route::post('/list', [KeluargakuController::class, 'list']);
+                Route::get('/', [KeluargakuController::class, 'index'])->name('keluargaku.index');
             });
 
             // Profile

@@ -1,54 +1,41 @@
 <?php
 
 namespace App\Http\Controllers\rw;
+
 use App\Http\Controllers\Controller;
-
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\WargaModel;
-use Yajra\DataTables\Facades\DataTables;
+
+use Illuminate\Support\Facades\Auth;
+
 
 class KeluargakuController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object) [
-            'title' => 'Anggota Keluarga',
-            'list' => ['Home', 'Keluargaku']
-        ];
-
-        // Set the page data
-        $page = (object) [
-            'title' => 'Daftar Anggota Keluarga yang terdaftar dalam sistem'
-        ];
-
-        // Set the active menu
-        $activeMenu = 'warga';
-        $activeSubMenu = 'warga_list';
-
-        // Return the view with data
-        return view('rw.keluargaku.index', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-            'activeSubMenu' => $activeSubMenu
-        ]);
-    }
-
-    public function list(Request $request)
-    {
-        // Mendapatkan pengguna yang sedang login
         $user = Auth::user();
+        $breadcrumb = (object) [
+            'title' => 'Data Keluarga',
+            'list'  => ['Home', 'Data Keluarga']
+        ];
 
-        // Mendapatkan nomor_kk pengguna yang sedang login
-        $nomorKk = $user->nomor_kk;
+        $page = (object) [
+            'title' => 'Daftar Keluarga yang terdaftar dalam sistem'
+        ];
 
-        // Query untuk mendapatkan anggota keluarga berdasarkan nomor_kk
-        $query = WargaModel::where('nomor_kk', $nomorKk);
+        $userNIK = auth()->user()->username;
+        $userData = WargaModel::where('nik', $userNIK)->first();
 
-        return DataTables::of($query)
-            ->addIndexColumn()
-            ->make(true);
-    }
+if ($userData) {
+    $keluargaku = WargaModel::where('nomor_kk', $userData->nomor_kk)->get();
+    return view('rw.keluargaku.index', [
+        'breadcrumb' => $breadcrumb,
+        'page' => $page,
+        'user' => $user,
+        'activeMenu' => 'keluargaku',
+        'activeSubMenu' => 'keluargaku_list',
+        'keluargaku' => $keluargaku
+    ]);
+}
+}
 }
