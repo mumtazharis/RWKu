@@ -30,6 +30,22 @@
             </button>
         </div>
     @enderror
+    @error('logout')
+        <div class="alert alert-warning alert-dissmissible fade show" role="alert">
+            <span class="alert-inner--text"><strong>Warning!</strong> {{$message}}</span>
+            <button type="button" class="close" data-dissmiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @enderror
+    @error('password-diubah')
+        <div class="alert alert-warning alert-dissmissible fade show" role="alert">
+            <span class="alert-inner--text"><strong>Warning!</strong> {{$message}}</span>
+            <button type="button" class="close" data-dissmiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @enderror
     <form action="{{url('proses_login')}}" method="POST">
         @csrf
         {{-- Username field --}}
