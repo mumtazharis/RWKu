@@ -14,7 +14,34 @@
         @endif
                 <h5 class="card-title">Data Keluarga </h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover table-sm display nowrap" <thead>
+                    <table class="table table-bordered table-striped table-hover tablesm mb-3">
+                        <tr>
+                            <th>Nomor KK</th>
+                            <td>{{ $keluarga->nomor_kk }}</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat KK</th>
+                            <td>{{ $alamat->kode_rt }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nik Kepala Keluarga</th>
+                            <td>{{ $keluarga->nik_kepala_keluarga }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama Kepala Keluarga</th>
+                            <td>
+                                @foreach ($keluargaku as $wargaItem)
+                                    @if ($wargaItem->nik == $keluarga->nik_kepala_keluarga)
+                                        {{ $wargaItem->nama }}
+                                        @break
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>    
+                    </table>
+                    <h5 class="card-title">Data Anggota keluarga </h5>
+
+                    <table class="table table-bordered table-striped table-hover table-sm display nowrap mb-3">
                         <tr>
                             <th>No</th>
                             <th>NIK</th>
@@ -39,6 +66,41 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <h5 class="card-title">Data Kepemilikan Keluarga </h5>
+                    <table class="table table-bordered table-striped table-hover tablesm mb-3">
+                        <tr>
+                            <th>Penghasilan</th>
+                            <td>{{ $kepemilikan->penghasilan }}</td>
+                        </tr>
+                        <tr>
+                            <th>Keluarga Ditanggung</th>
+                            <td>{{ $kepemilikan->keluarga_ditanggung }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pajak Motor</th>
+                            <td>{{ $kepemilikan->pajak_motor }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pajak Mobil</th>
+                            <td>{{ $kepemilikan->pajak_mobil }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pajak Bumi dan Bangunan</th>
+                            <td>{{ $kepemilikan->pajak_bumi_bangunan }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tagihan Air</th>
+                            <td>{{ $kepemilikan->tagihan_air }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tagihan Listrik</th>
+                            <td>{{ $kepemilikan->tagihan_listrik }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hutang</th>
+                            <td>{{ $kepemilikan->hutang }}</td>
+                        </tr> 
+                </table>
                 </div>
             </div>
         </div>
