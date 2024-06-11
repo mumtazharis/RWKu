@@ -15,10 +15,6 @@
             @else
             <table class="table table-bordered table-striped table-hover table-sm">
                 <tr>
-                    <th>ID</th>
-                    <td>{{ $warga->data_warga_id }}</td>
-                </tr>
-                <tr>
                     <th>NIK</th>
                     <td>{{ $warga->nik }}</td>
                 </tr>

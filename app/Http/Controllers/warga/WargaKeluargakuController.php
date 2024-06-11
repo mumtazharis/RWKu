@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\warga;
 use App\Http\Controllers\Controller;
-
-
+use App\Models\KeluargaModel;
+use App\Models\KepemilikanModel;
+use App\Models\RTModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\WargaModel;
@@ -13,42 +14,35 @@ class WargaKeluargakuController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object) [
-            'title' => 'Anggota Keluarga',
-            'list' => ['Home', 'Keluargaku']
-        ];
-
-        // Set the page data
-        $page = (object) [
-            'title' => 'Daftar Anggota Keluarga yang terdaftar dalam sistem'
-        ];
-
-        // Set the active menu
-        $activeMenu = 'warga';
-        $activeSubMenu = 'warga_list';
-
-        // Return the view with data
-        return view('warga.keluargaku.index', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-            'activeSubMenu' => $activeSubMenu
-        ]);
-    }
-
-    public function list(Request $request)
-    {
-        // Mendapatkan pengguna yang sedang login
         $user = Auth::user();
+        $breadcrumb = (object) [
+            'title' => 'Data Keluarga',
+            'list'  => ['Home', 'Data Keluarga']
+        ];
 
-        // Mendapatkan nomor_kk pengguna yang sedang login
-        $nomorKk = $user->nomor_kk;
+        $page = (object) [
+            'title' => 'Keluarga saya'
+        ];
 
-        // Query untuk mendapatkan anggota keluarga berdasarkan nomor_kk
-        $query = WargaModel::where('nomor_kk', $nomorKk);
+        $userNIK = auth()->user()->username;
+        $userData = WargaModel::where('nik', $userNIK)->first();
+        $keluarga  = KeluargaModel::find($userData->nomor_kk);
+        $alamat  = RTModel::where('rt_id', $keluarga->alamat_kk)->first();
+        $kepemilikan  = KepemilikanModel::where('nomor_kk', $userData->nomor_kk)->first();
 
-        return DataTables::of($query)
-            ->addIndexColumn()
-            ->make(true);
+        if ($userData) {
+            $keluargaku = WargaModel::where('nomor_kk', $userData->nomor_kk)->get();
+            return view('warga.keluargaku.index', [
+                'breadcrumb' => $breadcrumb,
+                'page' => $page,
+                'user' => $user,
+                'activeMenu' => 'keluargaku',
+                'activeSubMenu' => 'keluargaku_list',
+                'keluargaku' => $keluargaku,
+                'keluarga' => $keluarga,
+                'alamat' => $alamat,
+                'kepemilikan' => $kepemilikan
+            ]);
+        }
     }
 }
