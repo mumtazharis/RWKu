@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('nik_kepala_keluarga')->nullable();
             $table->unsignedBigInteger('alamat_kk')->nullable();
             $table->enum('kelas_ekonomi', ['atas', 'menengah', 'bawah'])->nullable();
+            $table->enum('status', ['aktif', 'tidak aktif']);
             $table->timestamps();
         });
     }

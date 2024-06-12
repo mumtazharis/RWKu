@@ -15,7 +15,7 @@ class KeluargaModel extends Model
     protected $table = 'keluarga';
     protected $primaryKey = 'nomor_kk';
 
-    protected $fillable = ['nomor_kk', 'nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi'];
+    protected $fillable = ['nomor_kk', 'nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi', 'status'];
 
     public function kepalaKeluarga(): BelongsTo{
         return $this->belongsTo(WargaModel::class, 'nik');

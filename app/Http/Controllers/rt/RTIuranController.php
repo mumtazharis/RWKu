@@ -40,7 +40,7 @@ class RTIuranController extends Controller
         ->join('keluarga', 'iuran.nomor_kk', '=', 'keluarga.nomor_kk') // Join dengan tabel keluarga
         ->where('keluarga.alamat_kk', $rt->rt) // Tambahkan kondisi where
         ->with('kegiatan')
-        ->orderByRaw("FIELD(status,'belum lunas', 'menunggu', 'lunas' )")
+        ->orderByRaw("FIELD(iuran.status,'belum lunas', 'menunggu', 'lunas' )")
         ->get();
     
         return DataTables::of($iurans)

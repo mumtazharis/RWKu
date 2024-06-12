@@ -35,7 +35,7 @@ class IuranController extends Controller
     public function list(Request $request){
         $iurans = IuranModel::select('iuran.iuran_id', 'iuran.kegiatan_id', 'iuran.nomor_kk', 'iuran.nominal', 'iuran.status')
         ->with('kegiatan')
-        ->orderByRaw("FIELD(status,'belum lunas', 'menunggu', 'lunas' )")
+        ->orderByRaw("FIELD(iuran.status,'belum lunas', 'menunggu', 'lunas' )")
         ->get();
     
         return DataTables::of($iurans)

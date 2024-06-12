@@ -39,6 +39,7 @@
                     <th>NIK Kepala Keluarga</th>
                     <th>RT</th>
                     <th>Kelas Ekonomi</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -72,6 +73,7 @@
                 { data: 'nik_kepala_keluarga', orderable: true, searchable: true },
                 { data: 'alamat_kk', orderable: true, searchable: true },
                 { data: 'kelas_ekonomi', orderable: true, searchable: true },
+                { data: 'status', orderable: true, searchable: true },
                 { data: 'aksi', orderable: false, searchable: false }
             ],
             order: [[1, 'asc']]

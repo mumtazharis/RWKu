@@ -102,7 +102,7 @@ class KegiatanController extends Controller
         ]);
 
 
-        $kelasKeluarga = KeluargaModel::all();
+        $kelasKeluarga = KeluargaModel::where('status', 'aktif')->get();
         
 
         $kelasAtasCount = 0;
@@ -148,7 +148,7 @@ class KegiatanController extends Controller
         
    
         $kegiatan_id = KegiatanModel::latest()->first()->kegiatan_id;
-        $listKeluarga = KeluargaModel::all();
+        $listKeluarga = KeluargaModel::where('status', 'aktif')->get();
         
         foreach ($listKeluarga as $keluarga){
             IuranModel::create([
@@ -218,18 +218,4 @@ class KegiatanController extends Controller
         return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
     }
 
-
-    public function destroy(string $id){
-        $check = KegiatanModel::find($id);
-        if(!$check){
-            return redirect('rw/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
-        }
-
-        try{
-            KegiatanModel::destroy($id);
-            return redirect('rw/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
-        } catch(\Illuminate\Database\QueryException $e) {
-            return redirect('rw/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
-        }
-    }
 }

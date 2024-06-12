@@ -134,8 +134,17 @@ class SPKController extends Controller
     }
 
     public function mabac(){
-        $dataSPK = KepemilikanModel::select('kepemilikan_id','nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')->get();
-
+        SPKModel::whereHas('kepemilikan.keluarga', function ($query) {
+            $query->where('status', '!=', 'aktif');
+        })->delete();
+        
+        //$dataSPK = KepemilikanModel::select('kepemilikan_id','nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')->get();
+        $dataSPK = KepemilikanModel::select('kepemilikan_id', 'nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')
+        ->whereHas('keluarga', function($query) {
+            $query->where('status', 'aktif');
+        })
+        ->get();
+    
         $bobot = [0.5, 0.05, 0.15, 0.05, 0.03, 0.07, 0.1, 0.05];
         
         $max = [];
@@ -307,6 +316,7 @@ class SPKController extends Controller
         $updateColumnsSPK = ['skor_mabac','peringkat_mabac'];
         
         SPKModel::upsert($matriksData, $uniqueBy, $updateColumnsSPK);
+        
         $uniqueBy = ['nomor_kk'];
         $updateColumnsKeluarga = ['kelas_ekonomi'];
 
@@ -325,8 +335,17 @@ class SPKController extends Controller
     }
 
     public function topsis(){
-        $dataSPK = KepemilikanModel::select('kepemilikan_id','nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')->get();
-
+        SPKModel::whereHas('kepemilikan.keluarga', function ($query) {
+            $query->where('status', '!=', 'aktif');
+        })->delete();
+        
+       // $dataSPK = KepemilikanModel::select('kepemilikan_id','nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')->get();
+       $dataSPK = KepemilikanModel::select('kepemilikan_id', 'nomor_kk', 'penghasilan', 'pajak_motor', 'pajak_mobil', 'pajak_bumi_bangunan', 'tagihan_air', 'tagihan_listrik', 'keluarga_ditanggung', 'hutang')
+       ->whereHas('keluarga', function($query) {
+           $query->where('status', 'aktif');
+       })
+       ->get();
+   
        // print_r($dataSPK);
 
         $bobot = [0.5, 0.05, 0.15, 0.05, 0.03, 0.07, 0.1, 0.05];
