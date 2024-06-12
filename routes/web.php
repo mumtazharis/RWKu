@@ -167,8 +167,7 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::get('/create', [RTKegiatanController::class, 'create']);
                 Route::post('/', [RTKegiatanController::class, 'store']);
                 Route::get('/{id}', [RTKegiatanController::class, 'show']);
-                Route::get('/{id}/edit', [RTKegiatanController::class, 'edit']);
-                Route::put('/{id}', [RTKegiatanController::class, 'update']);
+               
             });
 
             // Dokumentasi
@@ -203,13 +202,6 @@ Route::middleware('prevent-back-history')->group(function () {
                 Route::put('/{id}', [RTKeluargaController::class, 'update']);
             });
 
-            // SPK
-            Route::prefix('spk')->group(function () {
-                Route::get('/', [SPKController::class, 'index']);
-                Route::post('/list', [SPKController::class, 'list']);
-                Route::get('/mabac', [SPKController::class, 'showMabac']);
-                Route::get('/topsis', [SPKController::class, 'showTopsis']);
-            });
 
             // Keluargaku
             Route::prefix('keluargaku')->group(function () {

@@ -57,7 +57,7 @@ class RTKeluargaController extends Controller
         $user = Auth::user();
         $rt = WargaModel::where('nik', $user->username)->first();
         // Select specific columns from the KeluargaModel
-        $dataKeluarga = KeluargaModel::select('nomor_kk','nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi')->where('alamat_kk', $rt->rt);
+        $dataKeluarga = KeluargaModel::select('nomor_kk','nik_kepala_keluarga', 'alamat_kk', 'kelas_ekonomi', 'status')->where('alamat_kk', $rt->rt);
 
         if ($request->alamat_kk){
             $dataKeluarga->where('alamat_kk', $request->alamat_kk);
@@ -181,6 +181,7 @@ class RTKeluargaController extends Controller
             'nomor_kk' => $request->nomor_kk,
             'nik_kepala_keluarga' => $request->nik_kepala_keluarga,
             'alamat_kk' => $request->alamat_kk,
+            'status' => 'aktif'
         
         ]);
 
@@ -292,6 +293,7 @@ class RTKeluargaController extends Controller
                           ->orWhere('nomor_kk', $keluarga->nomor_kk);
                 }),
             ],
+            'status' => 'required',
       
         ], [
             'nomor_kk.required' => 'Nomor KK wajib diisi.',
@@ -316,6 +318,7 @@ class RTKeluargaController extends Controller
             'nomor_kk' => $request->nomor_kk,
             'nik_kepala_keluarga' => $request->nik_kepala_keluarga,
             'alamat_kk' => $request->alamat_kk,
+            'status' => $request->status,
         
         ]);
         if ($request->has('anggota_keluarga')) {
@@ -327,7 +330,7 @@ class RTKeluargaController extends Controller
                 WargaModel::where('nik', $nik)->update(['nomor_kk' => $request->nomor_kk]);
             }
         }
-        
+        $this->spkController->runSPK();
         // // if ($request->has('kepemilikan_id')) {
         // //     $data['kepemilikan_id'] = $request->kepemilikan_id;
         // // }

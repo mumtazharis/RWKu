@@ -39,7 +39,7 @@ class RTKegiatanController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function($kegiatan){
                 $btn = '<a href="'.url('rt/kegiatan/'.$kegiatan->kegiatan_id).'" class="btn btn-info btn-sm">Detail</a>';
-                $btn .= '<a href="'.url('rt/kegiatan/'.$kegiatan->kegiatan_id.'/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+            
              
                         return $btn;
             })
@@ -131,60 +131,5 @@ class RTKegiatanController extends Controller
         $activeMenu = 'kegiatan';
         $activeSubMenu = 'kegiatan_list';
         return view('rt.kegiatan.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
-    }
-
-
-    public function edit(string $id){
-        $kegiatan  = KegiatanModel::find($id);
-
-        $breadcrumb = (object)[
-            'title' => 'Edit kegiatan',
-            'list' => ['Home', 'kegiatan', 'Edit']
-        ];
-
-        $page = (object)[
-            'title' => 'Edit kegiatan'
-        ];
-
-        $activeMenu = 'kegiatan';
-        $activeSubMenu = 'kegiatan_list';
-        return view('rt.kegiatan.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kegiatan' => $kegiatan,'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu]);
-    }
-
-
-    public function update(Request $request, string $id){
-        $request->validate([
-            'kegiatan_nama' => 'required|string|max:100',
-            'kegiatan_lokasi' => 'required|string',
-            'kegiatan_tanggal' => 'required|date|after_or_equal:today',
-            'kegiatan_waktu' => 'required|date_format:H:i',
-            'kegiatan_deskripsi' => 'required|string',
-            'nominal' => 'required|numeric|min:0',
-        ]);
-
-        KegiatanModel::find($id)->update([
-            'kegiatan_nama' => $request->kegiatan_nama,
-            'kegiatan_lokasi' => $request->kegiatan_lokasi,
-            'kegiatan_tanggal' => $request->kegiatan_tanggal,
-            'kegiatan_waktu' => $request->kegiatan_waktu,
-            'kegiatan_deskripsi' => $request->kegiatan_deskripsi,
-        ]);
-
-        return redirect('rt/kegiatan')->with('success', 'Data kegiatan berhasil diubah');
-    }
-
-
-    public function destroy(string $id){
-        $check = KegiatanModel::find($id);
-        if(!$check){
-            return redirect('rt/kegiatan')->with('error', 'Data kegiatan tidak ditemukan');
-        }
-
-        try{
-            KegiatanModel::destroy($id);
-            return redirect('rt/kegiatan')->with('success', 'Data kegiatan berhasil dihapus');
-        } catch(\Illuminate\Database\QueryException $e) {
-            return redirect('rt/kegiatan')->with('error', 'Data kegiatan gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
-        }
     }
 }

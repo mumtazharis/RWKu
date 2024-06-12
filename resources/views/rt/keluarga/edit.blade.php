@@ -18,6 +18,19 @@
             @csrf
             @method('PUT')
             <div class="form-group row">
+                <label class="col-2 control-label col-form-label">Status</label>
+                <div class="col-10">
+                    <select class="form-control" id="status" name="status">
+                        <option value="">Pilih Status keluarga</option>
+                        <option value="aktif" {{ (old('status', $keluarga->status)) == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                        <option value="tidak aktif" {{ (old('status', $keluarga->status)) == 'tidak aktif' ? 'selected' : '' }}>Tidak aktif</option>
+                    </select>
+                    @error('status')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-2 control-label col-form-label">Nomor KK</label>
                 <div class="col-10">
                     <input type="text" class="form-control" id="nomor_kk" name="nomor_kk"
