@@ -216,8 +216,7 @@ Route::middleware('prevent-back-history')->group(function () {
             Route::prefix('keuangan')->group(function () {
                 Route::get('/', [RTKeuanganController::class, 'index']);
                 Route::post('/list', [RTKeuanganController::class, 'list']);
-                Route::get('/create', [RTKeuanganController::class, 'create']);
-                Route::post('/', [RTKeuanganController::class, 'store']);
+   
             });
 
             Route::prefix('iuran')->group(function () {

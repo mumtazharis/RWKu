@@ -47,6 +47,7 @@
 <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script src="https://kit.fontawesome.com/bbd32ae24e.js" crossorigin="anonymous"></script>
 <!-- adminlte App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 <script>
