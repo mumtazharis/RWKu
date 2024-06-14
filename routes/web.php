@@ -35,9 +35,7 @@ use App\Http\Controllers\warga\WargaProfileController;
 use App\Http\Controllers\warga\WargaIuranController;
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
-Route::post('proses_register', [AuthController::class, 'proses_register'])->name('proses_register');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
@@ -267,4 +265,8 @@ Route::middleware('prevent-back-history')->group(function () {
 
       
     });
+});
+
+Route::fallback(function () {
+    return redirect()->route('home');
 });
