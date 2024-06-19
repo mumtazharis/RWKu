@@ -144,11 +144,8 @@
                     <div class="col-10">
                         <select class="form-control" id="level" name="level" disabled>
                             <option value="">Pilih Jabatan</option>
-                            <option value="1">RW</option>
-                            <option value="2">RT</option>
                             <option value="3" selected>Warga</option>
                         </select>
-                        <input type="hidden" name="level" value=3>
                         @error('level')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
