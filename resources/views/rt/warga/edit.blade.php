@@ -214,8 +214,6 @@
                                 <option value="2" {{ (old('level', $user->level_id)) == '2' ? 'selected' : '' }}>RT</option>
                                 <option value="3" {{ (old('level', $user->level_id)) == '3' ? 'selected' : '' }}>Warga</option>
                             </select>
-
-                            <input type="hidden" name="level" value={{ old('level', $user->level_id)}}>
                             @error('level')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror

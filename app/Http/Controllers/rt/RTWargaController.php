@@ -110,7 +110,6 @@ public function create()
         'agama' => 'nullable|string|max:50',
         'pekerjaan' => 'nullable|string|max:100',
         'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang',
-        'level' => 'required'
     ], [
         'nomor_kk.exists' => 'Nomor KK belum terdaftar, ubah atau kosongkan form nomor kk.',
     ]);
@@ -136,7 +135,7 @@ public function create()
     ]);
 
     UserModel::create([
-        'level_id' => $request->level,
+        'level_id' => 3,
         'username' => $request->nik,
         'password' => Hash::make($request->nik),
     ]);
@@ -222,7 +221,6 @@ public function update(Request $request, $id)
             'agama' => 'nullable|string|max:50',
             'pekerjaan' => 'nullable|string|max:100',
             'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang',
-            'level' => 'required',
         ],[
             'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);
@@ -247,30 +245,6 @@ public function update(Request $request, $id)
             'status_kependudukan' => $request->status_kependudukan
         ]);
 
-        // UserModel::where('username', $request->nik)->update([
-        //     'level_id' => $request->level,
-           
-        // ]);
-        // if ($request->has('reset_password') && $request->reset_password) {
-        //     UserModel::where('username', $request->nik)->update([
-        //         'password' =>  Hash::make($request->nik),
-        //     ]);
-        // }
-
-        $user = UserModel::where('username', $request->nik)->first();
-
-        if ($user) {
-            $user->update([
-                'level_id' => $request->level,
-            ]);
-        
-            if ($request->has('reset_password') && $request->reset_password) {
-                $user->update([
-                    'password' => Hash::make($request->nik),
-                ]);
-            }
-
-        }
         return redirect('rt/warga')->with('success', 'Data warga berhasil diubah');
     }
 
