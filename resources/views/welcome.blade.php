@@ -23,60 +23,47 @@
     </div>
     
     <div class="row card-body">
-        <div class="col-md-4 mb-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                <i class="fas fa-users"></i>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="numbers">
-                                <p class="card-category">Jumlah Warga</p>
-                                <h4 class="card-title">{{ $totalWarga }}</h4>
-                            </div>
-                        </div>
-                    </div>
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-lg-4 col-8">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3 class="card-title">{{ $totalWarga }}</h3>
+                    <p>Jumlah Warga</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="icon-big text-center icon-success bubble-shadow-small">
-                                <i class="fas fa-list-alt"></i>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="numbers">
-                                <p class="card-category">Jumlah Kegiatan</p>
-                                <h4 class="card-title">{{ $totalKegiatan }}</h4>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+
+              <div class="col-lg-4 col-8">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3 class="card-title">{{ $totalKegiatan }}</h3>
+                    <p class="card-category">Jumlah Kegiatan</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-list-alt"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="icon-big text-center icon-warning bubble-shadow-small">
-                                <i class="fas fa-rupiah-sign"></i>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="numbers">
-                                <p class="card-category">Jumlah Uang Kas</p>
-                                <h4 class="card-title">{{ $kas }}</h4>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+              <div class="col-lg-4 col-">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3 class="card-title">{{ $kas }}</h3>
+                    <p class="card-category">Jumlah Uang Kas</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-rupiah-sign"></i>
+                  </div>
+                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
