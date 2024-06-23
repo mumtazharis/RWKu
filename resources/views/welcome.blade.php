@@ -36,7 +36,7 @@
                   <div class="icon">
                     <i class="fas fa-users"></i>
                   </div>
-                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                  <a class="small-box-footer"><i class="fas"></i></a>
                 </div>
               </div>
 
@@ -50,7 +50,7 @@
                   <div class="icon">
                     <i class="fas fa-list-alt"></i>
                   </div>
-                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                  <a class="small-box-footer"><i class="fas"></i></a>
                 </div>
               </div>
               <div class="col-lg-4 col-">
@@ -63,7 +63,7 @@
                   <div class="icon">
                     <i class="fas fa-rupiah-sign"></i>
                   </div>
-                  <a href="#" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                  <a class="small-box-footer"><i class="fas"></i></a>
                 </div>
             </div>
         </div>
