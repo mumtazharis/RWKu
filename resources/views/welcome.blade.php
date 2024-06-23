@@ -53,7 +53,7 @@
                   <a class="small-box-footer"><i class="fas"></i></a>
                 </div>
               </div>
-              <div class="col-lg-4 col-">
+              <div class="col-lg-4 col-8">
                 <!-- small box -->
                 <div class="small-box bg-warning">
                   <div class="inner">
