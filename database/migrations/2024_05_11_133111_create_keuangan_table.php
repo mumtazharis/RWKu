@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('keuangan_id');
             $table->bigInteger('penginput');
             $table->double('pemasukan')->nullable();
-            $table->double('pemngeluaran')->nullable();
+            $table->double('pengeluaran')->nullable();
             $table->text('pengeluaran_untuk')->nullable();
             $table->text('pemasukan_dari')->nullable();
             $table->date('tanggal');
