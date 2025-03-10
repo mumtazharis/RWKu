@@ -210,7 +210,7 @@ public function update(Request $request, $id)
             'pekerjaan' => 'nullable|string|max:100',
             'status_kependudukan' => 'required|string|in:warga,meninggal,pindah,pendatang',
             'level' => 'required',
-            'reset_password' => 'nullable|boolean',
+            'reset_password' => 'nullable',
         ],[
             'nomor_kk.exists' => 'Nomor KK belum terdaftar'
         ]);

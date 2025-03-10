@@ -58,6 +58,41 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'level_id' => 3 ,
+                'username' => 3500000000000006,
+                'password' => '$2y$10$PhfP0pTtPXv//W3JhxD5Ourfj6Zbi2P5teSZMVb1oFoU1JZi2k9He',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'level_id' => 3 ,
+                'username' => 3500000000000007,
+                'password' => '$2y$10$r9Bjgh5CCxka7LUPq96umeJp.EP0qvH9NCETN6/i2z3rkVf8vlLne',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'level_id' => 3 ,
+                'username' => 3500000000000008,
+                'password' => '$2y$10$r9Bjgh5CCxka7LUPq96umeJp.EP0qvH9NCETN6/i2z3rkVf8vlLne',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'level_id' => 3 ,
+                'username' => 3500000000000009,
+                'password' => '$2y$10$2mI6NDqfkrKVx9yuFosfTubDyB95RC2vU6W/0JJedDaBYxVOoiMtS',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'level_id' => 3 ,
+                'username' => 3500000000000010,
+                'password' => '$2y$10$53cY2Em/wv0/8YJc00e/guyi99yQ9AWv7CnX6qGncRgDB.tXMOtv.',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ];
 
         DB::table('user')->insert($data);
