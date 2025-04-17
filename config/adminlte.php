@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => 'RWKu',
-    'logo_img' => '../rw-ku.png',
+    'logo_img' => 'rw-ku.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -84,13 +84,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => '../rw-ku.png',
+            'path' => asset('rw-ku.png'),
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 140,
+            'height' => 100,
         ],
     ],
 
@@ -113,7 +113,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => '../rw-ku.png',
+            'path' => 'rw-ku.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
