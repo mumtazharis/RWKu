@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => true,
         'img' => [
-            'path' => asset('rw-ku.png'),
+            'path' => 'rw-ku.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 140,
